@@ -22,3 +22,7 @@ desktop.ini
 *.swo
 *~
 \#*\#
+
+# ─── Project-specific ───────────────────────────────────────────────────────
+claude-plugin-builder/
+*.sh
