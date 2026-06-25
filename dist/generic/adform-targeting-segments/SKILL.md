@@ -22,11 +22,6 @@ discover the current schema with `graphql_search` (lighter, preferred) and fall 
 `graphql_introspect` one call at a time with ≥2s between calls for complex input types, enum
 values, or union/interface resolution.
 
-## Reliability
-
-Keep calls light and sequential (~1–2s apart). If the backend returns `unexpected server error`,
-this is a transient backend issue rather than a query problem — confirm validity with
-`graphql_validate`, then retry up to twice before reporting.
 
 > **Warning: domains and apps field format**
 > When configuring domain or app targeting in line items, the correct structure is `{ "targetingMode": "includeAll" }`. Do NOT include `excludeUnknown: false` as this property doesn't exist in the schema.

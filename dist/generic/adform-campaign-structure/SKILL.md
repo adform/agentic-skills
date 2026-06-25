@@ -18,7 +18,7 @@ dates, and status. Read-only.
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` to
 look up field names; use `graphql_introspect` for complex nested types such as `RtbLineItem`
-targeting and inventory. Keep calls sequential (~1–2s apart); retry transient errors at most twice.
+targeting and inventory. Keep calls sequential (~1–2s apart).
 Build the hierarchy one level at a time rather than in a single large query.
 
 ---

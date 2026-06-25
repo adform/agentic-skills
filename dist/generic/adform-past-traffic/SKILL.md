@@ -18,7 +18,7 @@ observed reality before targeting. Read-only.
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
 on `PastTrafficFilterInput` if you need to narrow results by geo or format. Keep calls
-sequential (~1–2s apart); retry transient errors at most twice.
+sequential (~1–2s apart).
 
 ---
 

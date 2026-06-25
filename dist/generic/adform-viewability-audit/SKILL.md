@@ -18,8 +18,7 @@ the agreed standard, and flags deviations or line-level overrides. Read-only.
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
 on `CampaignRtbSettings`, `RtbCappingSettings`, and `ViewabilitySettings` to discover the
-current field shapes for viewability sub-objects. Keep calls sequential (~1–2s apart); retry
-transient errors at most twice.
+current field shapes for viewability sub-objects. Keep calls sequential (~1–2s apart).
 
 On this gateway, viewability is modelled as a capping setting — `type` and `duration` in
 milliseconds — on `CampaignRtbSettings.capping[]` and on `RtbLineItem.impressionCappings[]`.

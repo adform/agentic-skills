@@ -17,17 +17,14 @@ Ok, Warning, or Critical. Read-only.
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` or
-`graphql_introspect` to explore nested indication types. Keep calls sequential (~1–2s apart);
-retry transient errors at most twice.
+`graphql_introspect` to explore nested indication types. Keep calls sequential (~1–2s apart).
 
 To resolve a line item ID, use `rtbLineItems(campaignIds:, search:)` or ask the trader to
 provide the ID from the Adform platform URL.
 
 ## Data Availability
 
-**Important Limitation:** This health check only works for currently active line items. Historical
-data for ended campaigns or line items is not available through this system. The analysis
-provides real-time delivery indicators for active campaigns only.
+This skill covers real-time delivery indicators for active line items and campaigns only.
 
 ---
 

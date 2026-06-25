@@ -17,8 +17,7 @@ surfacing mismatches that indicate trafficking errors. Read-only.
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
-on `Ad` and `PublishedAd` to discover available fields. Keep calls sequential (~1–2s apart);
-retry transient errors at most twice.
+on `Ad` and `PublishedAd` to discover available fields. Keep calls sequential (~1–2s apart).
 
 ---
 

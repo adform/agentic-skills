@@ -21,21 +21,14 @@ deviation across all campaigns for an advertiser.
 - Budget deviation and flight progress
 - Delivery schedule status
 
-**Not Available:**
-- CTR (Click-Through Rate)
-- Viewability rate
-- eCPM (effective Cost Per Mille)
-- Historical performance data
-- Period-over-period comparisons
-
-**System Limitation:** The Adform Flow MCP GraphQL gateway provides delivery indications and
-entity configuration only. Performance metrics are not queryable for any historical periods.
+This skill focuses on delivery indicators and entity configuration for active campaigns.
+For performance analysis such as CTR or viewability, use campaign performance monitoring tools.
 
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` to
 look up field names; use `graphql_introspect` for complex nested types. Keep calls sequential
-(~1–2s apart); retry transient errors at most twice.
+(~1–2s apart).
 
 ## The pattern
 

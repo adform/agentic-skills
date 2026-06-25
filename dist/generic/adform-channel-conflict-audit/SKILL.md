@@ -17,7 +17,7 @@ same domains, audiences, or placements where both types are delivering simultane
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
 on `RtbLineItemAudience` and `DirectLineItem` to discover targeting field shapes. Keep calls
-sequential (~1–2s apart); retry transient errors at most twice.
+sequential (~1–2s apart).
 
 ---
 

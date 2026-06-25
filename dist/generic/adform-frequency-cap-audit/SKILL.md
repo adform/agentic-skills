@@ -18,8 +18,7 @@ cause over-exposure. Read-only.
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
 on `RtbLineItemCapping`, `RtbLineItemFrequencyCapping`, and `CampaignRtbSettings` to discover
-the current field shapes for capping sub-objects. Keep calls sequential (~1–2s apart); retry
-transient errors at most twice.
+the current field shapes for capping sub-objects. Keep calls sequential (~1–2s apart).
 
 ---
 

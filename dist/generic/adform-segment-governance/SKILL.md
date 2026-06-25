@@ -16,7 +16,7 @@ unused ones; inspect segment builder rules and flag logic weaknesses. Read-only.
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
 on `BuyerAudienceListItem` and `BuyerAudience` to discover available fields including size and
-composition. Keep calls sequential (~1–2s apart); retry transient errors at most twice.
+composition. Keep calls sequential (~1–2s apart).
 
 ---
 

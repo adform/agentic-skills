@@ -36,8 +36,7 @@ The system uses GraphQL operations to process your requests:
 - `graphql_search` - Helps discover available report fields
 - `graphql_introspect` - Explores complex report structures
 
-**Important Limitation:** Historical data for ended campaigns is not available. Reports only cover
-currently active campaign delivery.
+This skill covers delivery and spend reporting for active campaigns only.
 
 ---
 
