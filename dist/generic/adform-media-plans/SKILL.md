@@ -17,10 +17,9 @@ List, inspect, forecast, and get AI recommendations for media plans. Read-only.
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` to
 look up field names; use `graphql_introspect` for complex nested types. Keep calls sequential
-(~1–2s apart); retry transient errors at most twice.
+(~1–2s apart).
 
-Forecast KPI queries can take 5–15 seconds on complex inputs — wait for the response and do
-not retry before it returns.
+Forecast KPI queries can take 5–15 seconds on complex inputs — allow time for the response.
 
 ---
 

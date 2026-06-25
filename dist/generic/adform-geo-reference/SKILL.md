@@ -17,7 +17,7 @@ Read-only.
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Keep calls sequential
-(~1–2s apart); retry transient errors at most twice.
+(~1–2s apart).
 
 ---
 

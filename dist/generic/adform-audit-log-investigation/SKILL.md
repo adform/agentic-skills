@@ -17,7 +17,7 @@ what and when, and pairs it with current state for an incident timeline. Read-on
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
 on the audit log type to discover available filter fields and enum values. Keep calls sequential
-(~1–2s apart); retry transient errors at most twice.
+(~1–2s apart).
 
 ---
 

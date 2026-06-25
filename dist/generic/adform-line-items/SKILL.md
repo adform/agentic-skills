@@ -22,12 +22,6 @@ discover the current schema with `graphql_search` (lighter, preferred) and fall 
 `graphql_introspect` one call at a time with ≥2s between calls for complex input types, enum
 values, or union/interface resolution.
 
-## Reliability
-
-Keep calls light and sequential (~1–2s apart). If the backend returns `unexpected server error`,
-this is a transient backend issue rather than a query problem — confirm validity with
-`graphql_validate`, then retry up to twice before reporting.
-
 ---
 
 ## RTB line items

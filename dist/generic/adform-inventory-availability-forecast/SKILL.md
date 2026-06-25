@@ -18,7 +18,7 @@ baseline, and across open-auction inventory filtered by geo and format. Read-onl
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` to
-look up field names. Keep calls sequential (~1–2s apart); retry transient errors at most twice.
+look up field names. Keep calls sequential (~1–2s apart).
 
 ---
 
