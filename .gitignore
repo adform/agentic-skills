@@ -24,5 +24,6 @@ desktop.ini
 \#*\#
 
 # ─── Project-specific ───────────────────────────────────────────────────────
-claude-plugin-builder/
+.claude-plugin/
+plugins/
 *.sh
