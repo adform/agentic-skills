@@ -1,7 +1,7 @@
 ---
 name: adform-channel-conflict-audit
 description: >-
-  Direct-versus-RTB channel conflict audit for the Adform Flow DSP.
+  Direct-versus-RTB channel conflict audit for the Adform FLOW DSP.
   Detect overlapping inventory between direct line items and RTB line items under the
   same campaign. Trigger on "channel conflict", "direct vs RTB overlap", "are direct and programmatic
   competing", "same inventory targeted twice", "internal auction conflict", "direct and RTB

@@ -1,7 +1,7 @@
 ---
 name: adform-taxonomy-governance
 description: >-
-   Naming convention and label taxonomy governance audit for Adform Flow DSP. Audits campaign, order,
+   Naming convention and label taxonomy governance audit for Adform FLOW DSP. Audits campaign, order,
    or line-item names against a naming pattern, detects duplicates, and checks campaigns carry required
    labels. Trigger on "naming convention audit", "do campaign names follow the pattern",
    "flag non-compliant names", "label taxonomy audit", "duplicate names". For ID and name resolution

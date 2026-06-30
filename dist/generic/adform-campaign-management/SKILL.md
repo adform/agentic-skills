@@ -1,7 +1,7 @@
 ---
 name: adform-campaign-management
 description: >-
-  Campaign and order configuration for Adform Flow DSP. Inspect campaign or order settings: full config,
+  Campaign and order configuration for Adform FLOW DSP. Inspect campaign or order settings: full config,
   RTB budget and capping, labels, brand safety, delivery indications, daily delivery trends, and projected
   delivery plans. Trigger on "campaign config", "labels on this campaign", "brand safety settings",
   "campaign RTB budget", "order details", "order delivery plan", "daily delivery for campaign".

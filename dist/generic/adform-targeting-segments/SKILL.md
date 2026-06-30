@@ -1,7 +1,7 @@
 ---
 name: adform-targeting-segments
 description: >-
-  Targeting lists, segments, DMP, brand safety, and contextual data for Adform Flow DSP.
+  Targeting lists, segments, DMP, brand safety, and contextual data for Adform FLOW DSP.
   Inspect domain/app targeting lists, browse segments and data providers, explore DMP taxonomy,
   and check brand safety and contextual providers and categories. Trigger on "domain targeting list",
   "app targeting list", "segments", "DMP taxonomy", "brand safety", "contextual targeting". For audience discovery use

@@ -1,7 +1,7 @@
 ---
 name: adform-reach-forecast
 description: >-
-  Media plan forecasting for Adform Flow DSP. Project campaign performance before launch including
+  Media plan forecasting for Adform FLOW DSP. Project campaign performance before launch including
   impressions, reach, spend, and optimal bid pricing to achieve your KPI targets. Ideal for
   campaign planning, budget allocation, and scenario analysis. For detailed line item bidding
   analysis, see bid landscape forecasting; for historical performance data, see past traffic analysis.

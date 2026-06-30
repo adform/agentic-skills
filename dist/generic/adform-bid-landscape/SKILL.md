@@ -1,7 +1,7 @@
 ---
 name: adform-bid-landscape
 description: >-
-  RTB bid-landscape forecast for the Adform Flow DSP. Shows the CPM-versus-win-rate curve for an RTB line item —
+  RTB bid-landscape forecast for the Adform FLOW DSP. Shows the CPM-versus-win-rate curve for an RTB line item —
   auction win share at each CPM and the reachable unique cookies and bid requests. Trigger on
   "what CPM do I need to win X percent of auctions", "bid landscape", "win rate at this CPM",
   "is my bid high enough", "how many cookies can this line item reach".

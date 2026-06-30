@@ -1,7 +1,7 @@
 ---
 name: adform-segment-governance
 description: >-
-  First-party segment governance audit for the Adform Flow DSP. Audit DMP and first-party segments for an advertiser — find stale or
+  First-party segment governance audit for the Adform FLOW DSP. Audit DMP and first-party segments for an advertiser — find stale or
   unused segments, review sizes, and validate segment builder. Trigger on "segment governance", "stale segments",
   "unused first-party segments", "segment builder rule validation", "audit our DMP segments". For segment browsing and taxonomy
   use adform-targeting-segments; for marketplace audiences use adform-audience-discovery. Read-only.

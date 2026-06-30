@@ -1,7 +1,7 @@
 ---
 name: adform-entity-browsing
 description: >-
-  Entity and ID resolution for Adform Flow DSP. Find, list, or inspect advertisers,
+  Entity and ID resolution for Adform FLOW DSP. Find, list, or inspect advertisers,
   campaigns, orders, and line items by name or ID. Covers hierarchy browsing with delivery indications,
   name-to-ID lookup, and advertiser detail including labels and domain settings. Trigger on "find advertiser X",
   "ID for campaign Y", "list advertisers", "advertiser settings", "resolve name to ID". For campaign/order

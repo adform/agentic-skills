@@ -1,7 +1,7 @@
 ---
 name: adform-media-plan-review
 description: >-
-  Media plan review for the Adform Flow DSP. Inspect a pre-launch media plan: budgets, schedule, goals, and targeting,
+  Media plan review for the Adform FLOW DSP. Inspect a pre-launch media plan: budgets, schedule, goals, and targeting,
   or review the candidate campaign tree it would generate. Trigger on "look at my media plan", "review the plan",
   "what optimisation recommendations does Adform suggest", "what's in plan X", "find my media plans". For the live
   campaign hierarchy use adform-campaign-structure; to forecast a plan's reach use

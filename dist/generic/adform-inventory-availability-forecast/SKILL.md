@@ -1,7 +1,7 @@
 ---
 name: adform-inventory-availability-forecast
 description: >-
-  Forward inventory availability sizing for the Adform Flow DSP.
+  Forward inventory availability sizing for the Adform FLOW DSP.
   Forecast future supply before launch — how much inventory is available
   given any private auction types, geos, formats, categories. Trigger on "deal availability
   forecast", "size the open auction opportunity", "available impressions by deal".

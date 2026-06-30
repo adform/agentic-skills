@@ -1,7 +1,7 @@
 ---
 name: adform-viewability-audit
 description: >-
-  Viewability settings consistency audit for the Adform Flow DSP.
+  Viewability settings consistency audit for the Adform FLOW DSP.
   Confirm viewability measurement is consistent across an advertiser's campaigns and flag deviations
   that would make reporting inconsistent. Trigger on "viewability audit",
   "are viewability settings consistent", "check measurement standard", "viewability config across

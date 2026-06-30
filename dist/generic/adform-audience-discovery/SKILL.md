@@ -1,7 +1,7 @@
 ---
 name: adform-audience-discovery
 description: >-
-  Audience discovery and exploration for Adform Flow DSP. Find and evaluate available audience segments
+  Audience discovery and exploration for Adform FLOW DSP. Find and evaluate available audience segments
   including third-party marketplace audiences, first-party data segments, and audience categories.
   Ideal for campaign planning, audience research, and targeting strategy development. For inventory
   and deal opportunities, see inventory discovery; for line item targeting setup, see targeting

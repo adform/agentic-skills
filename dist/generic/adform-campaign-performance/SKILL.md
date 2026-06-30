@@ -1,7 +1,7 @@
 ---
 name: adform-campaign-performance
 description: >-
-  Campaign delivery overview for Adform Flow DSP. Portfolio-level view of campaign delivery
+  Campaign delivery overview for Adform FLOW DSP. Portfolio-level view of campaign delivery
   including spend, pacing, projected delivery, and budget deviation. **Important:** This provides
   delivery metrics only - performance metrics like CTR, viewability, or eCPM are not available
   through this system. For delivery health issues use delivery health checks; for creative details

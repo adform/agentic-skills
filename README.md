@@ -1,6 +1,6 @@
 # Adform Agentic Skills
 
-Read-only skills for the **Adform Flow DSP** via the Adform GraphQL MCP server. Each skill is a `.md` file that defines the skill's purpose, illustrative GraphQL queries, usage constraints, and presentation guidance. The skills are ready to use with agentic AI systems and can be used individually or as a packaged plugin if available.
+Read-only skills for the **Adform FLOW DSP** via the Adform GraphQL MCP server. Each skill is a `.md` file that defines the skill's purpose, illustrative GraphQL queries, usage constraints, and presentation guidance. The skills are ready to use with agentic AI systems and can be used individually or as a packaged plugin if available.
 
 ---
 
@@ -30,7 +30,7 @@ All publishable artifacts live under `dist/`. They are organized by target model
 1. Connect your agentic AI system to the Adform GraphQL MCP server as outlined here: https://solutions.adform.com/tools/mcp-guides.
 2. Download the skills or plugins from the `dist/` directory.
 3. Import the skills into your agentic AI system.
-4. Use the skills to query and analyze Adform Flow DSP data.
+4. Use the skills to query and analyze Adform FLOW DSP data.
 
 ---
 

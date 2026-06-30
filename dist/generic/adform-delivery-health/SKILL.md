@@ -1,7 +1,7 @@
 ---
 name: adform-delivery-health
 description: >-
-  Delivery health root-cause check for RTB line items on Adform Flow DSP. Runs structured checks on schedule,
+  Delivery health root-cause check for RTB line items on Adform FLOW DSP. Runs structured checks on schedule,
   pricing, budget, banner assignment, creative audits, and advertiser vertical sensitivity, rolling up to Ok,
   Warning, or Critical. Trigger on "why isn't my line item delivering", "delivery health",
   "anything blocking this from serving", "no impressions from this line item". For slow pacing use adform-pacing-check;

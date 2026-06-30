@@ -1,7 +1,7 @@
 ---
 name: adform-inventory-deals
 description: >-
-  Inventory and deal discovery for Adform Flow DSP. Explore marketplace inventory sources, browse deals
+  Inventory and deal discovery for Adform FLOW DSP. Explore marketplace inventory sources, browse deals
   (private, preferred, open auction), inspect deal groups. Trigger on "what inventory is available",
   "show me deals", "open auctions", "deal groups", "past traffic for domain or deal", "traffic on bild.de".
   For audience marketplace use adform-audience-discovery; line-item wiring: adform-line-items;
