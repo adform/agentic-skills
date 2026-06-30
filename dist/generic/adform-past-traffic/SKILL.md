@@ -1,7 +1,7 @@
 ---
 name: adform-past-traffic
 description: >-
-  Past-traffic lookup for the Adform Flow DSP. Use when a
+  Past-traffic lookup for the Adform FLOW DSP. Use when a
   programmatic trader wants to know how much real traffic a piece of inventory recently saw —
   unique cookies and bid requests for specific domains, apps, deals, etc. Trigger on "how much traffic does domain X get",
   "what did this deal or app do recently", "past traffic for this inventory". For a CPM-versus-win-rate forecast use

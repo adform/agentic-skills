@@ -1,7 +1,7 @@
 ---
 name: adform-frequency-cap-audit
 description: >-
-  Frequency cap compliance audit for the Adform Flow DSP. Verify that line-item frequency capping settings match the
+  Frequency cap compliance audit for the Adform FLOW DSP. Verify that line-item frequency capping settings match the
   campaign brief or campaign-level constraints, and flag mismatches that risk over-exposure.
   Trigger on "frequency cap audit", "check frequency capping", "do caps match the brief", "flag
   line items with wrong frequency cap", "over-exposure risk". For full line-item config use adform-line-items;

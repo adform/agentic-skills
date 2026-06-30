@@ -1,7 +1,7 @@
 ---
 name: adform-campaign-structure
 description: >-
-  Campaign structure review for the Adform Flow DSP. Navigate the hierarchy of advertiser,
+  Campaign structure review for the Adform FLOW DSP. Navigate the hierarchy of advertiser,
   campaign, orders, and RTB line items, with budgets, flight dates, status, and targeting. Trigger
   on "what's in this campaign", "orders and line items under campaign X", "how is this
   campaign structured", "find the campaign for advertiser Y", "what line items

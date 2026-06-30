@@ -1,7 +1,7 @@
 ---
 name: adform-geo-reference
 description: >-
-  Geo reference data, currency rates, and label taxonomy for the Adform Flow DSP.
+  Geo reference data, currency rates, and label taxonomy for the Adform FLOW DSP.
   Use when a programmatic trader needs to search countries, regions, or cities for
   geo targeting IDs; look up currency exchange rates; or list label groups and their labels.
   Trigger on "find country ID", "search regions", "search cities", "currency rate EUR to USD",

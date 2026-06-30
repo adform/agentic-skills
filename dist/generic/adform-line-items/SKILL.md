@@ -1,7 +1,7 @@
 ---
 name: adform-line-items
 description: >-
-  Line-item inspection for Adform Flow DSP. Covers RTB and direct line items: config, targeting rules,
+  Line-item inspection for Adform FLOW DSP. Covers RTB and direct line items: config, targeting rules,
   delivery indications, creative browsing, and tag creative audit. Trigger on "show me line items",
   "RTB line item config", "deals wired", "targeting on this line item", "publisher name", "creatives in campaign",
   "tag audit status". For delivery health use adform-delivery-health; bid landscape: adform-bid-landscape;

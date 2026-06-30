@@ -1,7 +1,7 @@
 ---
 name: adform-deal-health-check
 description: >-
-  Deal delivery health check for the Adform Flow DSP. Investigate performance and delivery for deals wired to a campaign
+  Deal delivery health check for the Adform FLOW DSP. Investigate performance and delivery for deals wired to a campaign
   and flag any deal with zero or near-zero impressions caused by deal setup, pricing, or
   publisher supply problems. Trigger on "deal health check", "which deals aren't delivering",
   "deals with zero impressions", "deal delivery problems", "are my PMP deals serving". For

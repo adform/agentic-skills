@@ -1,7 +1,7 @@
 ---
 name: adform-audit-log-investigation
 description: >-
-  Change history investigation for the Adform Flow DSP. Reconstruct who changed what and when on any
+  Change history investigation for the Adform FLOW DSP. Reconstruct who changed what and when on any
   entity — campaign, targeting, budget, creative, status — to support incident investigation.
   Trigger on "audit log", "who changed X", "change history", "who modified the budget or targeting", "incident investigation",
   "trace a change". For label and config current-state inspection use adform-campaign-management;

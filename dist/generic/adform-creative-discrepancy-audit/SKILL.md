@@ -1,7 +1,7 @@
 ---
 name: adform-creative-discrepancy-audit
 description: >-
-  Creative-versus-served discrepancy audit for the Adform Flow DSP.
+  Creative-versus-served discrepancy audit for the Adform FLOW DSP.
   Verify that the ads serving in a campaign
   match the setup — catching creative trafficking errors, wrong rotations, or
   unauthorised substitutions. Trigger on "is the served ad the right one",

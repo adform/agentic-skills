@@ -1,7 +1,7 @@
 ---
 name: adform-reporting
 description: >-
-  Campaign delivery and spend reporting for Adform Flow DSP. Monitor current spend, pacing, budget
+  Campaign delivery and spend reporting for Adform FLOW DSP. Monitor current spend, pacing, budget
   flight status, and delivery projections for campaigns, orders, and line items. **Note:** This
   provides delivery and spend data only - performance metrics like CTR or viewability are not
   included. For performance analysis, use campaign performance monitoring; for delivery health,

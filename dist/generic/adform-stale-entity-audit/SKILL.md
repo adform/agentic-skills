@@ -1,7 +1,7 @@
 ---
 name: adform-stale-entity-audit
 description: >-
-  Governance audit for stale and orphaned entities on the Adform Flow DSP.
+  Governance audit for stale and orphaned entities on the Adform FLOW DSP.
   Audit governance issues that risk budget leakage —
   campaigns past their end date but still active, and RTB line items whose parent order is inactive
   or ended but the line item is still live. Trigger on "campaigns ended but still active",

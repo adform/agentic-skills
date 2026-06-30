@@ -1,7 +1,7 @@
 ---
 name: adform-media-plans
 description: >-
-  Media plan inspection, forecasting, and AI recommendations for the Adform Flow DSP.
+  Media plan inspection, forecasting, and AI recommendations for the Adform FLOW DSP.
   List media plans, inspect a plan's line items, settings, forecast, or get optimisation
   recommendations. Trigger on "show me plan X", "forecast for this plan",
   "projected CTR or impressions or cookies", "budget scenario". For line-item

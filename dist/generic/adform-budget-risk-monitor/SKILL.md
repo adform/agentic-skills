@@ -1,7 +1,7 @@
 ---
 name: adform-budget-risk-monitor
 description: >-
-  Budget delivery risk monitor for the Adform Flow DSP. Identify budget at risk across a campaign —
+  Budget delivery risk monitor for the Adform FLOW DSP. Identify budget at risk across a campaign —
   orders likely to under-deliver or over-spend. Trigger on
   "budget risk", "which orders will under-deliver", "budget overspend alert", "projected final
   spend", "am I going to over or under spend", "budget pacing".

@@ -1,7 +1,7 @@
 ---
 name: adform-tracking-tags
 description: >-
-  Tracking points, tracking filters, tags, and creative inspection for the Adform Flow DSP.
+  Tracking points, tracking filters, tags, and creative inspection for the Adform FLOW DSP.
   List tracking points, inspect filter rules, browse tags, look up creatives by UUID, view
   ad members, list ad sizes, or check published ad versions. Trigger on "tracking points",
   "tracking filters", "tags in campaign", "tag details", "creative by UUID", "ad members",

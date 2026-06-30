@@ -1,7 +1,7 @@
 ---
 name: adform-pacing-check
 description: >-
-  Delivery pacing check for the Adform Flow DSP. Use whenever a
+  Delivery pacing check for the Adform FLOW DSP. Use whenever a
   programmatic trader wants to know whether a campaign, order, or line item is pacing correctly.
   Trigger on "is campaign X pacing ok", "is this on track to spend its budget", "is it under or
   over delivering", "how much has this spent vs goal", "check pacing", "will it hit budget". For
