@@ -56,33 +56,57 @@ schedules, and line items.
 Build a `ForecastingKpisMediaPlanInput` from an existing plan or from scratch. If referencing
 an existing plan, fetch it first and apply only the overrides the trader asked for.
 
+> **CRITICAL: Use the named-variable pattern only.** The inline pattern (inputs baked into the
+> query body with unquoted enum literals) validates against the schema but returns a 500 server
+> error at execution due to MCP layer serialisation. Always pass `query` and `variables` as
+> separate arguments to `graphql_execute`.
+
+**Query string (pass as `query`):**
 ```graphql
-{
-  mediaPlanForecastingKpis(mediaPlan: {
-    advertiserId: "71883"
-    timeZoneId: "Europe/Berlin"
-    name: "Forecast scenario"
-    schedules: [{ startDateTime: "2026-04-01T00:00:00", endDateTime: "2026-04-14T23:59:59" }]
-    budget: { currency: EUR, amount: 10000, frequencyCappingRules: [] }
-    goals: { kpis: [{ performance: { ctr: { rate: 0.005 } } }] }
-    targeting: {
-      idFusionEnabled: true
-      inventory: { channels: [display, native] }
-      targetingRuleGroups: [{
-        locations: [{
-          targetingMode: include
-          locations: { countryIds: ["276"] }
-        }]
-      }]
-    }
-  }) {
+query ForecastScenario($mediaPlan: ForecastingKpisMediaPlanInput!, $currencyCode: CurrencyCode) {
+  mediaPlanForecastingKpis(mediaPlan: $mediaPlan, currencyCode: $currencyCode) {
     ctr { kpi impressions spend maxPrice }
     forecast { impressions cookies }
   }
 }
 ```
 
-Enum values (`EUR`, `display`, `native`, `include`) are unquoted. Omit `inventorySources`
+**Variables (pass as `variables`, JSON):**
+```json
+{
+  "currencyCode": "EUR",
+  "mediaPlan": {
+    "advertiserId": "71883",
+    "timeZoneId": "Europe/Berlin",
+    "name": "Forecast scenario",
+    "schedules": [
+      { "startDateTime": "2026-04-01T00:00:00", "endDateTime": "2026-04-14T23:59:59" }
+    ],
+    "budget": {
+      "currency": "EUR",
+      "amount": 10000,
+      "frequencyCappingRules": []
+    },
+    "goals": {
+      "kpis": [{ "performance": { "ctr": { "rate": 0.005 } } }]
+    },
+    "targeting": {
+      "idFusionEnabled": true,
+      "inventory": { "channels": ["display", "native"] },
+      "targetingRuleGroups": [{
+        "locations": [{
+          "targetingMode": "include",
+          "locations": { "countryIds": ["276"] }
+        }]
+      }]
+    }
+  }
+}
+```
+
+All enum values are **quoted strings** in the variables JSON: `"EUR"`, `"display"`, `"native"`,
+`"include"` etc. `currencyCode` is at the top level of variables, not inside `mediaPlan`.
+`frequencyCappingRules` must always be an explicit empty array `[]`. Omit `inventorySources`
 unless the trader explicitly names specific sources.
 
 ## 4. Get AI optimisation recommendations
