@@ -19,15 +19,69 @@ This forecasting tool analyzes your media plan parameters to predict campaign pe
 processes targeting criteria, budget allocations, and schedule information to generate accurate
 performance projections.
 
-**Technical Operations:**
-The system uses GraphQL operations to process your requests:
-- `graphql_validate` - Checks query validity before execution
-- `graphql_execute` - Runs the forecasting queries with your parameters
-- `graphql_search` - Helps discover available fields and options
-- `graphql_introspect` - Explores complex data structures when needed
+**Processing Time:** Complex forecasts may require 5-15 seconds to complete. Allow time for the
+response before retrying.
 
-**Processing Time:** Complex forecasts may require 5-15 seconds to complete. Please allow the
-system to finish processing before making additional requests.
+---
+
+## CRITICAL: Query execution pattern
+
+The `mediaPlanForecastingKpis` endpoint **requires the named-variable pattern exclusively**.
+The inline pattern (inputs baked directly into the query body) validates against the schema but
+returns a 500 server error at execution time due to MCP layer serialisation. Do not use it.
+
+**Always call `graphql_execute` with `query` and `variables` as separate arguments:**
+
+```graphql
+query ForecastScenario($mediaPlan: ForecastingKpisMediaPlanInput!, $currencyCode: CurrencyCode) {
+  mediaPlanForecastingKpis(mediaPlan: $mediaPlan, currencyCode: $currencyCode) {
+    ctr { kpi impressions spend maxPrice }
+    forecast { impressions cookies }
+  }
+}
+```
+
+```json
+{
+  "currencyCode": "GBP",
+  "mediaPlan": {
+    "advertiserId": "2133936",
+    "timeZoneId": "Europe/London",
+    "name": "UK Retail – Display – July 2026",
+    "schedules": [
+      { "startDateTime": "2026-07-01T00:00:00", "endDateTime": "2026-07-31T23:59:59" }
+    ],
+    "budget": {
+      "currency": "GBP",
+      "amount": 25000,
+      "frequencyCappingRules": []
+    },
+    "goals": {
+      "kpis": [{ "performance": { "ctr": { "rate": 0.003 } } }]
+    },
+    "targeting": {
+      "idFusionEnabled": true,
+      "inventory": { "channels": ["display", "native"] },
+      "targetingRuleGroups": [{
+        "locations": [{
+          "targetingMode": "include",
+          "locations": { "countryIds": ["826"] }
+        }]
+      }]
+    }
+  }
+}
+```
+
+**Rules for the variables JSON:**
+- All enum values **must be quoted strings**: `"display"`, `"native"`, `"video"`, `"include"`, `"EUR"`, `"GBP"` etc.
+- `frequencyCappingRules` must be an explicit empty array `[]` — never omitted.
+- `currencyCode` lives at the **top level** of the variables object, not inside `mediaPlan`.
+- Channel values: `"display"`, `"native"`, `"video"`, `"tv"`, `"audio"`, `"dooh"`.
+- Always validate the query string with `graphql_validate` before executing.
+
+**Result fields under `ctr`:** `kpi`, `impressions`, `spend`, `maxPrice`
+**Result fields under `forecast`:** `impressions`, `cookies`
 
 ---
 
