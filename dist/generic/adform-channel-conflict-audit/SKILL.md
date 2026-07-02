@@ -30,7 +30,7 @@ sequential (~1–2s apart).
     offset: 0
     limit: 20
   ) {
-    lineItems { id name rtbLineItem { id environments orderId campaignId paused } }
+    lineItems { id name environments orderId campaignId paused }
     totalCount
   }
 }
@@ -55,11 +55,17 @@ sequential (~1–2s apart).
 For RTB line items, use `graphql_introspect` on `RtbLineItemAudience` to select targeting
 rules including domains, audience segments, and locations:
 
+The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID.
+
 ```graphql
 { rtbLineItem(id: "99999") { id targetings { id name bidMultiplier } inventories { id buyingType } } }
 ```
 
-Resolve domain targeting list IDs to actual domains using adform-targeting-segments.
+Resolve domain targeting list IDs to actual domains:
+
+```graphql
+{ rtbTargetingListDomains(id: "12345", pagination: { offset: 0, limit: 100 }) { domains { name bidMultiplier } totalCount } }
+```
 
 ## Step 4 — Delivery confirmation
 

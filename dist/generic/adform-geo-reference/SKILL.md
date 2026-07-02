@@ -29,7 +29,7 @@ line-item geo targeting rules.
 ### Search countries
 
 ```graphql
-{ countries(search: "Germany", offset: 0, limit: 10) { countries { id name code continentId } totalCount } }
+{ countries(search: "Germany", offset: 0, limit: 10) { countries { id name iso2Code iso3Code continentId } totalCount } }
 ```
 
 ### Search regions
@@ -49,17 +49,24 @@ line-item geo targeting rules.
 ## Currency rates
 
 CurrencyCode is ISO 4217: `EUR`, `USD`, `DKK`, `GBP`, `SEK`, `NOK`, etc.
+Always pass currency codes as quoted strings (e.g. `"EUR"`, not `EUR`).
 
 ```graphql
-{ currencyRate(sourceCurrencyCode: EUR, targetCurrencyCode: USD) { sourceCurrencyCode targetCurrencyCode rate date } }
+{ currencyRate(sourceCurrencyCode: "EUR", targetCurrencyCode: "USD") { sourceCurrencyCode targetCurrencyCode rate } }
 ```
 
 ---
 
 ## Label taxonomy
 
+Labels are scoped per advertiser or campaign — there is no global `labelGroups` query.
+
 ```graphql
-{ labelGroups { id name labels { id name } } }
+{ advertiserLabels(id: "71883") { labelGroups { id name labels { id name } } } }
+```
+
+```graphql
+{ campaignLabels(id: "3993873") { labelGroups { id name labels { id name } } } }
 ```
 
 Label group IDs are used in campaign, advertiser, and line-item label queries.

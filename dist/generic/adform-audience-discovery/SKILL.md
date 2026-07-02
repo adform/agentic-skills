@@ -85,22 +85,24 @@ specialized data companies and cover various interests, demographics, and behavi
 
 **Example query:**
 ```graphql
-audienceMarketplaceListItems(
-  filters: [
-    { fieldName: "audience.name", operation: contains, values: ["mobile phone"] },
-    { fieldName: "audience.name", operation: contains, values: ["UK"] }
-  ]
-  pagination: { offset: 0, limit: 20 }
-) {
-  audiences {
-    id
-    name
-    thirdPartyAudienceId
-    dataProvider { name }
-    price { cpm }
-    composition { uidTotalCount }
+{
+  audienceMarketplaceListItems(
+    filters: [
+      { fieldName: "audience.name", operation: contains, values: ["mobile phone"] },
+      { fieldName: "audience.name", operation: contains, values: ["UK"] }
+    ]
+    pagination: { offset: 0, limit: 20 }
+  ) {
+    audiences {
+      id
+      name
+      thirdPartyAudienceId
+      dataProvider { name }
+      price { cpm }
+      composition { uidTotalCount }
+    }
+    totalCount
   }
-  totalCount
 }
 ```
 
@@ -112,6 +114,34 @@ Manage and explore your own first-party audience segments built from your websit
 customer data, and campaign interactions.
 
 ### Your Audience Segments
+
+**Example query:**
+```graphql
+{
+  buyerAudiences(
+    filters: [{ fieldName: "buyerAudience.advertisers.advertiserIds", operation: intersects, values: ["71883"] }]
+    pagination: { offset: 0, limit: 25 }
+  ) {
+    buyerAudiences { id name status categoryId ttl }
+    totalCount
+  }
+}
+```
+
+Note: the outer query name and the inner list field share the same name (`buyerAudiences`).
+
+### Audience Categories
+
+```graphql
+{
+  buyerAudienceCategories(
+    pagination: { offset: 0, limit: 50 }
+  ) {
+    categories { id name parentId }
+    totalCount
+  }
+}
+```
 
 **Available Information:**
 - **Audience Details:** Name, status, and creation date

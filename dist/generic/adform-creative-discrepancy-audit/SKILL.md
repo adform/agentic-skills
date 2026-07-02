@@ -48,16 +48,16 @@ Each ad's `id` object gives both the UUID and the integer ID. Note `publishStatu
 The published lookup uses the integer ID and `adType`, not the UUID:
 
 ```graphql
-{ publishedAdById(id: "12345", adType: image) { id { uuid id } name adType commercialType width height publishStatus } }
+{ publishedAdById(id: "12345", adType: creative) { id { uuid id } name adType commercialType contentType size { width height } active deleted } }
 ```
 
-Compare published name, size, and adType against the assigned values. Flag any divergence,
-an active ad with `publishStatus: notPublished`, or `publishedButChanged`.
+Compare published name, size, and adType against the assigned values. Flag any divergence
+between the assigned ad and the published version.
 
 ## Step 3 — Inspect rotation members (for grouped ads)
 
 ```graphql
-{ adMembersByUuid(uuid: "ad-uuid-here") { id { uuid id } name adType width height } }
+{ adMembersByUuid(uuid: "ad-uuid-here") { adId { uuid id } name adType commercialType size { width height } } }
 ```
 
 Confirm that members and their weights match the intended rotation configuration. Flag

@@ -35,7 +35,7 @@ values, or union/interface resolution.
     offset: 0
     limit: 20
   ) {
-    lineItems { id name rtbLineItem { id environments orderId campaignId paused deleted } }
+    lineItems { id name environments orderId campaignId paused deleted }
     totalCount
   }
 }
@@ -46,6 +46,10 @@ values, or union/interface resolution.
 ```graphql
 { rtbLineItem(id: "99999") { id name environments orderId campaignId paused deleted } }
 ```
+
+The `id` used in `rtbLineItem(id:)`, `rtbLineItemDeliveryHealth(id:)`, and
+`rtbLineItemDeliveryIndications(id:)` is the RTB setup ID returned by `rtbLineItems()`, not
+the placement ID.
 
 For inventory wiring, targeting rules, budget flights, pricing, and impression capping, use
 `graphql_introspect` on the relevant nested types before selecting those fields.

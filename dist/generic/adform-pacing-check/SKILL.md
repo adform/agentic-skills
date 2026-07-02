@@ -19,6 +19,8 @@ spend, deviation %, and status — at campaign, order, or line-item level. Read-
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` to
 look up field names. Keep calls sequential (~1–2s apart).
 Resolve entity IDs using `campaigns(advertisers:, search:)` and `orders(campaignId:, active: true)`.
+For RTB line items, the `id` parameter requires the RTB setup ID (returned as `id` from
+`rtbLineItems(orderIds:)`), not the placement ID.
 
 ---
 

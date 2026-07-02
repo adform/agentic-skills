@@ -46,7 +46,7 @@ look up field names. Keep calls sequential (~1–2s apart).
 ```graphql
 {
   inventoryMarketplaceDealPastTraffic(
-    deals: [{ inventorySourceId: "42", dealId: "12345" }]
+    deals: [{ inventoryId: 42, dealId: "12345" }]
   ) {
     dealId
     trafficCounts { cookies requests }
@@ -61,23 +61,20 @@ horizon. State this is an extrapolation from observed supply.
 
 ## Open-auction sizing
 
-### Step 1 — Search open auctions by geo and format
-
-Must provide `advertiserId` or `campaignId`. Do not pass a sort argument.
+### Step 1 — Browse available inventory sources
 
 ```graphql
 {
-  searchOpenAuctions(
-    advertiserId: "71883"
-    limit: 20
+  inventoryMarketplaceListItems(
+    pagination: { offset: 0, limit: 100 }
   ) {
-    results { id name inventorySourceId inventorySourceName country channel bannerTypes sizes }
-    next previous totalCount
+    inventorySources { id name adExchange { id name } channels environments }
+    hasMoreItems totalCount
   }
 }
 ```
 
-### Step 2 — Past traffic for the identified inventory sources
+### Step 2 — Past traffic for identified inventory sources
 
 ```graphql
 {
@@ -95,6 +92,6 @@ Resolve geo IDs for filtering using adform-geo-reference.
 ## Presenting
 
 Deals: table with deal name, status, floor price, baseline daily requests, and projected
-30-day available impressions. Open auction: table by publisher category (inventory source)
-with addressable cookies and requests. Lead with the headline total and the largest sources.
+30-day available impressions. Open auction: table by inventory source with addressable
+cookies and requests. Lead with the headline total and the largest sources.
 State that projections extrapolate recent supply and are not guarantees.

@@ -108,7 +108,10 @@ Goal: 0.5% CTR
 
 ## Location Targeting
 
-For geographic targeting, use ISO 3166-1 numeric country codes:
+For geographic targeting, use country IDs from the Adform geo reference. Look up the correct
+ID using `countries(search: "Germany")` via adform-geo-reference rather than hardcoding values.
+
+Common ISO 3166-1 numeric codes (verify via adform-geo-reference before use):
 - Germany: 276
 - United States: 840
 - United Kingdom: 826
@@ -118,22 +121,6 @@ For geographic targeting, use ISO 3166-1 numeric country codes:
 You can combine location targeting with audience criteria for more precise forecasting.
 
 ---
-
-## Setting Up Your Forecast
-
-**Required Information:**
-- **Advertiser ID:** Your unique advertiser identifier
-- **Campaign Schedule:** Start and end dates for your campaign
-- **Budget Details:** Total budget amount and currency
-- **Performance Targets:** Your desired KPI goals (e.g., click-through rate)
-- **Targeting Criteria:** Geographic locations and advertising channels
-
-**Targeting Options:**
-- **Geographic:** Select countries using ISO country codes (see list above)
-- **Channels:** Choose from display, native, video, or other available formats
-- **Audience:** Combine with specific audience segments for precise targeting
-
-> **Important Note:** When configuring domain or app targeting, use the format `{ "targetingMode": "includeAll" }`. The `excludeUnknown` property is not supported.
 
 ## Using Existing Campaigns
 

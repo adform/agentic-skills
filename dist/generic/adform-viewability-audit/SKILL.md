@@ -46,13 +46,21 @@ If your organisation tracks a viewability provider or percentage threshold separ
 ## Step 2 — Get viewability capping per campaign
 
 ```graphql
-{ campaignRtbSettings(id: "3993873") { capping } }
+{
+  campaignRtbSettings(id: "3993873") {
+    capping {
+      type
+      impressions
+      period { type duration }
+      viewability { type duration }
+    }
+  }
+}
 ```
 
-Use `graphql_introspect` on `RtbCappingSettings` to expand the `viewability` sub-field
-(contains `type` and `duration`).
-
 ## Step 3 — Spot-check line-level overrides
+
+The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID.
 
 ```graphql
 { rtbLineItem(id: "99999") { id impressionCappings { frequency { impressions } } } }

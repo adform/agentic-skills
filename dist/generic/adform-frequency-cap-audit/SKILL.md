@@ -31,13 +31,15 @@ the current field shapes for capping sub-objects. Keep calls sequential (~1–2s
     offset: 0
     limit: 20
   ) {
-    lineItems { id name rtbLineItem { id environments orderId campaignId paused deleted } }
+    lineItems { id name environments orderId campaignId paused deleted }
     totalCount
   }
 }
 ```
 
 ## Step 2 — Get line item capping detail
+
+The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID.
 
 ```graphql
 { rtbLineItem(id: "99999") { id impressionCappings { frequency { impressions } } } }
@@ -51,11 +53,17 @@ A line item with an empty `impressionCappings` list has no frequency capping app
 ## Step 3 — Get campaign-level cap for comparison
 
 ```graphql
-{ campaignRtbSettings(id: "3993873") { capping } }
+{
+  campaignRtbSettings(id: "3993873") {
+    capping {
+      type
+      impressions
+      period { type duration }
+      viewability { type duration }
+    }
+  }
+}
 ```
-
-Use `graphql_introspect` on `RtbCappingSettings` and `CampaignCappingViewabilityType` to
-expand the capping sub-fields.
 
 ---
 

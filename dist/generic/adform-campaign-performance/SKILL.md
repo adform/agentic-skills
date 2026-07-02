@@ -114,5 +114,5 @@ projected spend, deviation %, and status. Include an account totals row. Flag ca
 deviation below −20% as under-delivering and above +10% as approaching overspend. Sort by
 deviation ascending to surface the largest gaps first.
 
-For dimensional drill-down (by day, geo, domain, deal) use adform-performance-breakdown. For
-creative-level numbers use adform-creative-performance.
+For creative trafficking checks use adform-creative-discrepancy-audit. For detailed reporting
+use adform-reporting.

@@ -46,10 +46,10 @@ name that does not match and any case-insensitive duplicate within the advertise
 
 ## Label taxonomy audit
 
-### Get label group definitions
+### Get label group definitions for an advertiser
 
 ```graphql
-{ labelGroups { id name labels { id name } } }
+{ advertiserLabels(id: "71883") { labelGroups { id name labels { id name } } } }
 ```
 
 ### Get labels applied to a campaign

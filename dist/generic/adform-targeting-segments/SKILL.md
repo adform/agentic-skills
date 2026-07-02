@@ -33,25 +33,25 @@ values, or union/interface resolution.
 ### Get domain targeting list
 
 ```graphql
-{ rtbDomainTargetingList(id: "12345") { id name } }
+{ rtbDomainTargetingList(id: "12345") { id createdAt updatedAt itemCount version } }
 ```
 
 ### Get domains in a targeting list
 
 ```graphql
-{ rtbTargetingListDomains(id: "12345", pagination: { offset: 0, limit: 100 }) { domains { domain } totalCount } }
+{ rtbTargetingListDomains(id: "12345", pagination: { offset: 0, limit: 100 }) { domains { name bidMultiplier } totalCount } }
 ```
 
 ### Get app targeting list
 
 ```graphql
-{ rtbAppTargetingList(id: "12345") { id name } }
+{ rtbAppTargetingList(id: "12345") { id createdAt updatedAt itemCount version } }
 ```
 
 ### Get apps in a targeting list
 
 ```graphql
-{ rtbTargetingListApps(id: "12345", pagination: { offset: 0, limit: 100 }) { apps { bundleId name } totalCount } }
+{ rtbTargetingListApps(id: "12345", pagination: { offset: 0, limit: 100 }) { apps { id name storeType developerName bidMultiplier } totalCount } }
 ```
 
 ---
