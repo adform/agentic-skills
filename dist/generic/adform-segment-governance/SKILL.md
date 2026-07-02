@@ -44,10 +44,12 @@ composition. Keep calls sequential (~1–2s apart).
 ```graphql
 {
   buyerAudience(id: "12345") {
-    id name status
-    ttl frequency idFusion lookalike
-    rule { expression recalculable }
-    createdAt updatedAt
+    audience {
+      id name status
+      ttl frequency idFusion lookalike
+      rule { expression recalculable }
+      createdAt updatedAt
+    }
   }
 }
 ```

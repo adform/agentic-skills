@@ -142,7 +142,7 @@ Must provide `advertiserId` or `campaignId`. Do not pass a sort argument.
 ```graphql
 {
   inventoryMarketplaceDealPastTraffic(
-    deals: [{ inventorySourceId: "42", dealId: "12345" }]
+    deals: [{ inventoryId: 42, dealId: "12345" }]
   ) {
     dealId
     trafficCounts { cookies requests }

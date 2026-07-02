@@ -51,7 +51,7 @@ Search deals by advertiser:
 ```graphql
 {
   inventoryMarketplaceDealPastTraffic(
-    deals: [{ inventorySourceId: "42", dealId: "12345" }]
+    deals: [{ inventoryId: 42, dealId: "12345" }]
   ) {
     dealId
     trafficCounts { cookies requests }
@@ -75,7 +75,8 @@ For each deal, check:
 - `healthIndications.status` — platform health flag
 - `deliveryIndications.yesterday.transaction.winRate` — low win rate alongside zero impressions
   suggests pricing is below market; size a fix with adform-bid-landscape
-- `assignedToLineItemsCount` — a deal with zero assignments is not yet wired to any line item
+- `assignedToLineItemsCount` — a deal with zero assignments is not yet wired to any line item;
+  `deliveryIndications` and `healthIndications` will be null in this case
 
 ---
 

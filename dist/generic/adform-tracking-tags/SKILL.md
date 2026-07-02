@@ -59,7 +59,7 @@ expressions.
     filter: { campaignId: "3993873" }
     pagination: { offset: 0, limit: 50 }
   ) {
-    tags { id name type status }
+    tags { id uuid type campaignId active paused createdAt }
     totalCount
   }
 }
@@ -68,7 +68,7 @@ expressions.
 ### Get RTB tag
 
 ```graphql
-{ rtbTag(id: "85543973") { id name type status } }
+{ rtbTag(id: "85543973") { id uuid type campaignId active paused } }
 ```
 
 Use `graphql_introspect` on `RtbTag` to discover available fields including destination URLs
@@ -77,7 +77,7 @@ and settings.
 ### Get direct tag
 
 ```graphql
-{ directTag(id: "85543974") { id name type status } }
+{ directTag(id: "85543974") { id uuid type campaignId active paused } }
 ```
 
 ---
@@ -87,13 +87,13 @@ and settings.
 ### Get ad by UUID
 
 ```graphql
-{ adByUuid(uuid: "ad-uuid-here") { id { uuid id } name adType commercialType width height publishStatus active } }
+{ adByUuid(uuid: "ad-uuid-here") { id { uuid id } name adType commercialType size { width height } publishStatus active } }
 ```
 
 ### Get ad members — sub-creatives of a rotator
 
 ```graphql
-{ adMembersByUuid(uuid: "ad-uuid-here") { id { uuid id } name adType width height } }
+{ adMembersByUuid(uuid: "ad-uuid-here") { adId { uuid id } name adType commercialType size { width height } } }
 ```
 
 ### Get published ad — by integer ID and ad type
@@ -101,7 +101,7 @@ and settings.
 First get the integer `id` and `adType` from `adByUuid`, then:
 
 ```graphql
-{ publishedAdById(id: "12345", adType: image) { id { uuid id } name adType width height publishStatus } }
+{ publishedAdById(id: "12345", adType: creative) { id { uuid id } name adType commercialType contentType size { width height } active deleted } }
 ```
 
 ### List ad sizes by campaign
@@ -112,7 +112,7 @@ First get the integer `id` and `adType` from `adByUuid`, then:
     campaignId: "3993873"
     pagination: { offset: 0, limit: 50 }
   ) {
-    adSizes { id name width height }
+    sizes { width height }
     totalCount
   }
 }

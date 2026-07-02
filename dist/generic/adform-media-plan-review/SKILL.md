@@ -29,7 +29,7 @@ available fields. Keep calls sequential (~1–2s apart).
     advertiserIds: ["71883"]
     pagination: { offset: 0, limit: 20 }
   ) {
-    mediaPlans { id name advertiserId status createdBy createdAt modifiedAt }
+    mediaPlans { id name advertiserId comment schedule { startDate endDate timeZoneId } budget { currency amount } }
     totalCount
   }
 }
@@ -38,7 +38,7 @@ available fields. Keep calls sequential (~1–2s apart).
 ## Get plan detail
 
 ```graphql
-{ mediaPlan(id: "b2d428ae-0000-0000-0000-000000000000") { id name advertiserId status createdBy createdAt modifiedAt budget { amount } } }
+{ mediaPlan(id: "b2d428ae-0000-0000-0000-000000000000") { id name advertiserId comment schedule { startDate endDate timeZoneId } budget { currency amount } } }
 ```
 
 Use `graphql_introspect` on `MediaPlan` to expand goals, KPIs, targeting, schedules, and line
@@ -55,11 +55,18 @@ campaigns, orders, and line items the plan would generate.
 
 ## Get optimisation recommendations
 
+The `mediaPlan` input requires `advertiserId` and `goals` at minimum. Fetch the plan first,
+then pass its parameters. The filter field is `recommendationTypes`.
+
 ```graphql
 {
   mediaPlanRecommendations(
-    mediaPlan: { id: "b2d428ae-0000-0000-0000-000000000000" }
-    filter: { types: [] }
+    mediaPlan: {
+      advertiserId: "71883"
+      goals: { kpis: [{ performance: { ctr: { rate: 0.005 } } }] }
+      schedule: { startDate: "2026-07-01", endDate: "2026-07-31", timeZoneId: "Europe/Berlin" }
+    }
+    filter: { recommendationTypes: [] }
   ) {
     recommendationGroup
     recommendationType
@@ -67,8 +74,9 @@ campaigns, orders, and line items the plan would generate.
 }
 ```
 
-Recommendation types include geo, frequency, brand safety, ID fusion, contextual, inventory,
-deal, domain, app targeting, and additional channels.
+Use `graphql_introspect` on `MediaPlanRecommendationsMediaPlanInput` and
+`MediaPlanRecommendationsFilterInput` to discover available recommendation types and input
+fields.
 
 ---
 

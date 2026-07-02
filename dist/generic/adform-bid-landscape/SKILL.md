@@ -33,7 +33,7 @@ pricing, periods, and environments into the input.
 
 ## Method
 
-1. Read the live line item using `rtbLineItem(id:)` to get current targeting, inventory, and pricing
+1. Read the live line item using `rtbLineItem(id:)` (the `id` is the RTB setup ID from `rtbLineItems()`, not the placement ID) to get current targeting, inventory, and pricing
 2. Mirror the complete line item structure into the `ForecastingRtbLineItemInput` payload
 3. Run `rtbLineItemForecasting` with the mirrored input
 4. Pair `cpms` and `winRates` arrays by index to read the CPM-vs-win-rate curve

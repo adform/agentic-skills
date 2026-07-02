@@ -48,7 +48,18 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
 ### Get campaign RTB settings
 
 ```graphql
-{ campaignRtbSettings(id: "3993873") { capping dsaTransparency } }
+{
+  campaignRtbSettings(id: "3993873") {
+    capping {
+      type
+      impressions
+      period { type duration }
+      viewability { type duration }
+    }
+    dsaTransparency { advertiserLegalName }
+    budget { budget amount goalType periodType pacingType }
+  }
+}
 ```
 
 ### Get campaign labels

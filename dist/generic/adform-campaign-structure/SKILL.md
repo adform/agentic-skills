@@ -64,7 +64,7 @@ Build the hierarchy one level at a time rather than in a single large query.
     offset: 0
     limit: 20
   ) {
-    lineItems { id name rtbLineItem { id environments orderId campaignId paused deleted } }
+    lineItems { id name environments orderId campaignId paused deleted }
     totalCount
   }
 }

@@ -84,7 +84,7 @@ List line items under those orders:
     offset: 0
     limit: 20
   ) {
-    lineItems { id name rtbLineItem { id paused deleted orderId } }
+    lineItems { id name paused deleted orderId }
     totalCount
   }
 }

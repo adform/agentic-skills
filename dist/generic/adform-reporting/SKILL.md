@@ -118,7 +118,8 @@ Same field shape as campaign. One order at a time.
 
 ## 3. RTB line item delivery indications
 
-Same field shape as campaign. One line item at a time.
+Same field shape as campaign. One line item at a time. The `id` is the RTB setup ID returned
+by `rtbLineItems()`, not the placement ID.
 
 ```graphql
 {

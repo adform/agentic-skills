@@ -19,8 +19,8 @@ Ok, Warning, or Critical. Read-only.
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` or
 `graphql_introspect` to explore nested indication types. Keep calls sequential (~1–2s apart).
 
-To resolve a line item ID, use `rtbLineItems(campaignIds:, search:)` or ask the trader to
-provide the ID from the Adform platform URL.
+The `id` parameter requires the RTB setup ID (returned as `id` from `rtbLineItems(orderIds:)`).
+This is distinct from the placement ID visible in some platform URLs.
 
 ## Data Availability
 

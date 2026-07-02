@@ -31,7 +31,7 @@ Forecast KPI queries can take 5–15 seconds on complex inputs — allow time fo
     advertiserIds: ["71883"]
     pagination: { offset: 0, limit: 20 }
   ) {
-    mediaPlans { id name advertiserId status createdBy createdAt modifiedAt }
+    mediaPlans { id name advertiserId comment schedule { startDate endDate timeZoneId } budget { currency amount } }
     totalCount
   }
 }
@@ -42,8 +42,9 @@ Forecast KPI queries can take 5–15 seconds on complex inputs — allow time fo
 ```graphql
 {
   mediaPlan(id: "12345") {
-    id name advertiserId status createdBy createdAt modifiedAt
-    budget { amount }
+    id name advertiserId comment
+    schedule { startDate endDate timeZoneId }
+    budget { currency amount }
   }
 }
 ```
@@ -111,11 +112,18 @@ unless the trader explicitly names specific sources.
 
 ## 4. Get AI optimisation recommendations
 
+The `mediaPlan` input requires `advertiserId` and `goals` at minimum. Fetch the plan first,
+then pass its parameters. The filter field is `recommendationTypes`.
+
 ```graphql
 {
   mediaPlanRecommendations(
-    mediaPlan: { id: "12345" }
-    filter: { types: [] }
+    mediaPlan: {
+      advertiserId: "71883"
+      goals: { kpis: [{ performance: { ctr: { rate: 0.005 } } }] }
+      schedule: { startDate: "2026-07-01", endDate: "2026-07-31", timeZoneId: "Europe/Berlin" }
+    }
+    filter: { recommendationTypes: [] }
   ) {
     recommendationGroup
     recommendationType
@@ -123,8 +131,8 @@ unless the trader explicitly names specific sources.
 }
 ```
 
-Use `graphql_introspect` on `MediaPlanRecommendationsFilterInput` to discover available filter
-types before calling.
+Use `graphql_introspect` on `MediaPlanRecommendationsMediaPlanInput` and
+`MediaPlanRecommendationsFilterInput` to discover available recommendation types.
 
 ---
 
