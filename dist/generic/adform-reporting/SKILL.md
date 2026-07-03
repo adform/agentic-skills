@@ -1,11 +1,12 @@
 ---
 name: adform-reporting
 description: >-
-  Campaign delivery and spend reporting for Adform FLOW DSP. Monitor current spend, pacing, budget
-  flight status, and delivery projections for campaigns, orders, and line items. **Note:** This
-  provides delivery and spend data only - performance metrics like CTR or viewability are not
-  included. For performance analysis, use campaign performance monitoring; for delivery health,
-  use delivery health checks.
+  Campaign delivery and spend reporting for Adform FLOW DSP. Monitor current spend, pacing,
+  budget flight status, and delivery projections via delivery indications. Also surfaces
+  dimensional performance metrics (CTR, viewability, video, conversions, eCPM, domain
+  breakdown, bid reasons) via mcpStats. For delivery health root-cause use
+  adform-delivery-health; for a dedicated performance reporting workflow use
+  adform-stats-performance.
 ---
 
 # Campaign Delivery Reporting
@@ -15,18 +16,27 @@ performance against goals.
 
 ## Report Scope
 
-**Available Metrics:**
+This skill covers two complementary reporting surfaces:
+
+**Delivery indications** (pacing, budget flight, spend):
 - Current spend and budget utilization
 - Pacing status and delivery projections
 - Budget flight progress and completion
-- Daily delivery trends
+- Daily delivery trends (up to 30-day window)
 - Line item delivery health indicators
 
-**Not Available:**
-- Performance metrics (CTR, viewability, conversions)
-- Historical data for ended campaigns
-- Dimensional breakdowns (by geography, domain, etc.)
-- Period-over-period comparisons
+**Performance stats via mcpStats** (CTR, viewability, video, conversions):
+- Impressions, clicks, CTR, eCPM, cost — broken down by date, campaign, order,
+  line item, banner, domain, deal, bid reason, mobile app, tag, or page
+- Viewability metrics: viewable impressions (IAB), viewability %, measurable
+  impressions, avg viewability time
+- Video metrics: video starts, completions, completion rate, start rate
+- Conversion and sales metrics: conversions, eCPA, sales, ROI
+- RTB bidding metrics: bids, lost bids, win rate, bid reason breakdown
+- Metric post-filtering (e.g. only rows where impressions > 0)
+
+For dimensional performance queries, use `mcpStats` (see adform-stats-performance
+skill). For delivery pacing use the delivery indications queries in this skill.
 
 ## Technical Operations
 

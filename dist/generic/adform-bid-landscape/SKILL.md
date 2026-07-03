@@ -80,3 +80,45 @@ Lead with the actionable answer: the CPM needed to hit the trader's target win r
 the curve), then show the full curve as context, and the reachable cookies and requests for
 inventory sizing. State that forecasts are estimates and cross-check with adform-past-traffic if
 volume looks unexpected.
+
+---
+
+## Supplementary: bid reason context via mcpStats
+
+After sizing the CPM needed to win the target share of auctions, cross-check
+with a mcpStats bid reason query. This shows whether current losses are
+primarily price-driven (the bid landscape addresses this) or driven by other
+factors (creative audit, targeting, budget) that a CPM increase alone will not
+fix. Validated query:
+
+```graphql
+{
+  mcpStats {
+    totalRowCount
+    totals
+    columns {
+      dimensions { bidReason { name } }
+      metrics {
+        rtbBids
+        lostBids
+        bidReasonCount
+        impressions
+        rtbWinRate
+      }
+    }
+    rows(
+      filter: {
+        date: { from: "2026-06-01", to: "2026-06-30" }
+        advertiser: { ids: ["2133936"] }
+      }
+      paging: { offset: 0, limit: 50 }
+      sort: [{ column: 0, direction: desc }]
+    )
+  }
+}
+```
+
+If the dominant bid reason is price-floor-related, the bid landscape CPM
+recommendation is the primary fix. If non-price reasons dominate, flag them
+to the trader alongside the CPM recommendation so they are not surprised that
+raising the bid alone does not resolve the win rate shortfall.

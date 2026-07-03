@@ -1,11 +1,13 @@
 ---
 name: adform-delivery-health
 description: >-
-  Delivery health root-cause check for RTB line items on Adform FLOW DSP. Runs structured checks on schedule,
-  pricing, budget, banner assignment, creative audits, and advertiser vertical sensitivity, rolling up to Ok,
-  Warning, or Critical. Trigger on "why isn't my line item delivering", "delivery health",
-  "anything blocking this from serving", "no impressions from this line item". For slow pacing use adform-pacing-check;
-  for historical numbers use adform-campaign-performance. Read-only.
+  Delivery health root-cause check for RTB line items on Adform FLOW DSP. Runs structured
+  checks on schedule, pricing, budget, banner assignment, creative audits, and advertiser
+  vertical sensitivity, rolling up to Ok, Warning, or Critical. When pricing is flagged,
+  supplements with mcpStats bid-reason breakdown to identify exact no-bid patterns. Trigger
+  on "why isn't my line item delivering", "delivery health", "anything blocking this from
+  serving", "no impressions from this line item". For slow pacing use adform-pacing-check;
+  for dimensional performance stats use adform-stats-performance. Read-only.
 ---
 
 # Adform delivery health
@@ -49,6 +51,50 @@ This skill covers real-time delivery indicators for active line items and campai
 
 Each indication returns `Ok`, `Warning`, or `Critical`. Use `graphql_introspect` on the
 specific indication type to retrieve additional detail fields such as `reason`.
+
+---
+
+## Supplementary: bid reason breakdown via mcpStats
+
+When the `pricing` check returns `Warning` or `Critical`, use `mcpStats` with
+the `bidReason` dimension to see the specific no-bid reasons causing lost
+auctions. This gives the trader exact signal on whether the loss is price-based,
+targeting-based, creative-audit-based, or budget-based.
+
+Validated query:
+
+```graphql
+{
+  mcpStats {
+    totalRowCount
+    totals
+    columns {
+      dimensions { bidReason { name } }
+      metrics {
+        rtbBids
+        lostBids
+        bidReasonCount
+        impressions
+        rtbWinRate
+      }
+    }
+    rows(
+      filter: {
+        date: { from: "2026-06-01", to: "2026-06-30" }
+        advertiser: { ids: ["2133936"] }
+      }
+      paging: { offset: 0, limit: 50 }
+      sort: [{ column: 0, direction: desc }]
+    )
+  }
+}
+```
+
+Scope the `advertiser` filter (or add `lineItem: { ids: [...] }`) to narrow to
+the specific entity under investigation. The `bidReason.name` column will return
+the platform's reason label for each no-bid category (e.g. price floor, creative
+audit, targeting mismatch). Add this table to the delivery health summary when
+pricing or budget is flagged.
 
 ---
 

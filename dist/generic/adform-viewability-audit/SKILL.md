@@ -69,6 +69,47 @@ The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID.
 Use `graphql_introspect` on `RtbLineItemCapping` to discover viewability-related capping
 fields on individual line items.
 
+## Step 4 — Actual viewability metrics via mcpStats
+
+Settings audit (Steps 1–3) confirms what viewability configuration is in place.
+Use mcpStats to pull the actual measured viewability numbers for the same
+advertiser and period, so the audit report can show both "what is configured"
+and "what was actually measured". Validated query:
+
+```graphql
+{
+  mcpStats {
+    totalRowCount
+    totals
+    columns {
+      dimensions { campaign { id } }
+      metrics {
+        impressions
+        viewImpressionsIab
+        viewImpressionsPercentIAB
+        measurableImpressions
+        measurableImpressionsPercent
+        undeterminedImpressions
+        avgViewabilityTime
+      }
+    }
+    rows(
+      filter: {
+        date: { from: "2026-06-01", to: "2026-06-30" }
+        advertiser: { ids: ["2133936"] }
+      }
+      paging: { offset: 0, limit: 50 }
+      sort: [{ column: 0, direction: desc }]
+    )
+  }
+}
+```
+
+Join the mcpStats result to the campaign list from Step 1 using campaign ID. A
+campaign with deviating viewability settings (flagged in Step 2) should also
+show a materially different `viewImpressionsPercentIAB` in mcpStats — use this
+to quantify the reporting impact of the misconfiguration.
+
 ---
 
 ## Method
@@ -81,7 +122,12 @@ fields on individual line items.
 
 ## Presenting
 
-Consistency table: campaign, viewability type, duration (ms), and a verdict — MATCHES, DEVIATES,
-or NONE. Lead with deviations and missing measurement, as these break cross-campaign reporting
-comparability. Note any line-level overrides separately. Recommend aligning to the agreed
-standard.
+Consistency table: campaign, viewability type, duration (ms), and a settings
+verdict — MATCHES, DEVIATES, or NONE. Below the settings table, include a
+measured viewability table from mcpStats: campaign, impressions, viewable
+impressions (IAB), viewability rate %, measurable %, and avg viewability time.
+
+Cross-reference the two tables: campaigns with deviating settings should be
+expected to show divergent measured rates — flag the delta as the business
+impact. Lead with deviations and missing measurement. Note any line-level
+overrides separately. Recommend aligning to the agreed standard.
