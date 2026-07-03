@@ -65,6 +65,47 @@ Search deals by advertiser:
 { buyerDealGroup(id: "12345") { id name status dealIds } }
 ```
 
+## Step 4 — Confirm deal performance via mcpStats
+
+After identifying deals with low delivery in Step 1, pull actual performance
+stats per deal ID from mcpStats to get CTR, eCPM, and win rate as reported
+metrics (rather than delivery indications). Validated query:
+
+```graphql
+{
+  mcpStats {
+    totalRowCount
+    totals
+    columns {
+      dimensions { rtbDeal { id } }
+      metrics {
+        impressions
+        clicks
+        cost
+        ecpm
+        rtbBids
+        rtbWinRate
+        rtbMediaCost
+      }
+    }
+    rows(
+      filter: {
+        date: { from: "2026-06-01", to: "2026-06-30" }
+        advertiser: { ids: ["2133936"] }
+      }
+      paging: { offset: 0, limit: 50 }
+      sort: [{ column: 1, direction: desc }]
+    )
+  }
+}
+```
+
+Cross-reference the `rtbDeal.id` values in the result against the deal IDs from
+Step 1. A deal present in Step 1 but absent from mcpStats rows (or with zero
+impressions after metric post-filtering) confirms zero delivery. Use
+`rtbWinRate` to distinguish a pricing problem (low win rate, non-zero bids) from
+a supply problem (zero bids).
+
 ---
 
 ## Reading the results
@@ -77,6 +118,9 @@ For each deal, check:
   suggests pricing is below market; size a fix with adform-bid-landscape
 - `assignedToLineItemsCount` — a deal with zero assignments is not yet wired to any line item;
   `deliveryIndications` and `healthIndications` will be null in this case
+- Use Step 4 (mcpStats) to confirm zero delivery with actual reported metrics
+  rather than relying on delivery indications alone — the two sources together
+  provide higher confidence in the diagnosis
 
 ---
 

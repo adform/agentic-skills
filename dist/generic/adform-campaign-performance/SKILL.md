@@ -1,11 +1,11 @@
 ---
 name: adform-campaign-performance
 description: >-
-  Campaign delivery overview for Adform FLOW DSP. Portfolio-level view of campaign delivery
-  including spend, pacing, projected delivery, and budget deviation. **Important:** This provides
-  delivery metrics only - performance metrics like CTR, viewability, or eCPM are not available
-  through this system. For delivery health issues use delivery health checks; for creative details
-  use creative performance monitoring.
+  Campaign performance overview for Adform FLOW DSP. Portfolio-level view of campaigns
+  including spend, pacing, projected delivery, budget deviation, and — via mcpStats —
+  actual performance metrics such as CTR, viewability rate, video completion, and eCPM.
+  For delivery health issues use adform-delivery-health; for full dimensional reporting
+  use adform-stats-performance.
 ---
 
 # Campaign Delivery Overview
@@ -13,16 +13,23 @@ description: >-
 Portfolio-level campaign delivery metrics including spend, pacing, projected delivery, and budget
 deviation across all campaigns for an advertiser.
 
-## ⚠️ Metrics Availability
+## Metrics availability
 
-**Available Metrics:**
+**Delivery indications** (from `campaignDeliveryIndications`):
 - Current spend and budget utilization
-- Pacing status and delivery projections  
+- Pacing status and delivery projections
 - Budget deviation and flight progress
 - Delivery schedule status
 
-This skill focuses on delivery indicators and entity configuration for active campaigns.
-For performance analysis such as CTR or viewability, use campaign performance monitoring tools.
+**Performance metrics** (from `mcpStats`):
+- Impressions, clicks, CTR, eCPM, cost
+- Viewability rate (IAB), viewable impressions
+- Video completion rate, video starts
+- Conversions, eCPA, sales
+
+For a portfolio-level delivery sweep use the delivery indications pattern below.
+For performance metrics add an `mcpStats` call scoped to the same advertiser and
+date range — see adform-stats-performance for the full query reference.
 
 ## Connection & tooling
 
@@ -104,6 +111,46 @@ For a day-by-day spend view across multiple campaigns (max 30-day window):
   }
 }
 ```
+
+## Step 4 — Performance metrics per campaign (mcpStats)
+
+Retrieve CTR, viewability, and cost efficiency metrics for the same campaign
+set and date range. Validated query:
+
+```graphql
+{
+  mcpStats {
+    totalRowCount
+    totals
+    columns {
+      dimensions { date { date } campaign { id } }
+      metrics {
+        impressions
+        clicks
+        ctr
+        cost
+        ecpm
+        viewImpressionsIab
+        viewImpressionsPercentIAB
+        videoCompleteCount
+        videoCompletionRate
+        conversions
+      }
+    }
+    rows(
+      filter: {
+        date: { from: "2026-06-01", to: "2026-06-30" }
+        campaign: { ids: ["4221341"] }
+      }
+      paging: { offset: 0, limit: 100 }
+      sort: [{ column: 0, direction: asc }]
+    )
+  }
+}
+```
+
+Merge the mcpStats result with delivery indications client-side using campaign
+ID as the join key.
 
 ---
 

@@ -76,6 +76,45 @@ delivery indications for each line item:
 { rtbLineItemDeliveryIndications(id: "99999") { status effectiveFlightDailyCost } }
 ```
 
+## Step 5 — Quantify conflict with mcpStats domain breakdown
+
+Step 4 confirms both sides are live. Use mcpStats to pull actual impression
+volume by domain for the RTB line item to measure how much inventory is being
+won on the conflicting domains. Validated query:
+
+```graphql
+{
+  mcpStats {
+    totalRowCount
+    totals
+    columns {
+      dimensions { rtbDomain { name } }
+      metrics {
+        impressions
+        clicks
+        cost
+        ecpm
+        rtbBids
+        rtbWinRate
+      }
+    }
+    rows(
+      filter: {
+        date: { from: "2026-06-01", to: "2026-06-30" }
+        advertiser: { ids: ["2133936"] }
+      }
+      paging: { offset: 0, limit: 100 }
+      sort: [{ column: 1, direction: desc }]
+    )
+  }
+}
+```
+
+Filter the result client-side to only the domains identified as overlapping in
+Step 3. The impression volume on those domains is the quantity of inventory
+where self-competition is occurring. Include this in the conflict table as
+"impressions at risk" alongside the cost figure to communicate business impact.
+
 ---
 
 ## Method
@@ -87,6 +126,9 @@ delivery indications for each line item:
 
 ## Presenting
 
-Conflict table: the direct line item, the RTB line item, the overlap dimension (domains,
-audience, or placement), and whether both are currently live. Lead with overlaps where both
-sides are delivering. Recommend de-duplicating targeting to eliminate self-competition.
+Conflict table: the direct line item, the RTB line item, the overlap dimension
+(domains, audience, or placement), whether both are currently live, impressions
+at risk (from mcpStats domain breakdown), and cost at risk. Lead with overlaps
+where both sides are delivering. Quantify the scale of self-competition using the
+mcpStats impression count on conflicting domains. Recommend de-duplicating
+targeting to eliminate self-competition.
