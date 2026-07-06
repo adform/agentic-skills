@@ -24,6 +24,8 @@ desktop.ini
 \#*\#
 
 # ─── Project-specific ───────────────────────────────────────────────────────
-.claude-plugin/
+# NOTE: .claude-plugin/ is intentionally NOT ignored — the repo-root
+# .claude-plugin/marketplace.json and dist/claude/adform-agentic-skills/.claude-plugin/plugin.json
+# are committed so the marketplace is addable directly (claude plugin marketplace add adform/agentic-skills).
 plugins/
 *.sh

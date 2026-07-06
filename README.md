@@ -8,9 +8,14 @@ Read-only skills for the **Adform FLOW DSP** via the Adform GraphQL MCP server. 
 
 ```
 adform-agentic-skills/
+├── .claude-plugin/
+│   └── marketplace.json                # Claude Code marketplace manifest (points to dist/claude)
 ├── dist/
 │   ├── claude/
-│   │   └── adform-agentic-skills.zip   # Packaged plugin for Claude
+│   │   ├── adform-agentic-skills/       # Unpacked Claude plugin (installed via the marketplace)
+│   │   │   ├── .claude-plugin/plugin.json
+│   │   │   └── skills/
+│   │   └── adform-agentic-skills.zip    # Same plugin as a downloadable zip (fallback)
 │   └── generic/
 │       ├── adform-audience-discovery/
 │       ├── ... # other skills
@@ -28,9 +33,15 @@ All publishable artifacts live under `dist/`. They are organized by target model
 ## How to Use
 
 1. Connect your agentic AI system to the Adform GraphQL MCP server as outlined here: https://solutions.adform.com/tools/mcp-guides.
-2. Download the skills or plugins from the `dist/` directory.
-3. Import the skills into your agentic AI system.
-4. Use the skills to query and analyze Adform FLOW DSP data.
+2. Add and install the skills for your platform:
+   - **Claude Code (recommended)** — add this repo as a plugin marketplace and install the plugin:
+     ```
+     claude plugin marketplace add adform/agentic-skills
+     /plugin install adform-agentic-skills@adform-agentic-skills
+     ```
+     Or, as a fallback, upload `dist/claude/adform-agentic-skills.zip` via Customize → Plugins → "+".
+   - **Other platforms** — use the platform-agnostic skills under `dist/generic/`.
+3. Use the skills to query and analyze Adform FLOW DSP data.
 
 ---
 
