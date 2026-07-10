@@ -48,7 +48,7 @@ specialized data companies and cover various interests, demographics, and behavi
 
 **Key Information:**
 - Audience size and reach estimates
-- Pricing information (CPM rates)
+- Pricing information (CPM rates) — currency is **DKK by default**; pass `currencyCode` in the query to convert (e.g. `"EUR"`, `"USD"`)
 - Data provider details
 - Audience composition and demographics
 
@@ -64,7 +64,7 @@ specialized data companies and cover various interests, demographics, and behavi
 - Audience name and unique identifier
 - Estimated audience size and reach
 - Data provider information
-- Pricing details (CPM rates)
+- Pricing details (CPM rates in the requested currency — DKK if not specified)
 - Audience availability status
 
 **Example Use Cases:**
@@ -83,6 +83,12 @@ specialized data companies and cover various interests, demographics, and behavi
 | `audience.status` | Filter active/inactive |
 | `dataProvider.name` | Filter by provider name |
 
+**Currency note:** The `audienceMarketplaceListItems` query accepts an optional `currencyCode` argument (a `CurrencyCode` scalar). The API default is `"DKK"`. There is **no currency field on the price object itself** — currency is determined entirely by the `currencyCode` input parameter. Always pass this explicitly so the agent and user know what currency prices are in. Common values: `"DKK"`, `"EUR"`, `"USD"`, `"GBP"`.
+
+**Important:** Always ask the user which currency they want pricing displayed in before running a marketplace audience query. Do not assume a currency — confirm it first.
+
+The `price` object exposes three CPM fields: `cpm` (standard), `lookalikeCpm`, and `idFusionCpm`.
+
 **Example query:**
 ```graphql
 {
@@ -92,13 +98,14 @@ specialized data companies and cover various interests, demographics, and behavi
       { fieldName: "audience.name", operation: contains, values: ["UK"] }
     ]
     pagination: { offset: 0, limit: 20 }
+    currencyCode: "EUR"
   ) {
     audiences {
       id
       name
       thirdPartyAudienceId
       dataProvider { name }
-      price { cpm }
+      price { cpm lookalikeCpm idFusionCpm }
       composition { uidTotalCount }
     }
     totalCount
