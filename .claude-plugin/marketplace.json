@@ -1,0 +1,16 @@
+{
+  "name": "adform-agentic-skills",
+  "owner": {
+    "name": "Adform"
+  },
+  "plugins": [
+    {
+      "name": "adform-agentic-skills",
+      "source": "./dist/claude/adform-agentic-skills",
+      "description": "Read-only skills for the Adform Flow DSP via the Adform GraphQL MCP server.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "homepage": "https://github.com/adform/agentic-skills"
+    }
+  ]
+}
