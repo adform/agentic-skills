@@ -13,6 +13,8 @@ Forecast campaign performance metrics including projected impressions, unique re
 and maximum bid prices required to achieve specific KPI targets. This enables data-driven campaign
 planning and budget optimization.
 
+IDs for geo/device/content filters can be resolved via adform-classifier-lookup.
+
 ## Overview
 
 This forecasting tool analyzes your media plan parameters to predict campaign performance. The system

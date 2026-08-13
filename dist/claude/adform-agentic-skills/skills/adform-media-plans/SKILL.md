@@ -13,6 +13,8 @@ description: >-
 
 List, inspect, forecast, and get AI recommendations for media plans. Read-only.
 
+IDs for geo/device/content filters can be resolved via adform-classifier-lookup.
+
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` to
