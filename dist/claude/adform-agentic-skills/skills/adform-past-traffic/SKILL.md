@@ -14,6 +14,8 @@ How much real traffic did this inventory recently see? Returns unique cookies an
 for domains, apps, deals, inventory sources, or line items. Use this to ground a forecast in
 observed reality before targeting. Read-only.
 
+IDs for geo/device/content filters can be resolved via adform-classifier-lookup.
+
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_introspect`
