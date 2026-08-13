@@ -13,6 +13,8 @@ description: >-
 Inspect RTB and direct line items — config, inventory and deal wiring, audience targeting,
 delivery, creatives, media search, and tag creative audit. Read-only.
 
+IDs for geo/device/content filters can be resolved via adform-classifier-lookup.
+
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute(query, variables)` to run and

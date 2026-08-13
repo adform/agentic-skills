@@ -14,6 +14,8 @@ description: >-
 The CPM-versus-win-rate curve for an RTB line item: what share of auctions you win at each CPM,
 plus reachable cookies and requests. Use this to answer "what CPM do I need to win X%". Read-only.
 
+IDs for geo/device/content filters can be resolved via adform-classifier-lookup.
+
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute(query, variables)` to run and
