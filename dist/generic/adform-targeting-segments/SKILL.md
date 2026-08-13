@@ -13,6 +13,8 @@ description: >-
 Inspect domain and app targeting lists, browse segments and DMP taxonomy, and explore brand
 safety and contextual targeting providers and categories. Read-only.
 
+IDs for geo/device/content filters can be resolved via adform-classifier-lookup.
+
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute(query, variables)` to run and

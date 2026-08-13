@@ -12,7 +12,8 @@ description: >-
 # Adform geo reference, currency, and labels
 
 Search geo targeting reference data, look up currency exchange rates, and list label taxonomy.
-Read-only.
+Read-only. For the full classifier reference (device, network, content, mobile) see
+adform-classifier-lookup.
 
 ## Connection & tooling
 

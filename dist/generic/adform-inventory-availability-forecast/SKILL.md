@@ -15,6 +15,8 @@ description: >-
 Projects forward supply two ways: across an advertiser's PMP deals using recent traffic as a
 baseline, and across open-auction inventory filtered by geo and format. Read-only.
 
+IDs for geo/device/content filters can be resolved via adform-classifier-lookup.
+
 ## Connection & tooling
 
 Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graphql_search` to
