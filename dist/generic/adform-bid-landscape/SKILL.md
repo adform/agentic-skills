@@ -78,10 +78,16 @@ to read the curve.
 
 ## Presenting
 
-Lead with the actionable answer: the CPM needed to hit the trader's target win rate (interpolate
-the curve), then show the full curve as context, and the reachable cookies and requests for
-inventory sizing. State that forecasts are estimates and cross-check with adform-past-traffic if
-volume looks unexpected.
+Lead with the actionable answer: the bid cap needed to hit the trader's target win rate
+(interpolate the curve), then show the full curve as context, and the reachable cookies and
+requests for inventory sizing. State that forecasts are estimates and cross-check with
+adform-past-traffic if volume looks unexpected.
+
+**Important — check the pricing model first.** The bid landscape returns CPM values, but the
+line item's buying type determines which cap the trader should adjust. Read the line item's
+buying type before recommending a change. For example, a CPC line item has Max eCPC as the
+primary cap and Max CPM as a safety ceiling — recommending a CPM increase when the eCPC is the
+binding constraint will not help. See the pricing model table in adform-line-items.
 
 ---
 
