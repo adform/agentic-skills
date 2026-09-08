@@ -1,0 +1,27 @@
+# Code owners for adform/agentic-skills.
+#
+# All three contributors with write access own every critical path, so any one
+# of them can approve another's PR. This is what makes `require_code_owner_review`
+# viable — with a single owner, no PR could ever be approved.
+#
+# An owner listed here without write access is silently ignored by GitHub, so
+# re-check permissions when someone joins or leaves. Longer term these should be
+# an Adform Security or Engineering team rather than named individuals.
+#
+# Paths are ordered least- to most-specific; the last match wins.
+
+*                                   @surensilva @haferjir @ehrma
+
+# Install entrypoint. A change here can repoint the marketplace at any source.
+/.claude-plugin/                    @surensilva @haferjir @ehrma
+
+# Source of truth for skill content — where a malicious edit would be authored.
+/dist/generic/                      @surensilva @haferjir @ehrma
+
+# Build output that is committed and actually shipped to installers.
+/plugins/                           @surensilva @haferjir @ehrma
+/dist/claude/                       @surensilva @haferjir @ehrma
+
+# Anything that can execute during a build or in CI.
+/build-plugin.sh                    @surensilva @haferjir @ehrma
+/.github/                           @surensilva @haferjir @ehrma
