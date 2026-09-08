@@ -1,0 +1,23 @@
+# Code owners for adform/agentic-skills.
+#
+# INTERIM: every path below is owned by a single person. Reassign to an Adform
+# Security or Engineering team before treating this as a real review gate — a
+# one-person CODEOWNERS means that person cannot get their own PRs approved.
+#
+# Paths are ordered least- to most-specific; the last match wins.
+
+*                                   @surensilva
+
+# Install entrypoint. A change here can repoint the marketplace at any source.
+/.claude-plugin/                    @surensilva
+
+# Source of truth for skill content — where a malicious edit would be authored.
+/dist/generic/                      @surensilva
+
+# Build output that is committed and actually shipped to installers.
+/plugins/                           @surensilva
+/dist/claude/                       @surensilva
+
+# Anything that can execute during a build or in CI.
+/build-plugin.sh                    @surensilva
+/.github/                           @surensilva
