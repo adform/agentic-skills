@@ -12,10 +12,9 @@ adform-agentic-skills/
 │   └── marketplace.json                # Claude Code marketplace manifest (points to dist/claude)
 ├── dist/
 │   ├── claude/
-│   │   ├── adform-agentic-skills/       # Unpacked Claude plugin (installed via the marketplace)
-│   │   │   ├── .claude-plugin/plugin.json
-│   │   │   └── skills/
-│   │   └── adform-agentic-skills.zip    # Same plugin as a downloadable zip (fallback)
+│   │   └── adform-agentic-skills/       # Unpacked Claude plugin (installed via the marketplace)
+│   │       ├── .claude-plugin/plugin.json
+│   │       └── skills/
 │   └── generic/
 │       ├── adform-audience-discovery/
 │       ├── ... # other skills
@@ -39,7 +38,6 @@ All publishable artifacts live under `dist/`. They are organized by target model
      claude plugin marketplace add adform/agentic-skills
      /plugin install adform-agentic-skills@adform-agentic-skills
      ```
-     Or, as a fallback, upload `dist/claude/adform-agentic-skills.zip` via Customize → Plugins → "+".
    - **Other platforms** — use the platform-agnostic skills under `dist/generic/`.
 3. Use the skills to query and analyze Adform FLOW DSP data.
 

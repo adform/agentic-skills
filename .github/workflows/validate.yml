@@ -25,25 +25,5 @@ jobs:
       - name: Validate skill frontmatter
         run: python3 .github/scripts/validate_skills.py
 
-      - name: Check build output matches source
-        run: |
-          ./build-plugin.sh
-          # Only plugins/ is compared. build-plugin.sh also rewrites the .zip,
-          # whose bytes depend on file mtimes and so never reproduce on a fresh
-          # checkout — comparing it would fail every run regardless of content.
-          if ! git diff --exit-code -- plugins/; then
-            echo "::error::plugins/ does not match dist/generic/. Run ./build-plugin.sh and commit the result." >&2
-            exit 1
-          fi
-
-      - name: Check shipped plugin matches build output
-        run: |
-          # dist/claude/adform-agentic-skills is what marketplace.json installs,
-          # but build-plugin.sh does not generate it — it is maintained by hand
-          # and can silently drift from plugins/.
-          if ! diff -r -x '.DS_Store' \
-              plugins/adform-agentic-skills \
-              dist/claude/adform-agentic-skills; then
-            echo "::error::dist/claude/adform-agentic-skills differs from plugins/adform-agentic-skills." >&2
-            exit 1
-          fi
+      - name: Check shipped plugin matches source
+        run: python3 .github/scripts/check_shipped.py
