@@ -56,6 +56,29 @@ the placement ID.
 For inventory wiring, targeting rules, budget flights, pricing, and impression capping, use
 `graphql_introspect` on the relevant nested types before selecting those fields.
 
+### RTB pricing model reference
+
+Each line item has a buying type that determines which pricing field is the primary bid cap.
+Always read the line item's buying type before recommending a price change — do not assume CPM.
+
+| Buying Type | Required pricing field | Optional cap |
+|---|---|---|
+| Bid flat (fixed CPM) | **Fixed CPM** — fixed cost per thousand impressions | — |
+| Optimal price (dynamic CPM) | **Max CPM** — maximum cost per thousand impressions | — |
+| Maximize viewability rate | **Min vCPM** — minimum cost per thousand viewable impressions | Max CPM |
+| Maximize VCR | **Max video completion CPM** — maximum cost per thousand video completions | Max CPM |
+| Minimize viewable CPM | **Max eVCPM** — maximum effective cost per thousand viewable impressions | Max CPM |
+| Drive visitors to your site (CPC) | **Max eCPC** — maximum effective cost per click | Max CPM |
+| Drive visitors and increase visit depth (CPC quality) | **Max eCPC** — maximum effective cost per click | Max CPM |
+| Increase sales, subscriptions or other actions (CPA) | **Max eCPA** — maximum effective cost per action | Max CPM |
+| Increase ROAS | **Min ROAS** — minimum return on ad spend (%) | Max CPM |
+| Maximize video ad impact (AVOC) | **Max AVOC CPM** — maximum cost per thousand audible video completions | Max CPM |
+
+When Max CPM appears as an optional cap alongside another primary field (e.g. Max eCPC),
+it acts as a safety ceiling — the system will never bid above Max CPM regardless of the
+primary optimisation goal. Do not confuse the two: raising Max CPM alone will not help if the
+primary cap (e.g. Max eCPC) is the binding constraint.
+
 ### Get RTB line item delivery indications
 
 ```graphql

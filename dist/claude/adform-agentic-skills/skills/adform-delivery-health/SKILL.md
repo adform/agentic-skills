@@ -103,8 +103,10 @@ pricing or budget is flagged.
 - `bannerAssigned` — no eligible creative assigned to the line item; cannot serve until a
   creative is attached
 - `tagCreativeAudit` — creatives not yet approved for the targeted inventory sources
-- `pricing` — bid or CPM too low to win auctions, or pricing model misconfigured; size a fix
-  with adform-bid-landscape
+- `pricing` — the primary bid cap is too low to win auctions, or the pricing model is
+  misconfigured. Read the line item's buying type to identify which cap is relevant (e.g.
+  Max eCPC for CPC buying, Max CPM for dynamic CPM) before recommending a specific increase.
+  See the pricing model table in adform-line-items. Size a fix with adform-bid-landscape
 - `budget` — budget exhausted or a budget configuration issue
 - `schedule` — flight has ended, not yet started, or has a gap covering the current time
 - `advertiserIndustryVertical` — sensitive-vertical restriction blocking certain inventory
@@ -114,9 +116,10 @@ pricing or budget is flagged.
 ## Presenting
 
 Lead with the rolled-up status, then the specific failing check and a concrete recommended
-action for the trader to apply — for example "assign an approved creative", "raise CPM to
-approximately €X", or "the flight ended on DATE — extend the end date". This skill never
-changes anything.
+action for the trader to apply — for example "assign an approved creative", "raise the
+relevant bid cap (Max eCPC / Max CPM / etc.) to approximately X", or "the flight ended on
+DATE — extend the end date". Always name the correct cap for the line item's buying type.
+This skill never changes anything.
 
 If the line item is serving but pacing slowly rather than blocked entirely, use
 adform-pacing-check instead.

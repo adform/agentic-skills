@@ -107,8 +107,10 @@ Max 30-day window. Also available as `orderDailyDeliveryIndications` and
 - Strongly positive deviation — front-loading ahead of plan
 
 For the root cause when a line item cannot serve at all (no creative, audit pending, pricing or
-budget issue) use adform-delivery-health. For a CPM that would resolve an under-pacing pricing
-issue use adform-bid-landscape.
+budget issue) use adform-delivery-health. To size a bid cap increase that would resolve an
+under-pacing pricing issue, use adform-bid-landscape — but check the line item's buying type
+first to identify the correct cap to adjust (e.g. Max eCPC for CPC buying, Max CPM for dynamic
+CPM). See the pricing model table in adform-line-items.
 
 ## Presenting
 
