@@ -29,3 +29,8 @@ desktop.ini
 # are committed so the marketplace is addable directly (claude plugin marketplace add adform/agentic-skills).
 plugins/
 *.sh
+
+# The marketplace installs the unpacked dist/claude/adform-agentic-skills/.
+# build-plugin.sh still writes a zip alongside it; it is not distributed and
+# should not be committed, since it drifts from the source it was built from.
+dist/claude/*.zip

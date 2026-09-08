@@ -18,10 +18,8 @@
 # Source of truth for skill content — where a malicious edit would be authored.
 /dist/generic/                      @surensilva @haferjir @ehrma
 
-# Build output that is committed and actually shipped to installers.
-/plugins/                           @surensilva @haferjir @ehrma
+# What the marketplace actually installs.
 /dist/claude/                       @surensilva @haferjir @ehrma
 
-# Anything that can execute during a build or in CI.
-/build-plugin.sh                    @surensilva @haferjir @ehrma
+# Anything that can execute in CI.
 /.github/                           @surensilva @haferjir @ehrma
