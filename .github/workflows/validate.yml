@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 # Least privilege. No job here needs to write to the repo; do not widen this
 # without a reason, and never to write-all.
