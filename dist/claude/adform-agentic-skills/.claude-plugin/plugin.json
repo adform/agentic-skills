@@ -1,7 +1,7 @@
 {
   "name": "adform-agentic-skills",
   "description": "Read-only skills for the Adform Flow DSP via the Adform GraphQL MCP server.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Adform"
   },
