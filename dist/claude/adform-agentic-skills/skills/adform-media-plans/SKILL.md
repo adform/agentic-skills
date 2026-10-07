@@ -112,6 +112,13 @@ All enum values are **quoted strings** in the variables JSON: `"EUR"`, `"display
 `frequencyCappingRules` must always be an explicit empty array `[]`. Omit `inventorySources`
 unless the trader explicitly names specific sources.
 
+`currencyCode` is optional and defaults to **EUR** in the schema. It controls the currency of
+the monetary result fields (`spend`, `maxPrice`, and the `ecpc` / `viewableCpm` prediction
+blocks), and is independent of `mediaPlan.budget.currency`. Do not ask the trader which
+currency to use — pass the plan's own budget currency, or omit it and state that results are
+EUR. Always label monetary figures, and flag it explicitly when `currencyCode` and
+`budget.currency` differ. See adform-reach-forecast for the full forecast field reference.
+
 ## 4. Get AI optimisation recommendations
 
 The `mediaPlan` input requires `advertiserId` and `goals` at minimum. Fetch the plan first,
@@ -149,5 +156,7 @@ Use `graphql_introspect` on `MediaPlanRecommendationsMediaPlanInput` and
 ## Presenting
 
 Show plan summary with name, status, and key settings. For forecasts, present projected
-impressions, unique cookies, CTR, and spend clearly. For recommendations, list type and
-description. State that forecasts are estimates.
+impressions, unique cookies, CTR, and spend clearly — with spend labelled by its currency.
+For recommendations, list type and description. State that forecasts are estimates. Never
+compare or total budgets across plans in different currencies without converting explicitly
+(see adform-geo-reference).

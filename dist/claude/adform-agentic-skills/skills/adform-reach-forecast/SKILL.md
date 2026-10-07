@@ -38,6 +38,8 @@ returns a 500 server error at execution time due to MCP layer serialisation. Do 
 query ForecastScenario($mediaPlan: ForecastingKpisMediaPlanInput!, $currencyCode: CurrencyCode) {
   mediaPlanForecastingKpis(mediaPlan: $mediaPlan, currencyCode: $currencyCode) {
     ctr { kpi impressions spend maxPrice }
+    ecpc { kpi impressions spend maxPrice }
+    viewableCpm { kpi impressions spend maxPrice }
     forecast { impressions cookies }
   }
 }
@@ -82,8 +84,30 @@ query ForecastScenario($mediaPlan: ForecastingKpisMediaPlanInput!, $currencyCode
 - Channel values: `"display"`, `"native"`, `"video"`, `"tv"`, `"audio"`, `"dooh"`.
 - Always validate the query string with `graphql_validate` before executing.
 
-**Result fields under `ctr`:** `kpi`, `impressions`, `spend`, `maxPrice`
+**Goal prediction blocks:** `ctr`, `ecpc`, `viewableCpm`, `vcr`, `viewableRate`
+— each with the same shape: `kpi`, `impressions`, `spend`, `maxPrice`.
+`ecpc` and `viewableCpm` are the cost-efficiency predictions.
 **Result fields under `forecast`:** `impressions`, `cookies`
+
+### Currency
+
+`currencyCode` is optional and the schema defaults it to **EUR**
+(`currencyCode: CurrencyCode = "EUR"`). `spend` and `maxPrice` — and the whole
+of `ecpc` and `viewableCpm` — are monetary.
+
+- **Do not ask the user which currency to forecast in.** Either pass the
+  currency of the plan's own `budget.currency` (most useful, and what the
+  example above does with `"GBP"`), or omit it and state that figures are EUR.
+- Always label forecast money with its currency. Never print a bare number.
+- If `currencyCode` differs from `mediaPlan.budget.currency`, say so explicitly
+  — the budget is interpreted in its own currency while results come back in
+  `currencyCode`, and an unlabelled mix of the two is the easiest way to
+  mis-read a forecast.
+- Ask only if the forecast is going to an external audience, or if the user
+  names a currency. Then ask once and reuse the answer for the session.
+
+See adform-stats-performance for the full currency rules and
+adform-geo-reference for `currencyRate` conversion.
 
 ---
 
@@ -141,10 +165,15 @@ This approach allows you to test different scenarios before committing to change
 **Performance Metrics:**
 - **Target KPI:** The performance goal you set (e.g., click-through rate)
 - **Projected Impressions:** Expected ad deliveries at your target KPI
-- **Estimated Spend:** Projected campaign cost in your budget currency
-- **Maximum Bid Price:** Highest bid needed to achieve your KPI target
+- **Estimated Spend:** Projected campaign cost, in the currency passed as
+  `currencyCode` (EUR if omitted) — not necessarily the budget currency
+- **Maximum Bid Price:** Highest bid needed to achieve your KPI target, same
+  currency as spend
 - **Total Reach:** Forecasted unique audience reach
 - **Total Impressions:** Overall projected ad deliveries
+
+Always state the currency alongside spend and bid figures, and name it
+explicitly when it differs from the plan's budget currency.
 
 **Key Insights:**
 The forecast shows how different bid levels affect campaign performance. Higher bids typically

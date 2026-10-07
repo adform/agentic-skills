@@ -49,12 +49,38 @@ line-item geo targeting rules.
 
 ## Currency rates
 
-CurrencyCode is ISO 4217: `EUR`, `USD`, `DKK`, `GBP`, `SEK`, `NOK`, etc.
-Always pass currency codes as quoted strings (e.g. `"EUR"`, not `EUR`).
+`CurrencyCode` is a custom scalar, not an enum — ISO 4217 codes: `EUR`, `USD`,
+`DKK`, `GBP`, `SEK`, `NOK`, etc. Always pass them as quoted strings (e.g.
+`"EUR"`, not `EUR`).
+
+One target currency — both arguments are required:
 
 ```graphql
 { currencyRate(sourceCurrencyCode: "EUR", targetCurrencyCode: "USD") { sourceCurrencyCode targetCurrencyCode rate } }
 ```
+
+All available targets for one source — `sourceCurrencyCode` is required:
+
+```graphql
+{ currencyRates(sourceCurrencyCode: "EUR") { currencyRates { sourceCurrencyCode targetCurrencyCode rate } } }
+```
+
+### Using rates in cost reporting
+
+These two queries are the only sanctioned way to convert an Adform cost figure
+between currencies. The rules, which apply in every cost-reporting skill:
+
+- **Do not convert by default.** Adform returns costs in campaign currency;
+  report them in that currency and label it.
+- Convert only when results span more than one currency and the user has asked
+  for a single currency, when the figures are going to an external audience
+  (client report, invoice reconciliation, deck), or when the user names a
+  different currency.
+- **Never sum across currencies** without converting first.
+- Apply the rate explicitly, label the output as converted, and state the
+  source currency and the rate used. **Never convert silently.**
+
+The full cost and currency reference lives in adform-stats-performance.
 
 ---
 
@@ -78,5 +104,6 @@ Label group IDs are used in campaign, advertiser, and line-item label queries.
 
 - **Geo targeting setup**: search countries → search regions by `countryId` → search cities by
   `regionId` → use IDs in line-item geo targeting rules
-- **Currency conversion**: get currency rate for cross-currency budget comparisons
+- **Currency conversion**: get currency rate for cross-currency budget comparisons — state the
+  rate and label the result as converted
 - **Label resolution**: list label groups to map label IDs from campaigns and line items to names

@@ -77,12 +77,12 @@ metrics (rather than delivery indications). Validated query:
     totalRowCount
     totals
     columns {
-      dimensions { rtbDeal { id } }
+      dimensions { rtbDeal { id } campaign { currencyName } }
       metrics {
         impressions
         clicks
-        cost
-        ecpm
+        cost(costType: rtb)
+        ecpm(costType: rtb)
         rtbBids
         rtbWinRate
         rtbMediaCost
@@ -105,6 +105,17 @@ Step 1. A deal present in Step 1 but absent from mcpStats rows (or with zero
 impressions after metric post-filtering) confirms zero delivery. Use
 `rtbWinRate` to distinguish a pricing problem (low win rate, non-zero bids) from
 a supply problem (zero bids).
+
+> **Cost and currency.** `cost` and `ecpm` take a `costType` argument with no
+> documented default; `rtb` is used above because deals are RTB buys. State the
+> `costType` whenever you report either figure. Costs come back in campaign
+> currency only, hence the `campaign { currencyName }` dimension — label every
+> figure with it. Note that the deal's own `currencyCode` from Step 1 describes
+> the deal's floor price and need not match the buying campaign's currency, so
+> do not compare a floor price against an eCPM without checking both. Never
+> present `rtbMediaCost` as total spend — it is inventory cost only, excluding
+> Adform, trading desk, rich media, brand safety, contextual and ID Fusion
+> fees. See adform-stats-performance for the full cost reference.
 
 ---
 
@@ -130,3 +141,6 @@ Lead with deals showing zero or near-zero delivery alongside their status and fl
 show a full table of all deals with impressions, win rate %, and eCPM. Note the likely cause
 for each flagged deal and a recommended next step — re-price via adform-bid-landscape, confirm
 wiring via adform-line-items, or check supply via adform-past-traffic.
+
+Label floor prices and eCPM figures with their currency, and name the `costType` used for any
+cost or eCPM column.

@@ -38,6 +38,16 @@ This skill covers two complementary reporting surfaces:
 For dimensional performance queries, use `mcpStats` (see adform-stats-performance
 skill). For delivery pacing use the delivery indications queries in this skill.
 
+> **Cost and currency.** Any cost or eCP* metric pulled from `mcpStats` takes a
+> `costType` argument that has no documented default and materially changes the
+> figure. Costs are returned in campaign currency only — always select
+> `campaign { currencyName }`, always label the currency, and always state the
+> `costType` applied. `rtbMediaCost` is inventory cost only and must never be
+> presented as total spend. When a figure disagrees with a FLOW report,
+> `costType` is the first thing to check. The full cost metric tables, the RTB
+> fee breakdown and the currency rules live in adform-stats-performance — use
+> them rather than restating cost definitions here.
+
 ## Technical Operations
 
 The system uses GraphQL operations to process your requests:
@@ -74,7 +84,7 @@ total cost, daily cost, and status. Query one campaign at a time.
 
 ```graphql
 {
-  campaignDeliveryIndications(id: "4221341") {
+  campaignDeliveryIndications(id: "12345") {
     status
     goalType
     effectiveFlightTotalGoal
@@ -99,6 +109,14 @@ total cost, daily cost, and status. Query one campaign at a time.
 - `effectiveFlightDeviationPercentage` — negative = under-delivering; positive = over-delivering
 - `effectiveFlightTotalCost` — monetary spend regardless of goalType
 - `effectiveFlightDailyCost` — spend in the last day
+
+`effectiveFlightTotalCost` and `effectiveFlightDailyCost` are the two cost
+fields on the delivery-indication queries. They are **not** `mcpStats` metrics,
+so they take no `costType` argument, and they carry **no currency field** —
+figures are in the campaign's own currency. Resolve it from
+`campaigns { currency }` and label every figure. Because an `mcpStats` `cost`
+figure depends on which `costType` was applied, the two sources will not always
+agree; establish the `costType` before calling a difference a discrepancy.
 
 **Pattern — branding report for an advertiser**
 1. `advertisers(search: "name")` → get advertiser ID
@@ -152,7 +170,7 @@ One row per entity per day. Maximum window: 30 days. Accepts multiple IDs in one
 ```graphql
 {
   campaignDailyDeliveryIndications(
-    ids: ["4221341", "4221349", "4221354"]
+    ids: ["12345", "67890", "24680"]
     from: "2026-06-01"
     until: "2026-06-11"
   ) {
@@ -217,3 +235,7 @@ surface the largest gaps first.
 
 For daily breakdowns: show a day-by-day spend trend and note any days with zero daily cost as
 delivery gaps.
+
+Label every monetary figure with its currency, and never sum spend across campaigns in
+different currencies — report per currency, or convert explicitly via `currencyRate` and say
+so (see adform-geo-reference).

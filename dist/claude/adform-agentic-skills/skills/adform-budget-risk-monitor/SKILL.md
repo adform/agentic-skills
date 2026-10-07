@@ -101,12 +101,23 @@ Max 30-day window per call:
 - **Schedule gap**: `status: ScheduleGap` — currently outside an active flight, not a risk in
   itself unless the gap is unexpected
 
+**Currency.** `effectiveFlightTotalCost`, `effectiveFlightDailyCost` and the
+order `budget` field carry no currency field — they are in the entity's own
+currency. Resolve it from `campaigns { currency }` and label every figure,
+including the monetary amount at risk. Orders under one campaign share its
+currency, but a sweep spanning **multiple campaigns can span currencies**: in
+that case never add the amounts at risk into a single total. Report per
+currency, or ask the user whether to convert to one and convert explicitly via
+`currencyRate` (see adform-geo-reference). These fields take no `costType`
+argument — see adform-stats-performance for how that affects reconciliation
+against `mcpStats` cost figures.
+
 ---
 
 ## Presenting
 
 Risk table: entity (order or campaign), budget goal, current spend, projected spend, deviation
 %, and a verdict — UNDER-DELIVERING, OVER-DELIVERING, or ON TRACK. Lead with at-risk entities
-and the monetary amount in play. Suggest reallocating from under-delivering to over-delivering
+and the monetary amount in play, labelled with its currency. Suggest reallocating from under-delivering to over-delivering
 orders where it fits the plan. For a single entity's detailed pacing use adform-pacing-check;
 for a blocked entity use adform-delivery-health.
