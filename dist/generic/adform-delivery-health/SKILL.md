@@ -107,7 +107,11 @@ pricing or budget is flagged.
   misconfigured. Read the line item's buying type to identify which cap is relevant (e.g.
   Max eCPC for CPC buying, Max CPM for dynamic CPM) before recommending a specific increase.
   See the pricing model table in adform-line-items. Size a fix with adform-bid-landscape
-- `budget` — budget exhausted or a budget configuration issue
+- `budget` — budget exhausted or a budget configuration issue. To quantify
+  remaining budget use adform-pacing-check; if you add `mcpStats` cost metrics
+  to the diagnosis, follow the `costType` and currency rules in
+  adform-stats-performance — cost figures there have no documented default
+  `costType` and are returned in campaign currency only
 - `schedule` — flight has ended, not yet started, or has a gap covering the current time
 - `advertiserIndustryVertical` — sensitive-vertical restriction blocking certain inventory
 

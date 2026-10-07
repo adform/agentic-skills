@@ -67,7 +67,7 @@ Run once per campaign ID. Returns the active budget flight state.
 
 ```graphql
 {
-  campaignDeliveryIndications(id: "4221341") {
+  campaignDeliveryIndications(id: "12345") {
     status
     goalType
     effectiveFlightTotalGoal
@@ -89,6 +89,13 @@ Run once per campaign ID. Returns the active budget flight state.
 - `effectiveFlightDeviationPercentage` — negative = under-delivering; positive = over-delivering
 - `effectiveFlightTotalCost` — monetary spend regardless of goalType
 
+Delivery-indication costs carry **no currency field and no `costType`
+argument** — they are expressed in the campaign's own currency. Take the
+currency from `campaigns { currency }` in Step 1 and label every figure with
+it. These are not `mcpStats` metrics, so the `costType` guidance does not
+apply to them; do not reconcile them line-for-line against an `mcpStats`
+`cost` figure without first establishing which `costType` the latter used.
+
 ## Step 3 — Daily trend (optional)
 
 For a day-by-day spend view across multiple campaigns (max 30-day window):
@@ -96,7 +103,7 @@ For a day-by-day spend view across multiple campaigns (max 30-day window):
 ```graphql
 {
   campaignDailyDeliveryIndications(
-    ids: ["4221341", "4221349", "4221354"]
+    ids: ["12345", "67890", "24680"]
     from: "2026-06-01"
     until: "2026-06-11"
   ) {
@@ -123,13 +130,13 @@ set and date range. Validated query:
     totalRowCount
     totals
     columns {
-      dimensions { date { date } campaign { id } }
+      dimensions { date { date } campaign { id currencyName } }
       metrics {
         impressions
         clicks
         ctr
-        cost
-        ecpm
+        cost(costType: rtb)
+        ecpm(costType: rtb)
         viewImpressionsIab
         viewImpressionsPercentIAB
         videoCompleteCount
@@ -140,7 +147,7 @@ set and date range. Validated query:
     rows(
       filter: {
         date: { from: "2026-06-01", to: "2026-06-30" }
-        campaign: { ids: ["4221341"] }
+        campaign: { ids: ["12345"] }
       }
       paging: { offset: 0, limit: 100 }
       sort: [{ column: 0, direction: asc }]
@@ -151,6 +158,14 @@ set and date range. Validated query:
 
 Merge the mcpStats result with delivery indications client-side using campaign
 ID as the join key.
+
+> **Cost reporting rules.** `cost` and the eCP* metrics take a `costType`
+> argument with no documented default, and `mcpStats` returns costs in campaign
+> currency only. Always select `campaign { currencyName }`, always label the
+> currency, and always state which `costType` you applied — `rtb` above. Never
+> sum costs across campaigns in different currencies. `mcpStats` accepts at
+> most 10 metrics per query. See the canonical cost reference in
+> adform-stats-performance.
 
 ---
 

@@ -155,14 +155,65 @@ primary cap (e.g. Max eCPC) is the binding constraint.
 }
 ```
 
-Use `graphql_introspect` on `DirectLineItem` to discover available fields including pricing,
-volume, periods, and media UUID.
+Use `graphql_introspect` on `DirectLineItem` to discover remaining fields including periods
+and media UUID.
 
 ### Get direct line item
 
 ```graphql
 { directLineItem(id: "67890") { id name status } }
 ```
+
+### Direct line item pricing
+
+```graphql
+{
+  directLineItem(id: "67890") {
+    id name status buyingType
+    volume
+    grossPrice netPrice
+    grossAmount netAmount
+    rebate agencyCompensation
+    isFlatCost
+  }
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `grossPrice` / `netPrice` | Unit price, gross and net |
+| `grossAmount` / `netAmount` | Total amount, gross and net |
+| `rebate` | Rebate applied |
+| `agencyCompensation` | Agency compensation |
+| `isFlatCost` | Non-null boolean. When true the cost is flat rather than volume-driven |
+
+All of these except `isFlatCost` are nullable `Decimal` and carry **no currency
+field** — resolve the currency from the parent campaign
+(`campaigns { currency }`) and label every figure.
+
+> **Read `directLineItemFeesInputMode` before interpreting these numbers.**
+> Only three of the pricing fields are authoritative for a given agency; the
+> rest are derived and may be null or stale. The query is a root query taking
+> no arguments:
+>
+> ```graphql
+> { directLineItemFeesInputMode { mode } }
+> ```
+>
+> `mode` is a `DirectLineItemFeesInputModeType` with six values, each naming
+> the three fields that are authoritative:
+>
+> | Mode | Authoritative fields |
+> |---|---|
+> | `volumeGrossPriceRebate` | volume, grossPrice, rebate |
+> | `volumeGrossPriceNetAmount` | volume, grossPrice, netAmount |
+> | `volumeGrossPriceNetPrice` | volume, grossPrice, netPrice |
+> | `grossPriceNetPriceNetAmount` | grossPrice, netPrice, netAmount |
+> | `volumeGrossAmountNetAmount` | volume, grossAmount, netAmount |
+> | `netAmountRebateVolume` | netAmount, rebate, volume |
+>
+> Report the authoritative fields for the active mode and say which mode is in
+> effect. Do not recompute or contradict a derived field from the other two.
 
 ### Get direct line item delivery indications
 
@@ -223,7 +274,7 @@ per inventory source.
 ```graphql
 {
   tagCreativeAuditInventorySources(
-    tagId: "85543973"
+    tagId: "12345678"
     pagination: { offset: 0, limit: 50 }
   ) {
     totalCount
@@ -239,10 +290,13 @@ Status values: `notSent`, `inProgress`, `approved`, `rejected`, `notSupported`.
 ## Common patterns
 
 - **Line-item drill-down**: list RTB line items by order → get RTB line item for full config
-- **Direct plan review**: list direct line items → search media to resolve publisher names
+- **Direct plan review**: read `directLineItemFeesInputMode` → list direct line items →
+  report the authoritative pricing fields for that mode → search media to resolve publisher names
 - **Creative audit**: list campaign tags (adform-tracking-tags) → tag creative audit per tag
 
 ## Presenting
 
 Show line items in a table with key fields. For targeting, render rules as structured bullet
-lists. For direct line items, include financial fields with currency.
+lists. For direct line items, include financial fields with currency — resolved from the parent
+campaign, since the pricing fields carry none — and name the active
+`directLineItemFeesInputMode` so the reader knows which figures are authoritative.

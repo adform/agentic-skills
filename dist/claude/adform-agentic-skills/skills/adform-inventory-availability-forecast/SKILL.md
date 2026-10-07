@@ -91,9 +91,56 @@ Resolve geo IDs for filtering using adform-geo-reference.
 
 ---
 
-## Presenting
+## Available impressions and cost via mcpInventoryStats
+
+`mcpInventoryStats` gives publisher-side available impressions alongside cost
+efficiency, which is the cheapest way to size supply and price it in one call.
+Validated:
+
+```graphql
+{
+  mcpInventoryStats {
+    columns {
+      dimensions { deal { inventoryDealId } inventorySource { id } }
+      metrics { dealAvailableImpressions ecpmMediaReach ecpm }
+    }
+    rows(
+      filter: { date: { from: "2026-09-01", to: "2026-10-06" } }
+      paging: { offset: 0, limit: 50 }
+      currencyCode: "EUR"
+    )
+    totals
+  }
+}
+```
+
+Like `mcpStats`, the `columns` selections return **column indices** into the
+`rows` 2D array, not values. The deal dimension field is `inventoryDealId`
+(there is no `id`), and `inventorySource` exposes only `id`.
+
+**Available-impression metrics** — each counts publisher offers at a different
+grouping level, so pick the one matching your dimension: `dealAvailableImpressions`,
+`dealAdTypeAvailableImpressions`, `dealChannelAvailableImpressions`,
+`dealEnvironmentAvailableImpressions`, `dealVastVersionAvailableImpressions`.
+
+**Cost metrics:** `ecpm`, `ecpmMediaReach`, `ecpc`, `ecpmv`.
+`ecpmMediaReach` is cost per thousand **media unique** impressions and has
+**no `mcpStats` equivalent** — it is only available here. Note that none of
+these take a `costType` argument, unlike their `mcpStats` namesakes, so they
+cannot be qualified to RTB spend.
+
+**Currency:** `rows` takes a `currencyCode` argument. Unlike the marketplace
+queries, the schema declares **no default** for it. DKK is the documented
+platform default, but since it is not in the signature, either pass
+`currencyCode` explicitly (as above) or confirm the currency from the returned
+values before labelling. Never print a bare cost figure. See
+adform-stats-performance for the full currency rules.
 
 Deals: table with deal name, status, floor price, baseline daily requests, and projected
 30-day available impressions. Open auction: table by inventory source with addressable
 cookies and requests. Lead with the headline total and the largest sources.
 State that projections extrapolate recent supply and are not guarantees.
+
+Label floor prices and any eCPM figure with its currency, and name the currency you passed to
+or read back from `mcpInventoryStats`. A deal's `currencyCode` need not match the currency the
+cost metrics are reported in — do not mix the two in one column.

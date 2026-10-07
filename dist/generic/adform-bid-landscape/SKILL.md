@@ -74,6 +74,14 @@ pricing, periods, and environments into the input.
 `cpms` and `winRates` are parallel arrays — pair index N of `cpms` with index N of `winRates`
 to read the curve.
 
+**Currency.** The forecast returns no currency field, and `rtbLineItemForecasting` takes no
+`currencyCode` argument. The `cpms` values and the line item's `deals.bidPrice` are in the
+parent campaign's currency — resolve it from `campaigns { currency }` for the
+`campaignId` you passed, and label every CPM figure with it. Never present a bare CPM number,
+and never compare a CPM recommendation against a deal floor price without first confirming
+both are in the same currency (deal `currencyCode` is independent — see
+adform-inventory-deals).
+
 ---
 
 ## Presenting

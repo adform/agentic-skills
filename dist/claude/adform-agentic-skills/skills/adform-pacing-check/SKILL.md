@@ -28,7 +28,7 @@ For RTB line items, the `id` parameter requires the RTB setup ID (returned as `i
 
 ```graphql
 {
-  campaignDeliveryIndications(id: "4221341") {
+  campaignDeliveryIndications(id: "12345") {
     status
     goalType
     effectiveFlightTotalGoal
@@ -81,7 +81,7 @@ Max 30-day window. Also available as `orderDailyDeliveryIndications` and
 ```graphql
 {
   campaignDailyDeliveryIndications(
-    ids: ["4221341"]
+    ids: ["12345"]
     from: "2026-05-13"
     until: "2026-06-12"
   ) {
@@ -106,6 +106,14 @@ Max 30-day window. Also available as `orderDailyDeliveryIndications` and
 - Strongly negative deviation — under-pacing; shortfall = `totalGoal − projected`
 - Strongly positive deviation — front-loading ahead of plan
 
+`effectiveFlightTotalCost` and `effectiveFlightDailyCost` carry **no currency
+field** — they are in the campaign's own currency. Resolve it from
+`campaigns { currency }` and label every monetary figure, including the
+shortfall amount. These fields take no `costType` argument, so a pacing spend
+figure will not necessarily match an `mcpStats` `cost` figure for the same
+window — that depends on which `costType` the latter used. See
+adform-stats-performance before treating a gap between the two as an error.
+
 For the root cause when a line item cannot serve at all (no creative, audit pending, pricing or
 budget issue) use adform-delivery-health. To size a bid cap increase that would resolve an
 under-pacing pricing issue, use adform-bid-landscape — but check the line item's buying type
@@ -116,3 +124,4 @@ CPM). See the pricing model table in adform-line-items.
 
 Lead with the verdict — on track / under-delivering / over-delivering / in a schedule gap —
 then the numbers: spend vs goal, projected vs goal, deviation %. Recommend a concrete next step.
+Label every monetary figure with the campaign currency; never print a bare number.

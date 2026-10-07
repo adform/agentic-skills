@@ -112,9 +112,51 @@ Reverse lookup — ID to name:
     id name status type
     industryVerticalId timeZoneMappingId
     trackingDomain netAmountCalcMethod
+    hourlyBillingRate vat vatNumber
   }
 }
 ```
+
+### Billing fields — advertiser vs agency
+
+The two entities do **not** expose the same billing fields. Check which type
+you are on before selecting:
+
+| Field | Advertiser | Agency |
+|---|---|---|
+| `hourlyBillingRate` | yes | yes |
+| `vat` / `vatNumber` | yes | yes |
+| `netAmountCalcMethod` | yes | **no** — the agency equivalent is `netAmountMethod` |
+| `budgetLimitPerMonth` | **no** | yes — RTB budget limit, **denominated in EUR** regardless of the agency's own currency |
+
+`budgetLimitPerMonth` being EUR-only is a common source of confusion: do not
+label it with the agency currency, and do not compare it directly against
+campaign spend in another currency without converting (see
+adform-geo-reference).
+
+## 5b. Cost settings
+
+Cost configuration is exposed at two levels, with **different field names on
+each** — they are not parallel shapes.
+
+Advertiser level:
+
+```graphql
+{ costSettings(id: "71883") { costSettings { typeId settingId sequenceNumber title value } } }
+```
+
+Agency level — note `sequenceNo`, not `sequenceNumber`, plus an `active` flag
+and no `settingId`:
+
+```graphql
+{ agencyCostSettings(id: "12345") { costSettings { typeId title value active sequenceNo } } }
+```
+
+Both are also reachable as `advertiser(id:) { costSettings { ... } }` and
+`agency(id:) { agencyCostSettings { ... } }`. `value` is a plain `Float` with
+no currency field attached — resolve the currency from the owning entity, and
+do not assume it matches a campaign's currency. These are configuration, not
+spend; for actual cost use adform-stats-performance.
 
 ## 6. Get advertiser labels
 

@@ -63,6 +63,18 @@ The deal `id` is composite: `{inventorySourceId}_{dealId}`.
 
 ---
 
+### Deal pricing
+
+`price` is the deal's floor or fixed price, paired with `currencyCode` on the
+same object — always report the two together and never print a bare number.
+
+The deal's `currencyCode` describes the deal, and need not match the currency
+of the campaign buying it. Do not compare a floor price against a campaign-side
+eCPM without checking both currencies first, and convert explicitly via
+`currencyRate` if you need to (see adform-geo-reference).
+
+---
+
 ## 2. Browse inventory sources
 
 Use pagination only — do not pass filters or sortBy on this query.
@@ -77,6 +89,18 @@ Use pagination only — do not pass filters or sortBy on this query.
   }
 }
 ```
+
+This query also accepts `currencyCode`, which defaults to **EUR** in the schema
+(`currencyCode: CurrencyCode = "EUR"`). Leave it unset and state that figures
+are in EUR rather than asking the user for a currency.
+
+> `stats.ecpm` and `stats.ecpc` are **not selectable fields** on the returned
+> types — selecting `stats` fails validation. They are filter and sort
+> *field-name strings*, as the `currencyCode` argument's own docstring
+> indicates ("Used for cost related fields (e.g.: stats.ecpm, stats.ecpc)").
+> Note that this conflicts with the pagination-only guidance above, which was
+> derived from the query misbehaving when passed filters or `sortBy` — verify
+> with `graphql_execute` before relying on `stats.*` sorting here.
 
 ---
 
@@ -185,3 +209,7 @@ Must provide `advertiserId` or `campaignId`. Do not pass a sort argument.
 Show deals in a table with name, type (private/preferred), inventory source, floor price,
 currency, and status. For past traffic, show cookies and requests per item and flag thin
 inventory where volume may not support the planned budget.
+
+Never present floor prices from deals in different currencies in a single total or average.
+For deal delivery and eCPM against actual spend use adform-deal-health-check; the cost metric
+reference is in adform-stats-performance.

@@ -85,3 +85,8 @@ fields.
 Summarise the plan: advertiser, flight dates, budget, currency, KPI goals, and key targeting.
 Present recommendations as a prioritised list explaining what each would change and why a trader
 might apply or skip it. To estimate what the plan would deliver, use adform-reach-forecast.
+
+The plan's currency is `budget.currency` — always state it alongside the budget amount rather
+than printing a bare number, and do not total budgets across plans in different currencies.
+When reviewing several plans, report per currency, or convert explicitly via `currencyRate`
+(adform-geo-reference) and label the result as converted.

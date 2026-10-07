@@ -85,7 +85,13 @@ specialized data companies and cover various interests, demographics, and behavi
 
 **Currency note:** The `audienceMarketplaceListItems` query accepts an optional `currencyCode` argument (a `CurrencyCode` scalar). The API default is `"DKK"`. There is **no currency field on the price object itself** — currency is determined entirely by the `currencyCode` input parameter. Always pass this explicitly so the agent and user know what currency prices are in. Common values: `"DKK"`, `"EUR"`, `"USD"`, `"GBP"`.
 
-**Important:** Always ask the user which currency they want pricing displayed in before running a marketplace audience query. Do not assume a currency — confirm it first.
+**Do not ask the user which currency to use before running the query.** Pass `"EUR"` (or whatever
+currency the surrounding campaign work is already in), or omit it and let DKK apply — then state the
+currency alongside every CPM you report. Ask only when: prices need comparing against figures
+already in another currency, the user signals the output is for an external audience (a client
+report, a deck, invoice reconciliation), or the user names a currency themselves. Ask once and reuse
+the answer for the rest of the session. See adform-stats-performance for the full currency rules and
+adform-geo-reference for `currencyRate` conversion.
 
 The `price` object exposes three CPM fields: `cpm` (standard), `lookalikeCpm`, and `idFusionCpm`.
 
