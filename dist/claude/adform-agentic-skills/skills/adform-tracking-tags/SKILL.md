@@ -24,10 +24,33 @@ look up field names; use `graphql_introspect` for nested tag and ad types. Keep 
 
 ## Tracking points
 
+Tracking points belong to a tracking setup, not a media campaign, so query them by
+`trackingSetupId`. A media campaign ID returns an empty list with no error.
+
+Starting from a campaign, get its advertiser ID:
+
+```graphql
+{
+  agencyListItems(
+    filters: [{ fieldName: "campaign.id", operation: eq, values: ["3993873"] }]
+  ) {
+    campaigns { id advertiser { id } }
+  }
+}
+```
+
+Get the advertiser's tracking setup ID:
+
+```graphql
+{ tracking(id: "2133350") { trackingSetupId } }
+```
+
+Then list the tracking points:
+
 ```graphql
 {
   trackingPoints(
-    campaignId: 3993873
+    trackingSetupId: 2742581
     active: true
     limit: 50
     offset: 0
@@ -126,8 +149,8 @@ First get the integer `id` and `adType` from `adByUuid`, then:
   SSP approval status
 - **Creative inspection**: get ad by UUID → get ad members for rotators → get published ad
   for the live version
-- **Tracking point discovery**: list tracking points to find conversion points for use in
-  targeting or reporting filters
+- **Tracking point discovery**: resolve the advertiser's tracking setup ID → list tracking
+  points to find conversion points for use in targeting or reporting filters
 
 ## Presenting
 
