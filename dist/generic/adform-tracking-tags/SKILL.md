@@ -24,8 +24,8 @@ look up field names; use `graphql_introspect` for nested tag and ad types. Keep 
 
 ## Tracking points
 
-Tracking points belong to a tracking setup, not a media campaign, so query them by
-`trackingSetupId`. A media campaign ID returns an empty list with no error.
+Tracking points belong to a tracking setup, which is linked to an advertiser and can be shared
+by several advertisers.
 
 Starting from a campaign, get its advertiser ID:
 
@@ -39,7 +39,8 @@ Starting from a campaign, get its advertiser ID:
 }
 ```
 
-Get the advertiser's tracking setup ID:
+Get the advertiser's tracking setup ID. A `NOT_FOUND` error with `tracking: null` means the
+advertiser has no tracking setup:
 
 ```graphql
 { tracking(id: "2133350") { trackingSetupId } }
@@ -60,6 +61,25 @@ Then list the tracking points:
   }
 }
 ```
+
+### Check for a shared tracking setup
+
+Tracking points have no advertiser field, so results from a shared setup can't be split by
+advertiser. Whenever you list tracking points, list the advertisers and compare their
+`trackingSetupId` values to find which ones use the same setup:
+
+```graphql
+{
+  advertisers(limit: 100, offset: 0) {
+    advertisers { id name tracking { trackingSetupId } }
+    totalCount
+  }
+}
+```
+
+Page through until you reach `totalCount`. Advertisers with no tracking setup return
+`tracking: null` with a `NOT_FOUND` error for that entry; the rest of the response is still
+valid. This check only covers advertisers the user can access.
 
 ## Tracking filters
 
@@ -150,9 +170,14 @@ First get the integer `id` and `adType` from `adByUuid`, then:
 - **Creative inspection**: get ad by UUID → get ad members for rotators → get published ad
   for the live version
 - **Tracking point discovery**: resolve the advertiser's tracking setup ID → list tracking
-  points to find conversion points for use in targeting or reporting filters
+  points to find conversion points for use in targeting or reporting filters → check whether
+  the setup is shared
 
 ## Presenting
 
 Show tracking points and tags in tables with status, type, and key metadata. For tracking
 filters, render the rule set as structured bullet lists.
+
+If the tracking setup is shared, say so above the tracking points table: state that the points
+come from a setup shared by other advertisers, name those advertisers, and explain that the
+points can't be attributed to a single advertiser.
