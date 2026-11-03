@@ -72,6 +72,9 @@ Run once per order ID:
 }
 ```
 
+No data from these lookups does not mean the campaign or order has no delivery, so do not count
+it as under-delivering. See "When campaign or order delivery returns no data" in adform-pacing-check.
+
 ## Step 4 — Daily trend for at-risk entities (optional)
 
 Max 30-day window per call:

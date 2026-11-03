@@ -83,6 +83,9 @@ Run once per campaign ID. Returns the active budget flight state.
 }
 ```
 
+No data from these lookups does not mean the campaign has no delivery. See "When campaign or
+order delivery returns no data" in adform-pacing-check.
+
 **Field reference**
 - `goalType`: `Money` | `Impressions` | `Clicks` | `Unlimited`
 - `status`: `Active` | `ScheduleGap` | `Finished`

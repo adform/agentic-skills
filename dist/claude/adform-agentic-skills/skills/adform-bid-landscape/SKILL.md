@@ -35,7 +35,7 @@ pricing, periods, and environments into the input.
 
 ## Method
 
-1. Read the live line item using `rtbLineItem(id:)` (the `id` is the RTB setup ID from `rtbLineItems()`, not the placement ID) to get current targeting, inventory, and pricing
+1. Read the live line item using `rtbLineItem(id:)` (the `id` is the RTB setup ID from `rtbLineItems()`, not the placement ID) to get current targeting, inventory, and pricing. A line item ID from the user is the placement ID, so resolve it first (see "Resolve a line item ID" in adform-line-items)
 2. Mirror the complete line item structure into the `ForecastingRtbLineItemInput` payload
 3. Run `rtbLineItemForecasting` with the mirrored input
 4. Pair `cpms` and `winRates` arrays by index to read the CPM-vs-win-rate curve
@@ -50,9 +50,15 @@ pricing, periods, and environments into the input.
     id name environments orderId campaignId
     inventories { id buyingType deals { id bidPrice } }
     targetings { id name bidMultiplier }
+    categories { contextual { providerId ids } }
   }
+  contextualTargetingProviders { providers { id } }
 }
 ```
+
+The forecasting input (`ForecastingRtbLineItemCategoriesInput`) accepts IAB and mobile categories
+only. When `categories.contextual` is set, tell the user the forecast does not include contextual
+targeting and will overstate reachable supply.
 
 ### Run the forecast
 

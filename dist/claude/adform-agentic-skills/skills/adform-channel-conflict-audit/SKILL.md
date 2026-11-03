@@ -55,10 +55,20 @@ sequential (~1–2s apart).
 For RTB line items, use `graphql_introspect` on `RtbLineItemAudience` to select targeting
 rules including domains, audience segments, and locations:
 
-The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID.
+The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID. A line item ID
+from the user is the placement ID, so resolve it first (see "Resolve a line item ID" in
+adform-line-items).
 
 ```graphql
-{ rtbLineItem(id: "99999") { id targetings { id name bidMultiplier } inventories { id buyingType } } }
+{
+  rtbLineItem(id: "99999") {
+    id name
+    targetings { id name bidMultiplier }
+    inventories { id buyingType }
+    categories { contextual { providerId ids } }
+  }
+  contextualTargetingProviders { providers { id } }
+}
 ```
 
 Resolve domain targeting list IDs to actual domains:

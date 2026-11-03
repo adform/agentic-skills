@@ -28,6 +28,44 @@ values, or union/interface resolution.
 
 ## RTB line items
 
+### Resolve a line item ID
+
+A line item ID from the user, or shown in the Adform FLOW UI, is the placement ID. RTB queries take
+the RTB setup ID, which is the ID in the line item's URL (`/campaign/line-item/99999/edit-rtb`).
+Look up the setup ID before running an RTB query, rather than searching by name:
+
+```graphql
+{
+  agencyListItems(
+    filters: [{ fieldName: "lineItem.id", operation: eq, values: [67890] }]
+    pagination: { offset: 0, limit: 1 }
+  ) {
+    lineItems { id rtbSetupId type name }
+  }
+}
+```
+
+- `id` is the placement ID and `rtbSetupId` is the setup ID. `rtbSetupId` is null for direct line
+  items, which use the placement ID throughout.
+- If the user gives a URL, use the ID from it as the setup ID.
+- If the lookup returns no line item, the ID may be a setup ID. Filter on `lineItem.rtbSetupId`
+  with the same query to confirm it.
+- `rtbLineItems()` returns the setup ID as `id` and the placement ID as `placementId`.
+- `mcpStats` `lineItem` IDs are placement IDs.
+
+### When a lookup returns no data
+
+Give the user the reason below instead of the raw response.
+
+| Lookup | Returns no data when | Tell the user |
+|---|---|---|
+| `rtbLineItem`, `rtbLineItemDeliveryIndications` | The ID is not an RTB setup ID | Resolve the ID first. If `rtbSetupId` is null, this is a direct line item, so RTB details do not apply |
+| `rtbLineItemDeliveryHealth` | The schedule has ended, or the ID is not an RTB setup ID | "Delivery health is not available because the schedule ended on DATE". `rtbLineItemDeliveryIndications` still returns data |
+| `directLineItem` | The ID is not a direct line item's placement ID | Resolve the ID first |
+| `directLineItemDeliveryIndications` | No delivery in the last 13 months, or the ID is not a direct line item's placement ID | "No delivery recorded in the last 13 months". Earlier delivery may not be visible |
+| `campaignDeliveryIndications`, `orderDeliveryIndications`, and their daily versions | The campaign or order has only direct line items | "Campaign-level pacing could not be assessed", as direct line items have no RTB data. See adform-pacing-check |
+| `rtbLineItemDailyDeliveryIndications` | The ID is not an RTB setup ID | Resolve the ID first |
+
 ### List RTB line items
 
 ```graphql
@@ -46,12 +84,22 @@ values, or union/interface resolution.
 ### Get RTB line item — core config
 
 ```graphql
-{ rtbLineItem(id: "99999") { id name environments orderId campaignId paused deleted } }
+{
+  rtbLineItem(id: "99999") {
+    id name environments orderId campaignId paused deleted
+    categories { contextual { providerId ids } }
+  }
+  contextualTargetingProviders { providers { id } }
+}
 ```
 
 The `id` used in `rtbLineItem(id:)`, `rtbLineItemDeliveryHealth(id:)`, and
 `rtbLineItemDeliveryIndications(id:)` is the RTB setup ID returned by `rtbLineItems()`, not
 the placement ID.
+
+Read single line items with this shape. `rtbLineItems()` (plural) returns `RtbLineItemSummary`:
+id, name, order, campaign, environments, paused/deleted, budget, periods, pricing and domains
+only. It has no categories, targetings, inventories or deals, so use `rtbLineItem(id:)` for those.
 
 For inventory wiring, targeting rules, budget flights, pricing, and impression capping, use
 `graphql_introspect` on the relevant nested types before selecting those fields.
@@ -220,10 +268,18 @@ field** — resolve the currency from the parent campaign
 ```graphql
 {
   directLineItemDeliveryIndications(id: "67890") {
-    status
+    bookingType
+    totalGoal totalProjected totalRemaining
+    totalDelivery { impressions clicks deliveryDeviationPercentage }
   }
 }
 ```
+
+`totalGoal: 0` means there is no booked goal to measure pacing against. `deliveryDeviationPercentage`
+also returns 0 in that case, so do not read it as on track.
+
+No data from this lookup means the line item has no delivery recorded in the last 13 months, or the
+ID is wrong. `directLineItem(id:)` confirms whether the ID exists.
 
 ---
 
