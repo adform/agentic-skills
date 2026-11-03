@@ -69,7 +69,7 @@ sequential (~1–2s apart).
 - `paging.limit` is typed as `Limit` scalar — use integers up to a reasonable
   page size (50–200); paginate with `offset` for large result sets.
 - **At most 10 metrics per query.** An 11th returns `tooManyMetrics`
-  (HTTP 500, "Too many metrics provided"). To pull a wider metric set, split it
+  (a 500 error, "Too many metrics provided"). To pull a wider metric set, split it
   across several queries with identical dimensions and filter, then join the
   results on the dimension columns. This bites hardest on the cost tables
   below — a full RTB fee breakdown does not fit in one call.
