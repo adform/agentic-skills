@@ -110,6 +110,9 @@ total cost, daily cost, and status. Query one campaign at a time.
 - `effectiveFlightTotalCost` — monetary spend regardless of goalType
 - `effectiveFlightDailyCost` — spend in the last day
 
+No data from these lookups does not mean the campaign has no delivery. See "When campaign or
+order delivery returns no data" in adform-pacing-check.
+
 `effectiveFlightTotalCost` and `effectiveFlightDailyCost` are the two cost
 fields on the delivery-indication queries. They are **not** `mcpStats` metrics,
 so they take no `costType` argument, and they carry **no currency field** —
@@ -147,7 +150,8 @@ Same field shape as campaign. One order at a time.
 ## 3. RTB line item delivery indications
 
 Same field shape as campaign. One line item at a time. The `id` is the RTB setup ID returned
-by `rtbLineItems()`, not the placement ID.
+by `rtbLineItems()`, not the placement ID. A line item ID from the user is the placement ID, so
+resolve it first (see "Resolve a line item ID" in adform-line-items).
 
 ```graphql
 {
@@ -215,6 +219,9 @@ or `Critical`.
   }
 }
 ```
+
+If a lookup returns no data, give the reason from "When a lookup returns no data" in
+adform-line-items.
 
 ---
 

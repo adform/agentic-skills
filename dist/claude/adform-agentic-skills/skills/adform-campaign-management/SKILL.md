@@ -71,7 +71,10 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
 ### Get campaign brand safety
 
 ```graphql
-{ campaignBrandSafety(id: "3993873") { enabled providerId blockedCategories blockUncategorized } }
+{
+  campaignBrandSafety(id: "3993873") { enabled providerId blockedCategories blockUncategorized }
+  brandSafetyProviders { providers { id } }
+}
 ```
 
 ### Get campaign delivery indications — current pacing snapshot
@@ -87,6 +90,9 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
   }
 }
 ```
+
+No data from these lookups does not mean the campaign has no delivery. See "When campaign or
+order delivery returns no data" in adform-pacing-check.
 
 ### Get campaign daily delivery — time-series (max 30 days)
 

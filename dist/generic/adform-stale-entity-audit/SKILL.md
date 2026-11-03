@@ -53,6 +53,8 @@ Flag any campaign where `endDate` is before today. Check whether it is still spe
 ```
 
 A non-zero `effectiveFlightDailyCost` means the campaign is still spending after its end date.
+No data from this lookup does not show that it has stopped. See "When campaign or order delivery returns no data" in
+adform-pacing-check.
 
 ---
 

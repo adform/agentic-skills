@@ -60,10 +60,19 @@ If your organisation tracks a viewability provider or percentage threshold separ
 
 ## Step 3 — Spot-check line-level overrides
 
-The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID.
+The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID. A line item ID
+from the user is the placement ID, so resolve it first (see "Resolve a line item ID" in
+adform-line-items).
 
 ```graphql
-{ rtbLineItem(id: "99999") { id impressionCappings { frequency { impressions } } } }
+{
+  rtbLineItem(id: "99999") {
+    id name
+    impressionCappings { frequency { impressions } }
+    categories { contextual { providerId ids } }
+  }
+  contextualTargetingProviders { providers { id } }
+}
 ```
 
 Use `graphql_introspect` on `RtbLineItemCapping` to discover viewability-related capping

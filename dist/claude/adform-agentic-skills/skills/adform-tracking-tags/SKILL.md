@@ -39,8 +39,8 @@ Starting from a campaign, get its advertiser ID:
 }
 ```
 
-Get the advertiser's tracking setup ID. A `NOT_FOUND` error with `tracking: null` means the
-advertiser has no tracking setup:
+Get the advertiser's tracking setup ID. `tracking: null` means the advertiser has no tracking
+setup:
 
 ```graphql
 { tracking(id: "2133350") { trackingSetupId } }
@@ -78,8 +78,8 @@ advertiser. Whenever you list tracking points, list the advertisers and compare 
 ```
 
 Page through until you reach `totalCount`. Advertisers with no tracking setup return
-`tracking: null` with a `NOT_FOUND` error for that entry; the rest of the response is still
-valid. This check only covers advertisers the user can access.
+`tracking: null`; the rest of the response is still valid. This check only covers advertisers
+the user can access.
 
 ## Tracking filters
 

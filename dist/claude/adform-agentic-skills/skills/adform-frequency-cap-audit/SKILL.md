@@ -39,10 +39,19 @@ the current field shapes for capping sub-objects. Keep calls sequential (~1–2s
 
 ## Step 2 — Get line item capping detail
 
-The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID.
+The `id` is the RTB setup ID returned by `rtbLineItems()`, not the placement ID. A line item ID
+from the user is the placement ID, so resolve it first (see "Resolve a line item ID" in
+adform-line-items).
 
 ```graphql
-{ rtbLineItem(id: "99999") { id impressionCappings { frequency { impressions } } } }
+{
+  rtbLineItem(id: "99999") {
+    id name
+    impressionCappings { frequency { impressions } }
+    categories { contextual { providerId ids } }
+  }
+  contextualTargetingProviders { providers { id } }
+}
 ```
 
 Use `graphql_introspect` on `RtbLineItemCapping` and `RtbLineItemFrequencyCapping` to confirm

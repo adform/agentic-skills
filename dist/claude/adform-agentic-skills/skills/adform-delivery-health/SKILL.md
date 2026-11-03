@@ -1,10 +1,11 @@
 ---
 name: adform-delivery-health
 description: >-
-  Delivery health root-cause check for RTB line items on Adform FLOW DSP. Runs structured
+  Delivery health root-cause check for RTB and direct line items on Adform FLOW DSP. Runs structured
   checks on schedule, pricing, budget, banner assignment, creative audits, and advertiser
   vertical sensitivity, rolling up to Ok, Warning, or Critical. When pricing is flagged,
-  supplements with mcpStats bid-reason breakdown to identify exact no-bid patterns. Trigger
+  supplements with mcpStats bid-reason breakdown to identify exact no-bid patterns. For direct
+  line items, checks setup, tags, and recorded delivery. Trigger
   on "why isn't my line item delivering", "delivery health", "anything blocking this from
   serving", "no impressions from this line item". For slow pacing use adform-pacing-check;
   for dimensional performance stats use adform-stats-performance. Read-only.
@@ -14,7 +15,8 @@ description: >-
 
 Why is this RTB line item not serving? Runs Adform's structured health checks — schedule,
 pricing, budget, banner assignment, creative audit, advertiser vertical — and rolls them up to
-Ok, Warning, or Critical. Read-only.
+Ok, Warning, or Critical. Direct line items have no health query, so use the direct line item
+check below. Read-only.
 
 ## Connection & tooling
 
@@ -22,7 +24,10 @@ Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graph
 `graphql_introspect` to explore nested indication types. Keep calls sequential (~1–2s apart).
 
 The `id` parameter requires the RTB setup ID (returned as `id` from `rtbLineItems(orderIds:)`).
-This is distinct from the placement ID visible in some platform URLs.
+This is the ID in the line item's URL. A line item ID from the user, or shown in the UI, is the
+placement ID, so resolve it first (see "Resolve a line item ID" in adform-line-items). Direct line items have no
+RTB setup ID (`rtbSetupId` is null in `agencyListItems`), and `rtbLineItemDeliveryHealth` returns
+no data for them.
 
 ## Data Availability
 
@@ -51,6 +56,10 @@ This skill covers real-time delivery indicators for active line items and campai
 
 Each indication returns `Ok`, `Warning`, or `Critical`. Use `graphql_introspect` on the
 specific indication type to retrieve additional detail fields such as `reason`.
+
+This query returns no data once the line item's schedule has ended. Check `period { end }` in
+`agencyListItems`, and report "Delivery health is not available because the schedule ended on DATE".
+`rtbLineItemDeliveryIndications` still returns data for these line items.
 
 ---
 
@@ -114,6 +123,68 @@ pricing or budget is flagged.
   `costType` and are returned in campaign currency only
 - `schedule` — flight has ended, not yet started, or has a gap covering the current time
 - `advertiserIndustryVertical` — sensitive-vertical restriction blocking certain inventory
+
+---
+
+## Direct line item check
+
+Use the line item's placement ID (`id` from `agencyListItems { lineItems }`). A direct line item
+starts working once an ad is assigned and the resulting tag is on the publisher's side.
+
+```graphql
+{
+  lineItem: agencyListItems(
+    filters: [{ fieldName: "lineItem.id", operation: eq, values: [67890] }]
+    pagination: { offset: 0, limit: 1 }
+  ) {
+    lineItems {
+      id name type status onlyForMediaPlanning
+      period { start end }
+      directSettings { hasTags }
+      deliveryIndications {
+        stats {
+          last30days { trackedAds clicks }
+          last13months { trackedAds clicks }
+        }
+      }
+      order { status campaign { status } }
+    }
+  }
+  tagListItems(
+    filters: [{ fieldName: "tag.lineItemId", operation: eq, values: [67890] }]
+    pagination: { offset: 0, limit: 50 }
+  ) {
+    tags { id name status }
+  }
+  directLineItemDeliveryIndications(id: "67890") {
+    totalGoal
+    totalDelivery { impressions clicks }
+  }
+}
+```
+
+Keep `last13months` in the selection, because `deliveryIndications` can return null when only
+`last30days` is selected and has no data. The other fields still return when
+`directLineItemDeliveryIndications` has no data.
+
+Adform returns no rollup for direct line items, so apply these rules and use the first that matches:
+
+| What you see | Status | What it means |
+|---|---|---|
+| `onlyForMediaPlanning: true`, the line item, order, or campaign is not active, or the schedule has ended and `directLineItemDeliveryIndications` has no data | Not expected to deliver | Say which of these explains it |
+| `hasTags: false`, or no tag has `status: active` | Critical | Nothing can serve. Assign an ad, or reactivate a paused tag |
+| Active tag and no data from `directLineItemDeliveryIndications` | Warning | No delivery recorded in the last 13 months. Check that the publisher has implemented the tag |
+| Delivery recorded but `last30days` is null or has no tracked ads or clicks | Warning | It has delivered before but not recently. Check with the publisher |
+| `last30days` has tracked ads or clicks | Ok | It is delivering. Use adform-pacing-check for pacing |
+
+- **Schedule:** do not treat dates as a blocker when the line item has delivery data. A direct line
+  item's schedule is indicative and does not affect delivery. If the start date is recent or in the
+  future, say no delivery may be expected yet.
+- **Clicks only:** clicks with no tracked ads still count as delivery. This is normal for tracking
+  links.
+- **`sentStatus`:** do not use it on tags. Direct tags can show `notSent` while delivering.
+- **Cause:** Adform cannot see whether a publisher implemented a tag, so present that as the thing
+  to check, not as the confirmed cause.
 
 ---
 

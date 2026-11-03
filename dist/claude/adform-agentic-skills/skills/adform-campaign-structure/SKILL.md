@@ -72,8 +72,17 @@ Build the hierarchy one level at a time rather than in a single large query.
 
 ## Step 4 — Get a single line item's full config (optional)
 
+The `id` is the RTB setup ID. A line item ID from the user is the placement ID, so resolve it first
+(see "Resolve a line item ID" in adform-line-items).
+
 ```graphql
-{ rtbLineItem(id: "99999") { id name environments orderId campaignId paused deleted } }
+{
+  rtbLineItem(id: "99999") {
+    id name environments orderId campaignId paused deleted
+    categories { contextual { providerId ids } }
+  }
+  contextualTargetingProviders { providers { id } }
+}
 ```
 
 For full targeting and inventory detail, use `graphql_introspect` on `RtbLineItem`,
@@ -85,8 +94,8 @@ For full targeting and inventory detail, use `graphql_introspect` on `RtbLineIte
 
 - **Structure review**: run steps 1–3 in sequence to map the full hierarchy
 - **Single entity**: use `campaign(id:)`, `order(id:)`, or `rtbLineItem(id:)` for a focused view
-- **Targeting inspection**: `rtbLineItems(orderIds:)` returns inventory and targeting inline;
-  introspect nested types to select the fields you need
+- **Targeting inspection**: `rtbLineItems(orderIds:)` returns a summary without inventory,
+  targeting or categories; read each line item with `rtbLineItem(id:)` for those
 
 ## Presenting
 

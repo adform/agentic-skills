@@ -20,7 +20,8 @@ Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graph
 look up field names. Keep calls sequential (~1–2s apart).
 Resolve entity IDs using `campaigns(advertisers:, search:)` and `orders(campaignId:, active: true)`.
 For RTB line items, the `id` parameter requires the RTB setup ID (returned as `id` from
-`rtbLineItems(orderIds:)`), not the placement ID.
+`rtbLineItems(orderIds:)`), not the placement ID. A line item ID from the user is the placement ID,
+so resolve it first (see "Resolve a line item ID" in adform-line-items).
 
 ---
 
@@ -73,6 +74,23 @@ For RTB line items, the `id` parameter requires the RTB setup ID (returned as `i
 }
 ```
 
+## Direct line item pacing
+
+The `id` is the line item's placement ID (`id` from `agencyListItems { lineItems }`).
+
+```graphql
+{
+  directLineItemDeliveryIndications(id: "67890") {
+    bookingType
+    totalGoal totalProjected totalRemaining
+    totalDelivery { impressions clicks deliveryDeviationPercentage }
+  }
+}
+```
+
+`totalGoal: 0` means there is no booked goal to measure pacing against. `deliveryDeviationPercentage`
+also returns 0 in that case, so do not read it as on track.
+
 ## Daily trend — when did pacing change?
 
 Max 30-day window. Also available as `orderDailyDeliveryIndications` and
@@ -120,8 +138,51 @@ under-pacing pricing issue, use adform-bid-landscape — but check the line item
 first to identify the correct cap to adjust (e.g. Max eCPC for CPC buying, Max CPM for dynamic
 CPM). See the pricing model table in adform-line-items.
 
+## When campaign or order delivery returns no data
+
+Campaign and order delivery indications are calculated from programmatic budget settings. Direct
+line items have no RTB data and are measured by their buy type instead. So for a campaign or order
+with only direct line items, `campaignDeliveryIndications`, `orderDeliveryIndications`, and
+`campaignDailyDeliveryIndications` return no data. That does not mean there was no delivery. Check what you can before reporting:
+
+```graphql
+{
+  campaign(id: "12345") { id }
+  rtb: agencyListItems(
+    filters: [
+      { fieldName: "campaign.id", operation: eq, values: [12345] }
+      { fieldName: "lineItem.type", operation: eq, values: ["Rtb"] }
+    ]
+    skipData: true
+  ) { lineItems { id } totalCount }
+  direct: agencyListItems(
+    filters: [
+      { fieldName: "campaign.id", operation: eq, values: [12345] }
+      { fieldName: "lineItem.type", operation: eq, values: ["Direct"] }
+    ]
+    pagination: { offset: 0, limit: 50 }
+  ) { lineItems { id name } totalCount }
+}
+```
+
+If `campaign(id:)` returns no data, the ID is wrong, so resolve it again. If the campaign exists:
+
+- Report **"Campaign-level pacing could not be assessed"**.
+- Explain that the delivery lookup returned no usable pacing data, not that the campaign has no
+  delivery. Use `mcpStats` (see adform-stats-performance) if you need delivered volume.
+- If `rtb` has a `totalCount` of 0 and `direct` has line items, say this is the reason: the campaign
+  has only direct line items, and direct line items have no RTB data for these lookups.
+- Check the direct line items with `directLineItemDeliveryIndications`. It returns no data for a
+  direct line item with no delivery in the last 13 months, while one impression or click is enough
+  for it to return data. Report those line items as having no delivery recorded in the last 13
+  months, after confirming with `directLineItem(id:)` that the ID exists. Use adform-delivery-health
+  to check why.
+- Point the user to the **Campaign Delivery Report** in Adform FLOW to assess delivery against
+  booked values (Booked, Delivered, Over / Underdelivered).
+
 ## Presenting
 
-Lead with the verdict — on track / under-delivering / over-delivering / in a schedule gap —
-then the numbers: spend vs goal, projected vs goal, deviation %. Recommend a concrete next step.
+Lead with the verdict (on track / under-delivering / over-delivering / in a schedule gap / could
+not be assessed), then the numbers: spend vs goal, projected vs goal, deviation %. Recommend a
+concrete next step.
 Label every monetary figure with the campaign currency; never print a bare number.
