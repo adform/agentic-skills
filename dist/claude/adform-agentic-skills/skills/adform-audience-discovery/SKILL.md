@@ -129,7 +129,7 @@ customer data, and campaign interactions.
 ```graphql
 {
   buyerAudiences(
-    filters: [{ fieldName: "buyerAudience.advertisers.advertiserIds", operation: intersects, values: ["71883"] }]
+    filters: [{ fieldName: "buyerAudience.advertisers.advertiserIds", operation: intersects, values: ["11111"] }]
     pagination: { offset: 0, limit: 25 }
   ) {
     buyerAudiences { id name status categoryId ttl }

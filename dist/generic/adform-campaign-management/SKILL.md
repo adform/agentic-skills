@@ -28,7 +28,7 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
 ```graphql
 {
   campaigns(
-    advertisers: "71883"
+    advertisers: "11111"
     status: Active
     offset: 0
     limit: 20
@@ -42,14 +42,14 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
 ### Get campaign — full config
 
 ```graphql
-{ campaign(id: "3993873") { id name status type subType advertiserId startDate endDate budget currency } }
+{ campaign(id: "22222") { id name status type subType advertiserId startDate endDate budget currency } }
 ```
 
 ### Get campaign RTB settings
 
 ```graphql
 {
-  campaignRtbSettings(id: "3993873") {
+  campaignRtbSettings(id: "22222") {
     capping {
       type
       impressions
@@ -65,14 +65,14 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
 ### Get campaign labels
 
 ```graphql
-{ campaignLabels(id: "3993873") { labelGroups { id name labels { id name } } } }
+{ campaignLabels(id: "22222") { labelGroups { id name labels { id name } } } }
 ```
 
 ### Get campaign brand safety
 
 ```graphql
 {
-  campaignBrandSafety(id: "3993873") { enabled providerId blockedCategories blockUncategorized }
+  campaignBrandSafety(id: "22222") { enabled providerId blockedCategories blockUncategorized }
   brandSafetyProviders { providers { id } }
 }
 ```
@@ -84,7 +84,7 @@ Always include `brandSafetyProviders { providers { id } }` in the same operation
 
 ```graphql
 {
-  campaignDeliveryIndications(id: "3993873") {
+  campaignDeliveryIndications(id: "22222") {
     status goalType
     effectiveFlightTotalGoal effectiveFlightCurrentDelivery
     effectiveFlightProjectedDelivery effectiveFlightDeviationPercentage
@@ -102,7 +102,7 @@ order delivery returns no data" in adform-pacing-check.
 ```graphql
 {
   campaignDailyDeliveryIndications(
-    ids: ["3993873"]
+    ids: ["22222"]
     from: "2026-05-13"
     until: "2026-06-12"
   ) {
@@ -125,7 +125,7 @@ order delivery returns no data" in adform-pacing-check.
 ```graphql
 {
   orders(
-    campaignId: "3993873"
+    campaignId: "22222"
     active: true
     offset: 0
     limit: 20

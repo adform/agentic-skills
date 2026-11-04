@@ -51,7 +51,7 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
 ```graphql
 {
   campaigns(
-    advertisers: "2247935"
+    advertisers: "11111"
     limit: 50
     offset: 0
   ) {

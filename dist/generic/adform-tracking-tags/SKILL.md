@@ -32,7 +32,7 @@ Starting from a campaign, get its advertiser ID:
 ```graphql
 {
   agencyListItems(
-    filters: [{ fieldName: "campaign.id", operation: eq, values: ["3993873"] }]
+    filters: [{ fieldName: "campaign.id", operation: eq, values: ["22222"] }]
   ) {
     campaigns { id advertiser { id } }
   }
@@ -43,7 +43,7 @@ Get the advertiser's tracking setup ID. `tracking: null` means the advertiser ha
 setup:
 
 ```graphql
-{ tracking(id: "2133350") { trackingSetupId } }
+{ tracking(id: "33333") { trackingSetupId } }
 ```
 
 Then list the tracking points:
@@ -51,7 +51,7 @@ Then list the tracking points:
 ```graphql
 {
   trackingPoints(
-    trackingSetupId: 2742581
+    trackingSetupId: 44444
     active: true
     limit: 50
     offset: 0
@@ -99,7 +99,7 @@ expressions.
 ```graphql
 {
   tags(
-    filter: { campaignId: "3993873" }
+    filter: { campaignId: "22222" }
     pagination: { offset: 0, limit: 50 }
   ) {
     tags { id uuid type campaignId active paused createdAt }
@@ -111,7 +111,7 @@ expressions.
 ### Get RTB tag
 
 ```graphql
-{ rtbTag(id: "85543973") { id uuid type campaignId active paused } }
+{ rtbTag(id: "55555") { id uuid type campaignId active paused } }
 ```
 
 Use `graphql_introspect` on `RtbTag` to discover available fields including destination URLs
@@ -120,7 +120,7 @@ and settings.
 ### Get direct tag
 
 ```graphql
-{ directTag(id: "85543974") { id uuid type campaignId active paused } }
+{ directTag(id: "66666") { id uuid type campaignId active paused } }
 ```
 
 ---
@@ -152,7 +152,7 @@ First get the integer `id` and `adType` from `adByUuid`, then:
 ```graphql
 {
   adSizesByCampaignId(
-    campaignId: "3993873"
+    campaignId: "22222"
     pagination: { offset: 0, limit: 50 }
   ) {
     sizes { width height }

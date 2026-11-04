@@ -137,7 +137,7 @@ open auction buying and `onlyTargetDeals` is deals only. The response can list h
 ```graphql
 {
   buyerDealGroups(
-    filters: { advertiserIds: ["71883"] }
+    filters: { advertiserIds: ["11111"] }
     pagination: { offset: 0, limit: 20 }
   ) {
     dealGroups { id name status dealIds { inventorySourceId dealId } }

@@ -66,7 +66,7 @@ A line item with an empty `impressionCappings` list has no frequency capping app
 
 ```graphql
 {
-  campaignRtbSettings(id: "3993873") {
+  campaignRtbSettings(id: "22222") {
     capping {
       type
       impressions

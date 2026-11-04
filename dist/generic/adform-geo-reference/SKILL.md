@@ -89,11 +89,11 @@ The full cost and currency reference lives in adform-stats-performance.
 Labels are scoped per advertiser or campaign — there is no global `labelGroups` query.
 
 ```graphql
-{ advertiserLabels(id: "71883") { labelGroups { id name labels { id name } } } }
+{ advertiserLabels(id: "11111") { labelGroups { id name labels { id name } } } }
 ```
 
 ```graphql
-{ campaignLabels(id: "3993873") { labelGroups { id name labels { id name } } } }
+{ campaignLabels(id: "22222") { labelGroups { id name labels { id name } } } }
 ```
 
 Label group IDs are used in campaign, advertiser, and line-item label queries.

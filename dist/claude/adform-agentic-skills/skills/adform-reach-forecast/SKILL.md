@@ -49,7 +49,7 @@ query ForecastScenario($mediaPlan: ForecastingKpisMediaPlanInput!, $currencyCode
 {
   "currencyCode": "GBP",
   "mediaPlan": {
-    "advertiserId": "2133936",
+    "advertiserId": "11111",
     "timeZoneId": "Europe/London",
     "name": "UK Retail – Display – July 2026",
     "schedules": [

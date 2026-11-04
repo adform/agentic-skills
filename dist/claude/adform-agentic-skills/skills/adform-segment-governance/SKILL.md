@@ -25,7 +25,7 @@ composition. Keep calls sequential (~1–2s apart).
 ```graphql
 {
   buyerAudienceListItems(
-    filters: [{ fieldName: "buyerAudience.advertisers.advertiserIds", operation: intersects, values: ["71883"] }]
+    filters: [{ fieldName: "buyerAudience.advertisers.advertiserIds", operation: intersects, values: ["11111"] }]
     pagination: { offset: 0, limit: 100 }
   ) {
     buyerAudiences {

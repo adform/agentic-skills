@@ -59,7 +59,7 @@ Reverse lookup — ID to name:
 ```graphql
 {
   agencyListItems(
-    filters: [{ fieldName: "advertiser.id", operation: eq, values: ["71883"] }]
+    filters: [{ fieldName: "advertiser.id", operation: eq, values: ["11111"] }]
     pagination: { limit: 20, offset: 0 }
   ) {
     campaigns {
@@ -108,7 +108,7 @@ Reverse lookup — ID to name:
 
 ```graphql
 {
-  advertiser(id: "71883") {
+  advertiser(id: "11111") {
     id name status type
     industryVerticalId timeZoneMappingId
     trackingDomain netAmountCalcMethod
@@ -142,7 +142,7 @@ each** — they are not parallel shapes.
 Advertiser level:
 
 ```graphql
-{ costSettings(id: "71883") { costSettings { typeId settingId sequenceNumber title value } } }
+{ costSettings(id: "11111") { costSettings { typeId settingId sequenceNumber title value } } }
 ```
 
 Agency level — note `sequenceNo`, not `sequenceNumber`, plus an `active` flag
@@ -161,13 +161,13 @@ spend; for actual cost use adform-stats-performance.
 ## 6. Get advertiser labels
 
 ```graphql
-{ advertiserLabels(id: "71883") { labelGroups { id name labels { id name } } } }
+{ advertiserLabels(id: "11111") { labelGroups { id name labels { id name } } } }
 ```
 
 ## 7. Get RTB domain settings
 
 ```graphql
-{ rtbDomains(id: "71883") { mode domains } }
+{ rtbDomains(id: "11111") { mode domains } }
 ```
 
 ---

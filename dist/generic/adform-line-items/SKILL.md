@@ -177,13 +177,15 @@ primary cap (e.g. Max eCPC) is the binding constraint.
 }
 ```
 
-### Get RTB line item inventory — paginated
+### Get RTB line item inventory
+
+Use the RTB setup ID. The response can list hundreds of inventory sources, as `limit` may not be
+applied.
 
 ```graphql
 {
   rtbLineItemInventory(id: "99999", pagination: { offset: 0, limit: 50 }) {
-    inventorySources { id name }
-    totalCount
+    rtbLineItemInventory { id buyingType deals { id } }
   }
 }
 ```
@@ -309,7 +311,7 @@ Resolve `mediaUuid` from direct line items to publisher names:
 ```graphql
 {
   adsByCampaignId(
-    campaignId: "3993873"
+    campaignId: "22222"
     pagination: { offset: 0, limit: 50 }
   ) {
     ads {

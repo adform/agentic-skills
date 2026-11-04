@@ -83,7 +83,7 @@ sits under `cpm`.
 
 ```graphql
 {
-  brandSafetyFees(providerId: "1", advertiserId: "71883", currencyCode: "EUR") {
+  brandSafetyFees(providerId: "1", advertiserId: "11111", currencyCode: "EUR") {
     fees {
       providerId featureId advertiserId
       fee { type cpm { currencyCode amount } }
@@ -125,7 +125,7 @@ and the optional, defaultless `currencyCode`.
 
 ```graphql
 {
-  contextualTargetingFees(providerId: "1", advertiserId: "71883", currencyCode: "EUR") {
+  contextualTargetingFees(providerId: "1", advertiserId: "11111", currencyCode: "EUR") {
     fees {
       providerId featureId advertiserId
       fee { type cpm { currencyCode amount } }

@@ -79,7 +79,7 @@ sequential (~1–2s apart).
 ```graphql
 {
   rtbLineItemPastTraffic(
-    lineItems: [{ lineItemId: "99999", campaignId: "3993873" }]
+    lineItems: [{ lineItemId: "99999", campaignId: "22222" }]
   ) {
     lineItemId
     trafficCounts { cookies requests }

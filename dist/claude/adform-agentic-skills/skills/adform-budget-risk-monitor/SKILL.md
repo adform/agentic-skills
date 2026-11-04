@@ -27,7 +27,7 @@ Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Keep calls
 ```graphql
 {
   orders(
-    campaignId: "3993873"
+    campaignId: "22222"
     active: true
     offset: 0
     limit: 20
@@ -63,7 +63,7 @@ Run once per order ID:
 
 ```graphql
 {
-  campaignDeliveryIndications(id: "3993873") {
+  campaignDeliveryIndications(id: "22222") {
     status goalType
     effectiveFlightTotalGoal effectiveFlightCurrentDelivery
     effectiveFlightProjectedDelivery effectiveFlightDeviationPercentage

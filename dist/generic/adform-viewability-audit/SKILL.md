@@ -32,7 +32,7 @@ If your organisation tracks a viewability provider or percentage threshold separ
 ```graphql
 {
   campaigns(
-    advertisers: "71883"
+    advertisers: "11111"
     status: Active
     offset: 0
     limit: 20
@@ -47,7 +47,7 @@ If your organisation tracks a viewability provider or percentage threshold separ
 
 ```graphql
 {
-  campaignRtbSettings(id: "3993873") {
+  campaignRtbSettings(id: "22222") {
     capping {
       type
       impressions
@@ -108,7 +108,7 @@ and "what was actually measured". Validated query:
     rows(
       filter: {
         date: { from: "2026-06-01", to: "2026-06-30" }
-        advertiser: { ids: ["2133936"] }
+        advertiser: { ids: ["11111"] }
       }
       paging: { offset: 0, limit: 50 }
       sort: [{ column: 0, direction: desc }]

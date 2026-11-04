@@ -69,7 +69,7 @@ targeting and will overstate reachable supply.
 {
   rtbLineItemForecasting(lineItem: {
     name: "Forecast"
-    campaignId: "3993873"
+    campaignId: "22222"
     # mirror the full targeting and inventory from the live line item
   }) {
     cpms
@@ -134,7 +134,7 @@ fix. Validated query:
     rows(
       filter: {
         date: { from: "2026-06-01", to: "2026-06-30" }
-        advertiser: { ids: ["2133936"] }
+        advertiser: { ids: ["11111"] }
       }
       paging: { offset: 0, limit: 50 }
       sort: [{ column: 0, direction: desc }]

@@ -467,7 +467,7 @@ metrics — they belong to the delivery-indication queries. See adform-reporting
     rows(
       filter: {
         date: { from: "2026-06-01", to: "2026-06-30" }
-        advertiser: { ids: ["2133936"] }
+        advertiser: { ids: ["11111"] }
       }
       paging: { offset: 0, limit: 100 }
       sort: [{ column: 1, direction: desc }]
@@ -496,7 +496,7 @@ metrics — they belong to the delivery-indication queries. See adform-reporting
     rows(
       filter: {
         date: { from: "2026-06-01", to: "2026-06-30" }
-        advertiser: { ids: ["2133936"] }
+        advertiser: { ids: ["11111"] }
       }
       paging: { offset: 0, limit: 50 }
       sort: [{ column: 0, direction: desc }]
@@ -527,7 +527,7 @@ metrics — they belong to the delivery-indication queries. See adform-reporting
     rows(
       filter: {
         date: { from: "2026-06-01", to: "2026-06-30" }
-        advertiser: { ids: ["2133936"] }
+        advertiser: { ids: ["11111"] }
       }
       paging: { offset: 0, limit: 50 }
       sort: [{ column: 0, direction: desc }]
@@ -561,7 +561,7 @@ metrics — they belong to the delivery-indication queries. See adform-reporting
     rows(
       filter: {
         date: { from: "2026-06-01", to: "2026-06-30" }
-        advertiser: { ids: ["2133936"] }
+        advertiser: { ids: ["11111"] }
       }
       paging: { offset: 0, limit: 10 }
       sort: [{ column: 1, direction: desc }]

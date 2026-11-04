@@ -26,7 +26,7 @@ available fields. Keep calls sequential (~1–2s apart).
 ```graphql
 {
   mediaPlans(
-    advertiserIds: ["71883"]
+    advertiserIds: ["11111"]
     pagination: { offset: 0, limit: 20 }
   ) {
     mediaPlans { id name advertiserId comment schedule { startDate endDate timeZoneId } budget { currency amount } }
@@ -62,7 +62,7 @@ then pass its parameters. The filter field is `recommendationTypes`.
 {
   mediaPlanRecommendations(
     mediaPlan: {
-      advertiserId: "71883"
+      advertiserId: "11111"
       goals: { kpis: [{ performance: { ctr: { rate: 0.005 } } }] }
       schedule: { startDate: "2026-07-01", endDate: "2026-07-31", timeZoneId: "Europe/Berlin" }
     }

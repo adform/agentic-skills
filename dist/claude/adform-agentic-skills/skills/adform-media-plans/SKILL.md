@@ -30,7 +30,7 @@ Forecast KPI queries can take 5–15 seconds on complex inputs — allow time fo
 ```graphql
 {
   mediaPlans(
-    advertiserIds: ["71883"]
+    advertiserIds: ["11111"]
     pagination: { offset: 0, limit: 20 }
   ) {
     mediaPlans { id name advertiserId comment schedule { startDate endDate timeZoneId } budget { currency amount } }
@@ -79,7 +79,7 @@ query ForecastScenario($mediaPlan: ForecastingKpisMediaPlanInput!, $currencyCode
 {
   "currencyCode": "EUR",
   "mediaPlan": {
-    "advertiserId": "71883",
+    "advertiserId": "11111",
     "timeZoneId": "Europe/Berlin",
     "name": "Forecast scenario",
     "schedules": [
@@ -128,7 +128,7 @@ then pass its parameters. The filter field is `recommendationTypes`.
 {
   mediaPlanRecommendations(
     mediaPlan: {
-      advertiserId: "71883"
+      advertiserId: "11111"
       goals: { kpis: [{ performance: { ctr: { rate: 0.005 } } }] }
       schedule: { startDate: "2026-07-01", endDate: "2026-07-31", timeZoneId: "Europe/Berlin" }
     }

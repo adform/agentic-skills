@@ -29,7 +29,7 @@ List active campaigns and compare each `endDate` to today:
 ```graphql
 {
   campaigns(
-    advertisers: "71883"
+    advertisers: "11111"
     status: Active
     offset: 0
     limit: 50
@@ -44,7 +44,7 @@ Flag any campaign where `endDate` is before today. Check whether it is still spe
 
 ```graphql
 {
-  campaignDeliveryIndications(id: "3993873") {
+  campaignDeliveryIndications(id: "22222") {
     status
     effectiveFlightDailyCost
     effectiveFlightTotalCost
@@ -65,7 +65,7 @@ Find inactive or ended orders, then check whether any of their line items are st
 ```graphql
 {
   orders(
-    campaignId: "3993873"
+    campaignId: "22222"
     active: false
     offset: 0
     limit: 20

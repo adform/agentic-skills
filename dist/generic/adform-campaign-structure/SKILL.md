@@ -28,7 +28,7 @@ Build the hierarchy one level at a time rather than in a single large query.
 ```graphql
 {
   campaigns(
-    advertisers: "71883"
+    advertisers: "11111"
     status: Active
     offset: 0
     limit: 20
@@ -44,7 +44,7 @@ Build the hierarchy one level at a time rather than in a single large query.
 ```graphql
 {
   orders(
-    campaignId: "3993873"
+    campaignId: "22222"
     active: true
     offset: 0
     limit: 20

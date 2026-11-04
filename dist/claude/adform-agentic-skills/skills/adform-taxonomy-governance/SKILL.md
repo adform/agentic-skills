@@ -27,7 +27,7 @@ Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Keep calls
 ```graphql
 {
   campaigns(
-    advertisers: "71883"
+    advertisers: "11111"
     status: Active
     offset: 0
     limit: 50
@@ -49,13 +49,13 @@ name that does not match and any case-insensitive duplicate within the advertise
 ### Get label group definitions for an advertiser
 
 ```graphql
-{ advertiserLabels(id: "71883") { labelGroups { id name labels { id name } } } }
+{ advertiserLabels(id: "11111") { labelGroups { id name labels { id name } } } }
 ```
 
 ### Get labels applied to a campaign
 
 ```graphql
-{ campaignLabels(id: "3993873") { labelGroups { id name labels { id name } } } }
+{ campaignLabels(id: "22222") { labelGroups { id name labels { id name } } } }
 ```
 
 For each campaign, compare the applied label groups against the required set (e.g. Market,

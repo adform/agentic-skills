@@ -35,7 +35,7 @@ search argument. This tool is the only way to go from a name to an ID in one cal
 ```
 
 ```json
-[ { "field": "campaign.managerId", "names": [ { "John Smith": [180680, 175704, 149809] } ] } ]
+[ { "field": "campaign.managerId", "names": [ { "John Smith": [77777, 77778, 77779] } ] } ]
 ```
 
 A person holds one user ID per client seat, so expect several. Pass the whole set downstream with
@@ -44,7 +44,7 @@ A person holds one user ID per client seat, so expect several. Pass the whole se
 ```graphql
 {
   agencyListItems(
-    filters: [{ fieldName: "campaign.managerId", operation: in, values: ["180680", "175704"] }]
+    filters: [{ fieldName: "campaign.managerId", operation: in, values: ["77777", "77778"] }]
     sortBy: [{ fieldName: "campaign.createdAt", order: desc }]
     pagination: { offset: 0, limit: 20 }
   ) {
@@ -76,8 +76,8 @@ object per name; `.name` fields take a single value each.
 
 ```json
 [
-  { "field": "advertiser.name", "names": [ { "Acme Corp": ["2197361"] } ] },
-  { "field": "campaign.name",   "names": [ { "Acme Awareness Q4": ["3786678"] } ] }
+  { "field": "advertiser.name", "names": [ { "Acme Corp": ["11111"] } ] },
+  { "field": "campaign.name",   "names": [ { "Acme Awareness Q4": ["22222"] } ] }
 ]
 ```
 

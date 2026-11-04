@@ -26,7 +26,7 @@ on `Ad` and `PublishedAd` to discover available fields. Keep calls sequential (~
 ```graphql
 {
   adsByCampaignId(
-    campaignId: "3993873"
+    campaignId: "22222"
     pagination: { offset: 0, limit: 50 }
   ) {
     ads {
