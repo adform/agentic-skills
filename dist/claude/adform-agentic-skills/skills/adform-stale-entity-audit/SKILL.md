@@ -107,6 +107,6 @@ Check whether any unpaused line item is still spending:
 
 ## Presenting
 
-Two tables. Ghost campaigns: ID, name, end date, days overdue, still spending (daily cost).
+Two tables. Campaigns past their end date: ID, name, end date, days overdue, still spending (daily cost).
 Orphaned line items: ID, name, parent order, order status, still spending. Lead with anything
 still incurring cost. Frame each row as an action item — pause or close — for the ops owner.

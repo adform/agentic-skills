@@ -93,6 +93,9 @@ Give the user the reason below instead of the raw response.
 }
 ```
 
+Always include `contextualTargetingProviders { providers { id } }` in the same operation as
+`rtbLineItem(id:)`, even if you change the other fields.
+
 The `id` used in `rtbLineItem(id:)`, `rtbLineItemDeliveryHealth(id:)`, and
 `rtbLineItemDeliveryIndications(id:)` is the RTB setup ID returned by `rtbLineItems()`, not
 the placement ID.

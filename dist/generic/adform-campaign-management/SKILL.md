@@ -77,6 +77,9 @@ look up field names; use `graphql_introspect` for complex nested types. Keep cal
 }
 ```
 
+Always include `brandSafetyProviders { providers { id } }` in the same operation as
+`campaignBrandSafety(id:)`, even if you change the other fields.
+
 ### Get campaign delivery indications — current pacing snapshot
 
 ```graphql

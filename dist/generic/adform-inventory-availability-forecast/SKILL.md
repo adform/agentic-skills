@@ -129,12 +129,12 @@ grouping level, so pick the one matching your dimension: `dealAvailableImpressio
 these take a `costType` argument, unlike their `mcpStats` namesakes, so they
 cannot be qualified to RTB spend.
 
-**Currency:** `rows` takes a `currencyCode` argument. Unlike the marketplace
-queries, the schema declares **no default** for it. DKK is the documented
-platform default, but since it is not in the signature, either pass
-`currencyCode` explicitly (as above) or confirm the currency from the returned
-values before labelling. Never print a bare cost figure. See
-adform-stats-performance for the full currency rules.
+**Currency:** **Always ask the user which currency to use before running this
+query**, unless they have already named one, and pass it as `currencyCode` on
+`rows`. Do not omit it: the platform default is DKK, which can make prices look
+higher than users expect. Reuse the answer for the rest of the session. Never
+print a bare cost figure. See adform-stats-performance for the full currency
+rules.
 
 Deals: table with deal name, status, floor price, baseline daily requests, and projected
 30-day available impressions. Open auction: table by inventory source with addressable
@@ -142,5 +142,5 @@ cookies and requests. Lead with the headline total and the largest sources.
 State that projections extrapolate recent supply and are not guarantees.
 
 Label floor prices and any eCPM figure with its currency, and name the currency you passed to
-or read back from `mcpInventoryStats`. A deal's `currencyCode` need not match the currency the
+`mcpInventoryStats`. A deal's `currencyCode` need not match the currency the
 cost metrics are reported in — do not mix the two in one column.

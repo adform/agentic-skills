@@ -71,7 +71,7 @@ sequential (~1–2s apart).
 - **At most 10 metrics per query.** An 11th returns `tooManyMetrics`
   (a 500 error, "Too many metrics provided"). To pull a wider metric set, split it
   across several queries with identical dimensions and filter, then join the
-  results on the dimension columns. This bites hardest on the cost tables
+  results on the dimension columns. This limit matters most for the cost tables
   below — a full RTB fee breakdown does not fit in one call.
 
 ---
@@ -186,8 +186,7 @@ metrics {
 ## Cost metrics — canonical reference
 
 **This is the canonical cost and currency reference for the Adform skill set.**
-Other skills link here rather than restating these tables. Add new cost fields
-here, not in the skill that happens to need them.
+Other skills link here rather than restating these tables.
 
 ### The `costType` argument — read this before reporting any cost
 
@@ -236,7 +235,8 @@ argument description is uniformly "Apply selected cost calculation method".
 Several metrics additionally take a data-source argument — `costDataSource` on
 `cost` and `roi`, `dataSource` on `ctr`, `ecpc`, `ecpm`, `cov`, `vtr`,
 `clicks`, `impressions`. Values are `adform` and `se` (search engine); `se`
-pairs with `seAvgCPC`. Same risk as `costType`, lower frequency.
+pairs with `seAvgCPC`. This argument can also change the figure, though less often
+than `costType`.
 
 **Observed spread** (two live RTB campaigns, EUR): all four `costType` values
 returned an identical figure for each campaign. That is the expected result on
@@ -277,9 +277,9 @@ default apply, and state plainly which currency the result is in:
 | Query | Default |
 |---|---|
 | `inventoryMarketplaceListItems` | EUR — declared in the schema as `currencyCode: CurrencyCode = "EUR"` |
-| `audienceMarketplaceListItems` | DKK — declared as `= "DKK"` |
+| `audienceMarketplaceListItems` | DKK — declared as `= "DKK"`. Do not rely on this default: always ask the user for a currency and pass it |
 | `mediaPlanForecastingKpis` | EUR — declared as `= "EUR"` |
-| `mcpInventoryStats.rows` | DKK — platform default, **not** declared in the schema signature. Confirm against returned values before labelling |
+| `mcpInventoryStats.rows` | DKK — platform default, **not** declared in the schema signature. Do not rely on this default: always ask the user for a currency and pass it |
 | `brandSafetyFee` / `brandSafetyFees` | none, nullable |
 | `contextualTargetingFee` / `contextualTargetingFees` | none, nullable |
 

@@ -20,7 +20,7 @@ Runs on the Adform GraphQL MCP. Use `graphql_execute` to run queries. Use `graph
 on `CampaignRtbSettings`, `RtbCappingSettings`, and `ViewabilitySettings` to discover the
 current field shapes for viewability sub-objects. Keep calls sequential (~1–2s apart).
 
-On this gateway, viewability is modelled as a capping setting — `type` and `duration` in
+In the Adform GraphQL API, viewability is modelled as a capping setting — `type` and `duration` in
 milliseconds — on `CampaignRtbSettings.capping[]` and on `RtbLineItem.impressionCappings[]`.
 If your organisation tracks a viewability provider or percentage threshold separately, use
 `graphql_search` with the terms "viewability" and "provider" to discover where those fields live.
@@ -74,6 +74,9 @@ adform-line-items).
   contextualTargetingProviders { providers { id } }
 }
 ```
+
+Always include `contextualTargetingProviders { providers { id } }` in the same operation as
+`rtbLineItem(id:)`, even if you change the other fields.
 
 Use `graphql_introspect` on `RtbLineItemCapping` to discover viewability-related capping
 fields on individual line items.

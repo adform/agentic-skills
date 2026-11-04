@@ -12,7 +12,7 @@ description: >-
 # Adform budget risk monitor
 
 Sweeps orders under a campaign, compares planned vs current vs projected delivery, and flags
-two risks: under-delivery (budget left on the table) and overspend (on track to exceed budget
+two risks: under-delivery (unspent budget) and overspend (on track to exceed budget
 before the end date). Read-only.
 
 ## Connection & tooling

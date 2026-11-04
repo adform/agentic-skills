@@ -59,7 +59,7 @@ schedules, and line items.
 Build a `ForecastingKpisMediaPlanInput` from an existing plan or from scratch. If referencing
 an existing plan, fetch it first and apply only the overrides the trader asked for.
 
-> **CRITICAL: Use the named-variable pattern only.** The inline pattern (inputs baked into the
+> **CRITICAL: Use the named-variable pattern only.** The inline pattern (inputs written directly into the
 > query body with unquoted enum literals) validates against the schema but returns a 500 server
 > error at execution due to MCP layer serialisation. Always pass `query` and `variables` as
 > separate arguments to `graphql_execute`.

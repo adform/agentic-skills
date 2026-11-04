@@ -47,7 +47,7 @@ Swap `<classifierQuery>` / `<pluralField>` for the ones in the table below, and 
 | Mobile category | `mobileCategories` | none | `categories` | `id, name, parentId, storeId` | |
 | Mobile store | `mobileStores` | none | `stores` | `id, name` | |
 
-The mixed geo `locations`/`locationSearch` classifier (cross-type search returning city, region, DMA region, or country matches in one call) is out of scope for this iteration and will be added separately once its output can be documented against the classifier namespace above.
+This skill does not cover the mixed geo `locations`/`locationSearch` classifier (cross-type search returning city, region, DMA region, or country matches in one call).
 
 ## Worked examples
 
