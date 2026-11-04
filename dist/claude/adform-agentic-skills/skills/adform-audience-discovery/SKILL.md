@@ -83,7 +83,7 @@ specialized data companies and cover various interests, demographics, and behavi
 | `audience.status` | Filter active/inactive |
 | `dataProvider.name` | Filter by provider name |
 
-**Currency note:** The `audienceMarketplaceListItems` query accepts an optional `currencyCode` argument (a `CurrencyCode` scalar). The API default is `"DKK"`. There is **no currency field on the price object itself** — currency is determined entirely by the `currencyCode` input parameter. Always set this explicitly so the agent and user know what currency prices are in. Common values: `"DKK"`, `"EUR"`, `"USD"`, `"GBP"`.
+**Currency note:** The `audienceMarketplaceListItems` query accepts an optional `currencyCode` argument (a `CurrencyCode` scalar). The API default is `"DKK"`. There is **no currency field on the price object itself** — currency is determined entirely by the `currencyCode` input parameter. Set this explicitly, or omit it to use DKK. Either way, state the currency alongside every CPM. Common values: `"DKK"`, `"EUR"`, `"USD"`, `"GBP"`.
 
 **Do not ask the user which currency to use before running the query.** Set `currencyCode` to `"EUR"` (or whatever
 currency the surrounding campaign work is already in), or omit it and let DKK apply — then state the

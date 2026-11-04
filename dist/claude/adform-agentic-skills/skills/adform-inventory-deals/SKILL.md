@@ -77,7 +77,8 @@ eCPM without checking both currencies first, and convert explicitly via
 
 ## 2. Browse inventory sources
 
-Use pagination only — do not pass filters or sortBy on this query.
+Use pagination, with optional `filters` and `sortBy` on `inventorySource` fields such as
+`inventorySource.name`.
 
 ```graphql
 {
@@ -94,13 +95,8 @@ This query also accepts `currencyCode`, which defaults to **EUR** in the schema
 (`currencyCode: CurrencyCode = "EUR"`). Leave it unset and state that figures
 are in EUR rather than asking the user for a currency.
 
-> `stats.ecpm` and `stats.ecpc` are **not selectable fields** on the returned
-> types — selecting `stats` fails validation. They are filter and sort
-> *field-name strings*, as the `currencyCode` argument's own docstring
-> indicates ("Used for cost related fields (e.g.: stats.ecpm, stats.ecpc)").
-> Note that this conflicts with the pagination-only guidance above, which was
-> derived from the query misbehaving when passed filters or `sortBy` — verify
-> with `graphql_execute` before relying on `stats.*` sorting here.
+> `stats.ecpm` and `stats.ecpc` cannot be selected, sorted or filtered on
+> inventory sources.
 
 ---
 

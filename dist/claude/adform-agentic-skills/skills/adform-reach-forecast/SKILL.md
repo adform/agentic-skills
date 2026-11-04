@@ -29,7 +29,7 @@ response before retrying.
 ## CRITICAL: Query execution pattern
 
 The `mediaPlanForecastingKpis` endpoint **requires the named-variable pattern exclusively**.
-The inline pattern (inputs baked directly into the query body) validates against the schema but
+The inline pattern (inputs written directly into the query body) validates against the schema but
 returns a 500 server error at execution time due to MCP layer serialisation. Do not use it.
 
 **Always call `graphql_execute` with `query` and `variables` as separate arguments:**
