@@ -71,6 +71,9 @@ adform-line-items).
 }
 ```
 
+Always include `contextualTargetingProviders { providers { id } }` in the same operation as
+`rtbLineItem(id:)`, even if you change the other fields.
+
 Resolve domain targeting list IDs to actual domains:
 
 ```graphql

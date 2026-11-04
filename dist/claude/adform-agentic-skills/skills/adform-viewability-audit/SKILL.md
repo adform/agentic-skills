@@ -75,6 +75,9 @@ adform-line-items).
 }
 ```
 
+Always include `contextualTargetingProviders { providers { id } }` in the same operation as
+`rtbLineItem(id:)`, even if you change the other fields.
+
 Use `graphql_introspect` on `RtbLineItemCapping` to discover viewability-related capping
 fields on individual line items.
 

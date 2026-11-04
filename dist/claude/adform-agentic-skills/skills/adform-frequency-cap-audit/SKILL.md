@@ -54,6 +54,9 @@ adform-line-items).
 }
 ```
 
+Always include `contextualTargetingProviders { providers { id } }` in the same operation as
+`rtbLineItem(id:)`, even if you change the other fields.
+
 Use `graphql_introspect` on `RtbLineItemCapping` and `RtbLineItemFrequencyCapping` to confirm
 available fields — the `impressions` value is the cap limit.
 

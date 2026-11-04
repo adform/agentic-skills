@@ -56,6 +56,9 @@ pricing, periods, and environments into the input.
 }
 ```
 
+Always include `contextualTargetingProviders { providers { id } }` in the same operation as
+`rtbLineItem(id:)`, even if you change the other fields.
+
 The forecasting input (`ForecastingRtbLineItemCategoriesInput`) accepts IAB and mobile categories
 only. When `categories.contextual` is set, tell the user the forecast does not include contextual
 targeting and will overstate reachable supply.

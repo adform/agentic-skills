@@ -85,6 +85,9 @@ The `id` is the RTB setup ID. A line item ID from the user is the placement ID, 
 }
 ```
 
+Always include `contextualTargetingProviders { providers { id } }` in the same operation as
+`rtbLineItem(id:)`, even if you change the other fields.
+
 For full targeting and inventory detail, use `graphql_introspect` on `RtbLineItem`,
 `RtbLineItemInventory`, and `RtbLineItemAudience` before selecting deeper fields.
 
