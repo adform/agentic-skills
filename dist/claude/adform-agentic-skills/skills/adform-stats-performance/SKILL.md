@@ -277,9 +277,9 @@ default apply, and state plainly which currency the result is in:
 | Query | Default |
 |---|---|
 | `inventoryMarketplaceListItems` | EUR — declared in the schema as `currencyCode: CurrencyCode = "EUR"` |
-| `audienceMarketplaceListItems` | DKK — declared as `= "DKK"` |
+| `audienceMarketplaceListItems` | DKK — declared as `= "DKK"`. Do not rely on this default: always ask the user for a currency and pass it |
 | `mediaPlanForecastingKpis` | EUR — declared as `= "EUR"` |
-| `mcpInventoryStats.rows` | DKK — platform default, **not** declared in the schema signature. Confirm against returned values before labelling |
+| `mcpInventoryStats.rows` | DKK — platform default, **not** declared in the schema signature. Do not rely on this default: always ask the user for a currency and pass it |
 | `brandSafetyFee` / `brandSafetyFees` | none, nullable |
 | `contextualTargetingFee` / `contextualTargetingFees` | none, nullable |
 

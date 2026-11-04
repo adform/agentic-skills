@@ -48,7 +48,7 @@ specialized data companies and cover various interests, demographics, and behavi
 
 **Key Information:**
 - Audience size and reach estimates
-- Pricing information (CPM rates) — currency is **DKK by default**; set `currencyCode` in the query to convert (e.g. `"EUR"`, `"USD"`)
+- Pricing information (CPM rates) in the currency the user chooses, set with `currencyCode` (e.g. `"EUR"`, `"USD"`)
 - Data provider details
 - Audience composition and demographics
 
@@ -64,7 +64,7 @@ specialized data companies and cover various interests, demographics, and behavi
 - Audience name and unique identifier
 - Estimated audience size and reach
 - Data provider information
-- Pricing details (CPM rates in the requested currency — DKK if not specified)
+- Pricing details (CPM rates in the requested currency)
 - Audience availability status
 
 **Example Use Cases:**
@@ -83,15 +83,12 @@ specialized data companies and cover various interests, demographics, and behavi
 | `audience.status` | Filter active/inactive |
 | `dataProvider.name` | Filter by provider name |
 
-**Currency note:** The `audienceMarketplaceListItems` query accepts an optional `currencyCode` argument (a `CurrencyCode` scalar). The API default is `"DKK"`. There is **no currency field on the price object itself** — currency is determined entirely by the `currencyCode` input parameter. Set this explicitly, or omit it to use DKK. Either way, state the currency alongside every CPM. Common values: `"DKK"`, `"EUR"`, `"USD"`, `"GBP"`.
+**Currency note:** The `audienceMarketplaceListItems` query accepts an optional `currencyCode` argument (a `CurrencyCode` scalar). The API default is `"DKK"`. There is **no currency field on the price object itself** — currency is determined entirely by the `currencyCode` input parameter. Do not omit it: the DKK default can make prices look higher than users expect. Common values: `"DKK"`, `"EUR"`, `"USD"`, `"GBP"`.
 
-**Do not ask the user which currency to use before running the query.** Set `currencyCode` to `"EUR"` (or whatever
-currency the surrounding campaign work is already in), or omit it and let DKK apply — then state the
-currency alongside every CPM you report. Ask only when: prices need comparing against figures
-already in another currency, the user signals the output is for an external audience (a client
-report, a deck, invoice reconciliation), or the user names a currency themselves. Ask once and reuse
-the answer for the rest of the session. See adform-stats-performance for the full currency rules and
-adform-geo-reference for `currencyRate` conversion.
+**Always ask the user which currency to use before running this query**, unless they have already
+named one. Set `currencyCode` to their answer, state the currency alongside every CPM you report,
+and reuse the answer for the rest of the session. See adform-stats-performance for the full currency
+rules and adform-geo-reference for `currencyRate` conversion.
 
 The `price` object exposes three CPM fields: `cpm` (standard), `lookalikeCpm`, and `idFusionCpm`.
 
