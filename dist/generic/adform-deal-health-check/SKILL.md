@@ -62,7 +62,7 @@ Search deals by advertiser:
 ## Step 3 — Deal group context (if applicable)
 
 ```graphql
-{ buyerDealGroup(id: "12345") { id name status dealIds } }
+{ buyerDealGroup(id: "12345") { id name status dealIds { inventorySourceId dealId } } }
 ```
 
 ## Step 4 — Confirm deal performance via mcpStats

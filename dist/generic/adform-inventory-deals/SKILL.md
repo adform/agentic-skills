@@ -2,7 +2,7 @@
 name: adform-inventory-deals
 description: >-
   Inventory and deal discovery for Adform FLOW DSP. Explore marketplace inventory sources, browse deals
-  (private, preferred, open auction), inspect deal groups. Trigger on "what inventory is available",
+  (private, preferred), find open auction inventory, inspect deal groups. Trigger on "what inventory is available",
   "show me deals", "open auctions", "deal groups", "past traffic for domain or deal", "traffic on bild.de".
   For audience marketplace use adform-audience-discovery; line-item wiring: adform-line-items;
   bid landscape: adform-bid-landscape. Read-only.
@@ -10,8 +10,8 @@ description: >-
 
 # Adform inventory and deals
 
-Explore marketplace inventory sources, browse and search deals and open auctions, inspect deal
-groups, and check past traffic. Read-only.
+Explore marketplace inventory sources, browse and search deals, find open auction inventory,
+inspect deal groups, and check past traffic. Read-only.
 
 ## Connection & tooling
 
@@ -100,18 +100,30 @@ are in EUR rather than asking the user for a currency.
 
 ---
 
-## 3. Search open auctions
+## 3. Find open auction inventory
 
-Must provide `advertiserId` or `campaignId`. Do not pass a sort argument.
+Open auction buying is set per inventory source, so find open auction inventory by searching
+inventory sources by name. Deals cover `private` and `preferred` buying.
 
 ```graphql
 {
-  searchOpenAuctions(
-    advertiserId: "71883"
-    limit: 20
+  inventoryMarketplaceListItems(
+    filters: [{ fieldName: "inventorySource.name", operation: contains, values: ["Index"] }]
+    pagination: { offset: 0, limit: 50 }
   ) {
-    results { id name inventorySourceId inventorySourceName country channel bannerTypes sizes }
-    next previous totalCount
+    inventorySources { id name adExchange { id name } channels environments }
+    hasMoreItems totalCount
+  }
+}
+```
+
+To see how a line item buys each source, read `buyingType` with the RTB setup ID. `openExchange` is
+open auction buying and `onlyTargetDeals` is deals only. The response can list hundreds of sources:
+
+```graphql
+{
+  rtbLineItemInventory(id: "99999") {
+    rtbLineItemInventory { id buyingType deals { id } }
   }
 }
 ```
@@ -125,10 +137,10 @@ Must provide `advertiserId` or `campaignId`. Do not pass a sort argument.
 ```graphql
 {
   buyerDealGroups(
-    filters: { advertiserId: "71883" }
+    filters: { advertiserIds: ["71883"] }
     pagination: { offset: 0, limit: 20 }
   ) {
-    dealGroups { id name status dealIds }
+    dealGroups { id name status dealIds { inventorySourceId dealId } }
     totalCount
   }
 }
@@ -137,7 +149,7 @@ Must provide `advertiserId` or `campaignId`. Do not pass a sort argument.
 ### Get deal group detail
 
 ```graphql
-{ buyerDealGroup(id: "12345") { id name status dealIds } }
+{ buyerDealGroup(id: "12345") { id name status dealIds { inventorySourceId dealId } } }
 ```
 
 ---
