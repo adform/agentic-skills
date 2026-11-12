@@ -76,7 +76,7 @@ The plugin includes 33 skills, grouped by what they help you do. Claude picks th
 
 ## Requirements
 
-You need an Adform account and a connection to the Adform GraphQL MCP server. This plugin doesn't include that connection, so set it up first by following the [Adform MCP guides](https://solutions.adform.com/tools/mcp-guides).
+You need an Adform account and a connection to the Adform GraphQL MCP server. This plugin doesn't include that connection, so set it up first.
 
 ## What the plugin runs and sends
 
