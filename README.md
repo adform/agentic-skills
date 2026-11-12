@@ -31,7 +31,7 @@ All publishable artifacts live under `dist/`. They are organized by target model
 
 ## How to Use
 
-1. Connect your agentic AI system to the Adform GraphQL MCP server as outlined here: https://solutions.adform.com/tools/mcp-guides.
+1. Connect your agentic AI system to the Adform GraphQL MCP server.
 2. Add and install the skills for your platform:
    - **Claude Code (recommended)** — add this repo as a plugin marketplace and install the plugin:
      ```
