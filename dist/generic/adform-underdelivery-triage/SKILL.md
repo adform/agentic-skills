@@ -41,10 +41,10 @@ Unless the user overrides it:
 | Setting | Default |
 |---|---|
 | Scope | All advertisers the user can see. Do not ask which advertiser |
-| Included | Active RTB line items whose flight includes today |
+| Included | Active RTB line items whose flight includes today, and active orders whose line items share the order's budget |
 | Threshold | Underpacing by more than 20%, meaning `deviationPercentage < -20` |
-| Excluded | Future line items, completed line items, direct line items, `goalType: Unlimited` |
-| Level | Line item. Campaign pacing is context only |
+| Excluded | Future and completed line items, direct line items, and line items with `goalType: Unlimited` that are not on an order's budget |
+| Level | Line item, or the order when its line items share the order's budget. Campaign pacing is context only |
 
 ---
 
@@ -108,7 +108,80 @@ line items. If the server rejects the `deviationPercentage` path, remove that on
 apply the −20% threshold yourself as you read the rows.
 
 Drop any line item with a null `rtbSetupId`, and any with `rtbBudget.goalType: Unlimited`, which
-has no goal to miss.
+has no goal of its own to miss.
+
+### Line items on their order's budget
+
+A line item that runs on its parent order's budget has no budget flight of its own:
+`rtbSettings.budget.activeFlight` is null, and `rtbBudget` shows `goalType: Unlimited` with a
+null deviation. The sweep above cannot flag it, but its order has a deviation of its own. Sweep
+orders with the same date filters and threshold:
+
+```graphql
+{
+  agencyListItems(
+    filters: [
+      { fieldName: "order.status", operation: eq, values: ["Active"] }
+      { fieldName: "order.period.start", operation: lteq, values: ["2026-06-15"] }
+      { fieldName: "order.period.end", operation: gteq, values: ["2026-06-15"] }
+      { fieldName: "order.deliveryIndications.rtbBudget.deviationPercentage", operation: lt, values: [-20] }
+    ]
+    pagination: { offset: 0, limit: 100 }
+  ) {
+    totalCount
+    campaigns {
+      id name currencyCode
+      advertiser { id name }
+      orders {
+        id name status
+        period { start end }
+        rtbSettings { budget { goalType activeFlight { amount periodType pacingType period { start end } } } }
+        deliveryIndications { rtbBudget { goalType status deviationPercentage spendAmount updatedAt } }
+      }
+    }
+  }
+}
+```
+
+Then read the line items of the underpacing orders in one request, up to 100 orders at a time:
+
+```graphql
+{
+  agencyListItems(
+    filters: [{ fieldName: "order.id", operation: in, values: [67890, 67891] }]
+    pagination: { offset: 0, limit: 100 }
+  ) {
+    totalCount
+    lineItems {
+      id name status rtbSetupId
+      order { id }
+      period { start end }
+      media { id name }
+      rtbSettings {
+        buying { type price maxBidPrice }
+        budget { goalType activeFlight { amount periodType pacingType } }
+        inventory { dealIds dealGroupIds }
+      }
+      deliveryIndications {
+        rtbBudget { goalType status deviationPercentage spendAmount }
+        rtbDeliveryHealth { status updatedAt }
+        stats {
+          yesterday { rtbBids trackedAds costAmount rtbWinRate }
+          last7days { rtbBids trackedAds costAmount rtbWinRate }
+        }
+      }
+    }
+  }
+}
+```
+
+For each underpacing order, look at its active RTB line items whose flight includes today:
+
+- **All of them have their own budget flight** — the line item sweep already assessed them. The
+  order is context only: do not add a row for it
+- **One or more have no budget flight of their own** — add an order row, with those line items
+  listed under it. Line items with their own budget under the same order stay in the line item
+  list as usual
 
 ## Step 2 — Projected underdelivery per flagged line item
 
@@ -156,10 +229,32 @@ projection available" and show the goal and delivery to date rather than inventi
 Remaining days run from today to `effectiveBudgetFlightEndDate` inclusive, which can be earlier
 than the line item's `period.end` when it has several budget flights.
 
+For an order row, take the projection from the order instead, with the same fields and the same
+`effectiveFlightPeriodType` rules:
+
+```graphql
+{
+  a: orderDeliveryIndications(id: "67890") {
+    status goalType
+    effectiveFlightPeriodType
+    effectiveFlightTotalGoal
+    effectiveFlightCurrentDelivery
+    effectiveFlightProjectedDelivery
+    effectiveFlightRemainingDelivery
+    effectiveFlightDeviationPercentage
+    effectiveBudgetFlightStartDate
+    effectiveBudgetFlightEndDate
+  }
+}
+```
+
+The order's expected underdelivery covers all the line items that share its budget. Do not work
+out a separate amount for each of them.
+
 ## Step 3 — Delivery health for the diagnosis
 
-For each flagged line item using `rtbSetupId`, several per request with aliases. Every check
-carries a `reason` naming the specific fault.
+For each flagged line item using `rtbSetupId`, several per request with aliases, including every
+line item listed under an order row. Every check carries a `reason` naming the specific fault.
 
 ```graphql
 {
@@ -321,6 +416,10 @@ Keep the reason to one short, specific line naming the evidence — "no banners 
 "bidding but 0% win rate on 1,204,332 bids", "recovered yesterday, deficit from the first 9 days
 of the flight".
 
+For an order row, diagnose each line item under it with the same table, using the order's
+remaining delivery and remaining days for the required daily spend. Summarise on the order row
+how many of its line items share each reason — "2 of 3 line items: creatives rejected".
+
 ### Reading deviation
 
 Adform Help (*Check Campaign Delivery Deviation*) bands programmatic deviation as on track
@@ -337,9 +436,11 @@ Deviation can overstate a problem:
   checking daily spend instead: use `rtbLineItemDailyDeliveryIndications` (see
   adform-pacing-check) and read the daily cost, not the daily deviation
 
-Deviation is not calculated when a line item uses its parent order's budget, or when its budget
-flight falls outside the order flight. Those line items cannot appear in this list, so say in
-the scope line that line items without their own deviation are not covered.
+Deviation is not calculated for a line item that uses its parent order's budget, or whose budget
+flight falls outside the order flight. Line items on their order's budget are covered through
+the order (see "Line items on their order's budget" in Step 1). Line items whose budget flight
+falls outside the order flight have no deviation at either level and cannot appear in this list,
+so say so in the scope line.
 
 ### Not double-counting
 
@@ -350,11 +451,15 @@ campaign-level budget: cap the campaign total at the campaign's own
 (for a `Total` period only), present the line-item rows as the breakdown, and note that they
 share one campaign budget.
 
+An order row carries the order's own expected underdelivery. Never add the amounts of the line
+items listed under it, and never add a row for an order that is context only.
+
 ---
 
 ## Sorting
 
-1. Remaining days ascending, so the items closest to their end date come first
+1. Remaining days ascending, so the items closest to their end date come first. For an order
+   row, use the order's remaining days
 2. Expected underdelivery descending within the same remaining-days group, money goals before
    impression or click goals
 
@@ -365,8 +470,9 @@ Items sharing an end date may be grouped under a single date heading.
 ## Presenting
 
 Open with the scope, before any table — the filter applied, the date the figures are as at, that
-line items without their own deviation are not covered, and how many line items across how many
-campaigns were found.
+line items on their order's budget are covered through their order, that line items whose
+budget flight falls outside the order flight are not covered, and how many line items and orders
+across how many campaigns were found.
 
 ### Triage list
 
@@ -375,7 +481,8 @@ campaigns were found.
 | Advertiser | `campaigns.advertiser.name` |
 | Campaign name and ID | `campaigns.name`, `campaigns.id` |
 | Campaign pacing | campaign `rtbBudget.deviationPercentage` |
-| Line item name and ID | `lineItems.name`, `lineItems.id` |
+| Level | Line item, or order when its line items share the order's budget |
+| Line item or order name and ID | `lineItems.name` and `lineItems.id`, or for an order row `orders.name` and `orders.id`, with its line items listed beneath |
 | Start and end date | `period.start`, `period.end` |
 | Remaining days | Step 2 |
 | Current line item pacing | `rtbBudget.deviationPercentage`, with its band |
@@ -388,7 +495,7 @@ campaigns were found.
 
 - Total expected underdelivery, one line per currency and one per non-money goal unit, never
   pooled. Keep daily-budget shortfalls on their own line, as a per-day figure
-- Number of affected advertisers, campaigns and line items
+- Number of affected advertisers, campaigns, orders and line items
 - Number of Critical delivery health findings
 - The 3 items with the nearest end date
 - The 3 largest projected underdelivery amounts
