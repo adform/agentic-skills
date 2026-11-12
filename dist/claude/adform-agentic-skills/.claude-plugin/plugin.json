@@ -7,5 +7,22 @@
   },
   "homepage": "https://github.com/adform/agentic-skills",
   "repository": "https://github.com/adform/agentic-skills",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "adform",
+    "adform-flow",
+    "dsp",
+    "programmatic",
+    "advertising",
+    "adtech",
+    "rtb",
+    "mcp",
+    "graphql",
+    "campaign-management",
+    "pacing",
+    "reporting",
+    "forecasting",
+    "media-planning",
+    "audit"
+  ]
 }
