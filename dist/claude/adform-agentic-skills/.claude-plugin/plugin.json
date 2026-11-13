@@ -8,6 +8,7 @@
   "homepage": "https://github.com/adform/agentic-skills",
   "repository": "https://github.com/adform/agentic-skills",
   "license": "MIT",
+  "icon": ".claude-plugin/icon.png",
   "keywords": [
     "adform",
     "adform-flow",
