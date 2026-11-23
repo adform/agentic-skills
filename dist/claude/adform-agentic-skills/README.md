@@ -76,14 +76,14 @@ The plugin includes 33 skills, grouped by what they help you do. Claude picks th
 
 ## Requirements
 
-You need an Adform account and a connection to the Adform GraphQL MCP server. This plugin doesn't include that connection, so set it up first.
+You need an Adform account. The plugin declares the Adform MCP server (`https://mcp.adform.com/mcp`), so Claude connects to it when you install the plugin and asks you to sign in with your Adform account.
 
 ## What the plugin runs and sends
 
-The plugin contains only skill instructions: Markdown files and no scripts, hooks, or MCP server configuration.
+The plugin contains skill instructions (Markdown files) and a `.mcp.json` that declares the remote Adform MCP server at `https://mcp.adform.com/mcp`. It has no scripts, hooks, or local servers.
 
-- **Credentials:** the plugin doesn't read or store credentials. Sign-in belongs to the Adform MCP connection you set up.
-- **Data:** the skills ask Claude to query the Adform MCP server you connected. The plugin sends data to no other service.
+- **Credentials:** the plugin doesn't read or store credentials. You sign in to the Adform MCP server with your Adform account, and that connection holds the sign-in.
+- **Data:** the skills ask Claude to query the Adform MCP server at `https://mcp.adform.com/mcp`. The plugin sends data to no other service.
 - **Changes:** the skills only read data and don't change anything in your Adform account.
 
 ## License

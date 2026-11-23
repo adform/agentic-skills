@@ -31,15 +31,14 @@ All publishable artifacts live under `dist/`. They are organized by target model
 
 ## How to Use
 
-1. Connect your agentic AI system to the Adform GraphQL MCP server.
-2. Add and install the skills for your platform:
-   - **Claude Code (recommended)** — add this repo as a plugin marketplace and install the plugin:
+1. Add and install the skills for your platform:
+   - **Claude Code (recommended)** — add this repo as a plugin marketplace and install the plugin. The plugin declares the Adform MCP server (`https://mcp.adform.com/mcp`), so there is no separate connection to set up:
      ```
      claude plugin marketplace add adform/agentic-skills
      /plugin install adform-agentic-skills@adform-agentic-skills
      ```
-   - **Other platforms** — use the platform-agnostic skills under `dist/generic/`.
-3. Use the skills to query and analyze Adform FLOW DSP data.
+   - **Other platforms** — connect to the Adform MCP server at `https://mcp.adform.com/mcp` and use the platform-agnostic skills under `dist/generic/`.
+2. Use the skills to query and analyze Adform FLOW DSP data.
 
 ---
 
