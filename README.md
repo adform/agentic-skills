@@ -32,7 +32,7 @@ All publishable artifacts live under `dist/`. They are organized by target model
 ## How to Use
 
 1. Add and install the skills for your platform:
-   - **Claude Code (recommended)** — add this repo as a plugin marketplace and install the plugin. The plugin declares the Adform MCP server (`https://mcp.adform.com/mcp`), so there is no separate connection to set up:
+   - **Claude Code (recommended)** — add this repo as a plugin marketplace and install the plugin, then connect the **Adform MCP** connector from the Claude directory:
      ```
      claude plugin marketplace add adform/agentic-skills
      /plugin install adform-agentic-skills@adform-agentic-skills

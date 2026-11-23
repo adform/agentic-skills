@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "adform": {
-      "type": "http",
-      "url": "https://mcp.adform.com/mcp"
-    }
-  }
-}
