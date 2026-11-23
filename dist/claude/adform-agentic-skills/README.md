@@ -74,16 +74,12 @@ The plugin includes 33 skills, grouped by what they help you do. Claude picks th
 | `adform-creative-discrepancy-audit` | Check that the ads serving match the creative setup |
 | `adform-segment-governance` | Find stale or unused first-party segments |
 
-## Requirements
-
-You need an Adform account and a connection to the Adform GraphQL MCP server. This plugin doesn't include that connection, so set it up first.
-
 ## What the plugin runs and sends
 
 The plugin contains only skill instructions: Markdown files and no scripts, hooks, or MCP server configuration.
 
-- **Credentials:** the plugin doesn't read or store credentials. Sign-in belongs to the Adform MCP connection you set up.
-- **Data:** the skills ask Claude to query the Adform MCP server you connected. The plugin sends data to no other service.
+- **Credentials:** the plugin doesn't read or store credentials.
+- **Data:** the skills ask Claude to query Adform data with the Adform GraphQL tools. The plugin sends data to no other service.
 - **Changes:** the skills only read data and don't change anything in your Adform account.
 
 ## License
